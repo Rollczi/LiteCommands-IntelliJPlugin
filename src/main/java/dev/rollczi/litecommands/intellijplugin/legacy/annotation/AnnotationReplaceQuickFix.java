@@ -52,18 +52,8 @@ class AnnotationReplaceQuickFix implements LocalQuickFix {
         PsiAnnotation oldAnnotation = (PsiAnnotation) psiElement;
         PsiAnnotation newAnnotation = elementFactory.createAnnotationFromText(
                 this.mapper.modernAnnotation(),
-                psiElement
+                oldAnnotation
         );
-
-        PsiAnnotationMemberValue attributeRoute = oldAnnotation.findAttributeValue("route");
-        if (attributeRoute != null) {
-            newAnnotation.setDeclaredAttributeValue("name", attributeRoute);
-        }
-
-        PsiAnnotationMemberValue attributeAliases = oldAnnotation.findAttributeValue("aliases");
-        if (attributeAliases != null && attributeAliases.getText().length() > 2) {
-            newAnnotation.setDeclaredAttributeValue("aliases", attributeAliases);
-        }
 
         for (Attribute attribute : this.mapper.getAttributes()) {
             PsiAnnotationMemberValue attributeValue = oldAnnotation.findAttributeValue(attribute.legacyName());
@@ -73,7 +63,7 @@ class AnnotationReplaceQuickFix implements LocalQuickFix {
             }
         }
 
-        psiElement.replace(newAnnotation);
+        oldAnnotation.replace(newAnnotation);
 
         // add import
         PsiFile containingFile = this.holder.getFile();
