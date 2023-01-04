@@ -1,0 +1,35 @@
+<!-- Plugin Configuration File. Read more: https://plugins.jetbrains.com/docs/intellij/plugin-configuration-file.html -->
+<idea-plugin>
+    <!-- Unique identifier of the plugin. It should be FQN. It cannot be changed between the plugin versions. -->
+    <id>dev.rollczi.litecommands.intellijplugin</id>
+
+    <!-- Public plugin name should be written in Title Case.
+         Guidelines: https://plugins.jetbrains.com/docs/marketplace/plugin-overview-page.html#plugin-name -->
+    <name>LiteCommands</name>
+
+    <!-- A displayed Vendor name or Organization ID displayed on the Plugins Page. -->
+    <vendor email="kontakt@rollczi.dev" url="https://rollczi.dev">Rollczi</vendor>
+
+    <!-- Description of the plugin displayed on the Plugin Page and IDE Plugin Manager.
+         Simple HTML elements (text formatting, paragraphs, and lists) can be added inside of <![CDATA[ ]]> tag.
+         Guidelines: https://plugins.jetbrains.com/docs/marketplace/plugin-overview-page.html#plugin-description -->
+    <description><![CDATA[
+        <p>LiteCommands IntelliJ plugin - simple plugin for support LiteCommands in IntelliJ IDEA.</p>
+        <p>LiteCommands is a simple command system for Minecraft servers.</p>
+        <p>see more: <a href="https://github.com/Rollczi/LiteCommands">
+        <p>Support: <a href="https://discord.gg/6cUhkj6uZJ">LiteCommands Discord</a></p>
+        <p>GitHub issues: <a href="https://github.com/Rollczi/LiteCommands/issues">link</a></p>
+        <p>Documentation: <a href="https://docs.rollczi.dev/">link</a></p>
+    ]]></description>
+
+    <!-- Product and plugin compatibility requirements.
+         Read more: https://plugins.jetbrains.com/docs/intellij/plugin-compatibility.html -->
+    <depends>com.intellij.modules.platform</depends>
+    <depends>com.intellij.modules.java</depends>
+
+    <!-- Extension points defined by the plugin.
+         Read more: https://plugins.jetbrains.com/docs/intellij/plugin-extension-points.html -->
+    <extensions defaultExtensionNs="com.intellij">
+        <inspectionToolProvider implementation="dev.rollczi.litecommands.intellijplugin.CodeInspectionProvider"/>
+    </extensions>
+</idea-plugin>
