@@ -26,11 +26,6 @@ public abstract class LegacyAnnotationInspectionTool extends AbstractBaseJavaLoc
     }
 
     @Override
-    public @NotNull String getShortName() {
-        return "Legacy" + this.mapper.legacyName() + "Annotation";
-    }
-
-    @Override
     public boolean isEnabledByDefault() {
         return true;
     }

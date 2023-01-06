@@ -9,8 +9,8 @@ public class RouteValidationInspection extends ValidationAnnotationInspectionToo
     // TODO context
     private static final AnnotationValidator ROUTE_VALIDATOR = AnnotationValidator.builder()
             .name("dev.rollczi.litecommands.command.route.Route")
-            .attribute("name", AttributeType.STRING, CommandNameValidUtils::validateString)
-            .attribute("aliases", AttributeType.ARRAY, CommandNameValidUtils::validateArray)
+            .attribute("name", AttributeType.STRING, CommandNameValidUtils::validateString, new StringQuickFix())
+            .attribute("aliases", AttributeType.ARRAY, CommandNameValidUtils::validateString, new StringQuickFix())
             .build();
 
     public RouteValidationInspection() {

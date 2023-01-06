@@ -1,0 +1,34 @@
+<html>
+<body>
+Invalid usage of @Execute annotation.
+<p>
+    Reports when attributes <code>route</code> or <code>aliases</code> are invalid.
+    For example, when route or aliases are defined, but string is empty.
+</p>
+<p>
+    Examples of valid values:
+</p>
+
+<ul>
+    <li><code>@Execute(route = "add")</code></li>
+    <li><code>@Execute(route = "add user")</code></li>
+    <li><code>@Execute(route = "add user", aliases = "add u")</code></li>
+    <li><code>@Execute(route = "add user", aliases = { "add u", "sub -u" })</code></li>
+    <li><code>@Execute(route = "add user parent")</code></li>
+</ul>
+
+<p>
+    Examples of invalid values:
+</p>
+<ul>
+    <li><code>@Execute(route = "")</code></li>
+    <li><code>@Execute(route = "add", aliases = "")</code></li>
+    <li><code>@Execute(route = "add ")</code></li>
+    <li><code>@Execute(route = " add")</code></li>
+    <li><code>@Execute(route = " add ")</code></li>
+    <li><code>@Execute(route = "add", aliases = " ")</code></li>
+    <li><code>@Execute(route = " ", aliases = "add")</code></li>
+    <li><code>@Execute(route = "add user")</code></li>
+</ul>
+</body>
+</html>

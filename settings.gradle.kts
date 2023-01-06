@@ -1,1 +1,1 @@
-rootProject.name = "LiteCommandsIntelliJPlugin"
+rootProject.name = "LiteCommands-IntelliJPlugin"

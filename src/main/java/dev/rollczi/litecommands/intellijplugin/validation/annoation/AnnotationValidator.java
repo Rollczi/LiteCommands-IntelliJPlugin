@@ -5,6 +5,7 @@ import dev.rollczi.litecommands.intellijplugin.legacy.annotation.AttributeType;
 import java.util.HashSet;
 import java.util.Set;
 import java.util.function.Predicate;
+import java.util.function.UnaryOperator;
 
 public final class AnnotationValidator {
 
@@ -46,8 +47,8 @@ public final class AnnotationValidator {
             return this;
         }
 
-        public Builder attribute(String modern, AttributeType type, Predicate<String> validator) {
-            this.attributeValidators.add(new AttributeValidator(modern, type, validator));
+        public Builder attribute(String modern, AttributeType type, Predicate<String> validator, UnaryOperator<String> quickFix) {
+            this.attributeValidators.add(new AttributeValidator(modern, type, validator, quickFix));
             return this;
         }
 

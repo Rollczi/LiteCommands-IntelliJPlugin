@@ -6,13 +6,15 @@ import dev.rollczi.litecommands.intellijplugin.validation.annoation.ValidationAn
 
 public class ExecuteValidationInspection extends ValidationAnnotationInspectionTool {
 
+    private static final String NUMBER_MORE_OR_EQ_MINUS_ONE_REGEX = "( *[0-9]+ *| *- *1 *)";
+
     private static final AnnotationValidator ROUTE_VALIDATOR = AnnotationValidator.builder()
             .name("dev.rollczi.litecommands.command.execute.Execute")
-            .attribute("route", AttributeType.STRING, CommandNameValidUtils::validateString)
-            .attribute("aliases", AttributeType.ARRAY, CommandNameValidUtils::validateArray)
-            .attribute("required", AttributeType.INT, number -> number.matches("[0-9]+|-1"))
-            .attribute("min", AttributeType.INT, number -> number.matches("[0-9]+|-1"))
-            .attribute("max", AttributeType.INT, number -> number.matches("[0-9]+|-1"))
+            .attribute("route", AttributeType.STRING, CommandNameValidUtils::validateString, new StringQuickFix())
+            .attribute("aliases", AttributeType.ARRAY, CommandNameValidUtils::validateString, new StringQuickFix())
+            .attribute("required", AttributeType.INT, number -> number.matches(NUMBER_MORE_OR_EQ_MINUS_ONE_REGEX), new MoreThanMinusOneQuickFix())
+            .attribute("min", AttributeType.INT, number -> number.matches(NUMBER_MORE_OR_EQ_MINUS_ONE_REGEX), new MoreThanMinusOneQuickFix())
+            .attribute("max", AttributeType.INT, number -> number.matches(NUMBER_MORE_OR_EQ_MINUS_ONE_REGEX), new MoreThanMinusOneQuickFix())
             .build();
 
     public ExecuteValidationInspection() {

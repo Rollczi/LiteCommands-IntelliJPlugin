@@ -3,10 +3,20 @@ package dev.rollczi.litecommands.intellijplugin.validation.annoation;
 import com.intellij.codeInspection.AbstractBaseJavaLocalInspectionTool;
 import com.intellij.codeInspection.ProblemsHolder;
 import com.intellij.psi.JavaElementVisitor;
+import com.intellij.psi.JavaTokenType;
 import com.intellij.psi.PsiAnnotation;
 import com.intellij.psi.PsiAnnotationMemberValue;
+import com.intellij.psi.PsiElement;
 import com.intellij.psi.PsiElementVisitor;
+import com.intellij.psi.PsiJavaToken;
+import com.intellij.psi.PsiLiteralExpression;
+import com.intellij.psi.tree.IElementType;
 import org.jetbrains.annotations.NotNull;
+
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+import java.util.Set;
 
 public abstract class ValidationAnnotationInspectionTool extends AbstractBaseJavaLocalInspectionTool {
 
@@ -26,11 +36,6 @@ public abstract class ValidationAnnotationInspectionTool extends AbstractBaseJav
     @Override
     public @NotNull String getGroupDisplayName() {
         return "LiteCommands";
-    }
-
-    @Override
-    public @NotNull String getShortName() {
-        return "Validation" + this.annotationValidator.name() + "Annotation";
     }
 
     @Override
@@ -54,14 +59,69 @@ public abstract class ValidationAnnotationInspectionTool extends AbstractBaseJav
                         continue;
                     }
 
-                    String value = attribute.getText();
+                    List<AttributeValue> values = ValidationAnnotationInspectionTool.this.getValues(attribute);
 
-                    if (!validator.validate(value)) {
-                        holder.registerProblem(attribute, String.format("%s attribute %s has invalid value '%s'", ValidationAnnotationInspectionTool.this.annotationValidator.annotation(), validator.name(), value));
+                    for (AttributeValue value : values) {
+                        if (!validator.validate(value.text())) {
+                            holder.registerProblem(
+                                    value.element(),
+                                    String.format("Attribute '%s' has invalid value <code>%s</code>", validator.name(), value.text()),
+                                    new ReplaceWithValidValueQuickFix(annotation, validator, value)
+                            );
+                        }
                     }
                 }
             }
         };
+    }
+
+    private static final Set<IElementType> CHECKED_TOKENS = Set.of(
+            JavaTokenType.STRING_LITERAL,
+            JavaTokenType.CHARACTER_LITERAL,
+            JavaTokenType.INTEGER_LITERAL,
+            JavaTokenType.LONG_LITERAL,
+            JavaTokenType.FLOAT_LITERAL,
+            JavaTokenType.DOUBLE_LITERAL,
+            JavaTokenType.TRUE_KEYWORD,
+            JavaTokenType.FALSE_KEYWORD,
+            JavaTokenType.NULL_KEYWORD,
+            JavaTokenType.MINUS,
+            JavaTokenType.PLUS
+    );
+
+    private List<AttributeValue> getValues(PsiElement element) {
+        List<AttributeValue> values = new ArrayList<>();
+
+        for (PsiElement child : element.getChildren()) {
+            if (child instanceof PsiJavaToken) {
+                PsiJavaToken token = (PsiJavaToken) child;
+                IElementType tokenType = token.getTokenType();
+                String text = token.getText();
+
+                if (!CHECKED_TOKENS.contains(tokenType)) {
+                    continue;
+                }
+
+                if (tokenType == JavaTokenType.STRING_LITERAL || tokenType == JavaTokenType.CHARACTER_LITERAL) {
+                    values.add(new AttributeValue(text.substring(1, text.length() - 1), text, token));
+                    continue;
+                }
+
+                if (tokenType == JavaTokenType.MINUS || tokenType == JavaTokenType.PLUS) {
+                    return Collections.singletonList(new AttributeValue(element.getText(), element.getText(), element));
+                }
+            }
+
+            if (child instanceof PsiLiteralExpression) {
+                values.addAll(this.getValues(child));
+            }
+        }
+
+        if (values.isEmpty()) {
+            values.add(new AttributeValue(element.getText(), element.getText(), element));
+        }
+
+        return values;
     }
 
 }

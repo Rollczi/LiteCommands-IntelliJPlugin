@@ -3,8 +3,8 @@ plugins {
     id("org.jetbrains.intellij") version "1.11.0"
 }
 
-group = "dev.rollczi.litecommands.intellijplugin"
-version = "1.0-SNAPSHOT"
+group = "dev.rollczi"
+version = "2.7.0-SNAPSHOT"
 
 repositories {
     mavenCentral()

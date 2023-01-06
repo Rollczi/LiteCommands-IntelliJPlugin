@@ -1,15 +1,15 @@
 package dev.rollczi.litecommands.intellijplugin.legacy.annotation;
 
-import java.util.HashSet;
-import java.util.Set;
+import java.util.ArrayList;
+import java.util.List;
 
 public final class AnnotationMapper {
 
     private final String legacyName;
     private final String modernName;
-    private final Set<Attribute> attributes;
+    private final List<Attribute> attributes;
 
-    private AnnotationMapper(String legacyName, String modernName, Set<Attribute> attributes) {
+    private AnnotationMapper(String legacyName, String modernName, List<Attribute> attributes) {
         this.legacyName = legacyName;
         this.modernName = modernName;
         this.attributes = attributes;
@@ -43,7 +43,7 @@ public final class AnnotationMapper {
         return name.substring(name.lastIndexOf('.') + 1);
     }
 
-    public Set<Attribute> getAttributes() {
+    public List<Attribute> getAttributes() {
         return this.attributes;
     }
 
@@ -55,7 +55,7 @@ public final class AnnotationMapper {
 
         private String legacyName;
         private String modernName;
-        private final Set<Attribute> attributes = new HashSet<>();
+        private final List<Attribute> attributes = new ArrayList<>();
 
         public Builder legacyName(String legacyName) {
             this.legacyName = legacyName;
