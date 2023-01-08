@@ -37,7 +37,7 @@ For more detailed instructions on setting up LiteCommands in your project, pleas
 ## Additional Resources
 
 - For more information about LiteCommands and how to use it, visit the [LiteCommands documentation](https://docs.rollczi.dev/).
-- If you have any questions or need help with LiteCommands, you can [join to discord](https://discord.gg/6cUhkj6uZJ) or ask for help in the [LiteCommands issues](https://github.com/Rollczi/LiteCommands/issues) or [discussions](https://github.com/Rollczi/LiteCommands/discussions).
+- If you have any questions or need help with LiteCommands, you can [join to discord](https://discord.gg/6cUhkj6uZJ) or ask for help in the [issues](https://github.com/Rollczi/LiteCommands-IntelliJPlugin/issues) or [discussions (LiteCommands)](https://github.com/Rollczi/LiteCommands/discussions).
 
 ## Compatibility
 
@@ -47,6 +47,15 @@ For more detailed instructions on setting up LiteCommands in your project, pleas
 - IntelliJ IDEA Ultimate — 2022.1 — 2022.3.1
 - IntelliJ IDEA Educational — 2022.1 — 2022.2.2
 
+
+## Contributing
+
+We welcome contributions to 🔌 LiteCommands plugin! If you have an idea for a new feature or have found a bug that needs to be fixed, you can [open an issue](https://github.com/Rollczi/LiteCommands-IntelliJPlugin/issues/new) or [submit a pull request](https://github.com/Rollczi/LiteCommands-IntelliJPlugin/compare) with your changes.
+
 ## Credits
 
 LiteCommands is developed and maintained by [Rollczi](https://github.com/Rollczi). Special thanks to [contributors](https://github.com/Rollczi/LiteCommands/graphs/contributors) for their valuable input and contributions to the project.
+
+## License
+
+🔌 LiteCommands plugin is licensed under the Apache License 2.0. See the [LICENSE](LICENSE) file for more information.
