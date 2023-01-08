@@ -6,6 +6,14 @@ A plugin for IntelliJ IDEA that provides support for the [LiteCommands](https://
 
 With 🔌 LiteCommands plugin, you can easily develop your commands within the IntelliJ IDEA environment. The plugin provides annotations inspections, ~~tools for creating new command classes~~, ~~syntax highlighting~~, ~~code completion~~, and other useful features to make your development experience smoother and more efficient.
 
+## Features
+
+- [x] Annotation inspections to easily identify and fix errors in your command code
+- [x] Quick fixes for common issues with LiteCommands code
+- [ ] Code completion for LiteCommands annotations and methods
+- [ ] Syntax highlighting to make your code easier to read and understand
+- [ ] Tools for creating new command classes and generating command method templates
+
 ## Installation
 
 To install 🔌 LiteCommands plugin, follow these steps:
@@ -31,3 +39,14 @@ For more detailed instructions on setting up LiteCommands in your project, pleas
 - For more information about LiteCommands and how to use it, visit the [LiteCommands documentation](https://docs.rollczi.dev/).
 - If you have any questions or need help with LiteCommands, you can [join to discord](https://discord.gg/6cUhkj6uZJ) or ask for help in the [LiteCommands issues](https://github.com/Rollczi/LiteCommands/issues) or [discussions](https://github.com/Rollczi/LiteCommands/discussions).
 
+## Compatibility
+
+🔌 LiteCommands plugin is compatible with the following versions of IntelliJ IDEA:
+
+- IntelliJ IDEA Community — 2022.1 — 2022.3.1
+- IntelliJ IDEA Ultimate — 2022.1 — 2022.3.1
+- IntelliJ IDEA Educational — 2022.1 — 2022.2.2
+
+## Credits
+
+LiteCommands is developed and maintained by [Rollczi](https://github.com/Rollczi). Special thanks to [contributors](https://github.com/Rollczi/LiteCommands/graphs/contributors) for their valuable input and contributions to the project.
