@@ -1,3 +1,5 @@
+<div align="center"><img src="https://savemc.pl/files/litecommandsbanner.png" alt="banner" width="50%"/></div>
+
 # 🔌 LiteCommands IntelliJ IDEA Plugin
 
 ## Introduction
