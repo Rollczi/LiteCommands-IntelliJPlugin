@@ -8,6 +8,11 @@ A plugin for IntelliJ IDEA that provides support for the [LiteCommands](https://
 
 With 🔌 LiteCommands plugin, you can easily develop your commands within the IntelliJ IDEA environment. The plugin provides annotations inspections, ~~tools for creating new command classes~~, ~~syntax highlighting~~, ~~code completion~~, and other useful features to make your development experience smoother and more efficient.
 
+## Links
+- [Discord](https://discord.gg/6cUhkj6uZJ)
+- [Plugin](https://plugins.jetbrains.com/plugin/20799-litecommands)
+- [Documentation](https://docs.rollczi.dev)
+
 ## Features
 
 - [x] Annotation inspections to easily identify and fix errors in your command code
