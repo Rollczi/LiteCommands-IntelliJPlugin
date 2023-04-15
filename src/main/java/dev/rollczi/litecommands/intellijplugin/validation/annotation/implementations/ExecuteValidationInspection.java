@@ -1,8 +1,8 @@
-package dev.rollczi.litecommands.intellijplugin.validation.annoation.implementations;
+package dev.rollczi.litecommands.intellijplugin.validation.annotation.implementations;
 
 import dev.rollczi.litecommands.intellijplugin.legacy.annotation.AttributeType;
-import dev.rollczi.litecommands.intellijplugin.validation.annoation.AnnotationValidator;
-import dev.rollczi.litecommands.intellijplugin.validation.annoation.ValidationAnnotationInspectionTool;
+import dev.rollczi.litecommands.intellijplugin.validation.annotation.AnnotationValidator;
+import dev.rollczi.litecommands.intellijplugin.validation.annotation.ValidationAnnotationInspectionTool;
 
 public class ExecuteValidationInspection extends ValidationAnnotationInspectionTool {
 

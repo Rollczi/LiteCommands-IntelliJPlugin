@@ -1,4 +1,4 @@
-package dev.rollczi.litecommands.intellijplugin.validation.annoation.implementations;
+package dev.rollczi.litecommands.intellijplugin.validation.annotation.implementations;
 
 final class CommandNameValidUtils {
 

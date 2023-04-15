@@ -1,10 +1,10 @@
 plugins {
     id("java")
-    id("org.jetbrains.intellij") version "1.11.0"
+    id("org.jetbrains.intellij") version "1.13.3"
 }
 
 group = "dev.rollczi"
-version = "2.7.0-SNAPSHOT"
+version = "2.8.7-SNAPSHOT"
 
 repositories {
     mavenCentral()
@@ -13,7 +13,7 @@ repositories {
 // Configure Gradle IntelliJ Plugin
 // Read more: https://plugins.jetbrains.com/docs/intellij/tools-gradle-intellij-plugin.html
 intellij {
-    version.set("2022.1.4")
+    version.set("2023.1")
     type.set("IC") // Target IDE Platform
 
     plugins.set(listOf("com.intellij.java"))
@@ -27,17 +27,17 @@ tasks {
     }
 
     patchPluginXml {
-        sinceBuild.set("221")
-        untilBuild.set("223.*")
+        sinceBuild.set("223")
+        untilBuild.set("231.*")
     }
 
     signPlugin {
-        certificateChain.set(System.getenv("CERTIFICATE_CHAIN"))
-        privateKey.set(System.getenv("PRIVATE_KEY"))
-        password.set(System.getenv("PRIVATE_KEY_PASSWORD"))
+        certificateChain.set(providers.environmentVariable("CERTIFICATE_CHAIN"))
+        privateKey.set(providers.environmentVariable("PRIVATE_KEY"))
+        password.set(providers.environmentVariable("PRIVATE_KEY_PASSWORD"))
     }
 
     publishPlugin {
-        token.set(System.getenv("PUBLISH_TOKEN"))
+        token.set(providers.environmentVariable("PUBLISH_TOKEN"))
     }
 }

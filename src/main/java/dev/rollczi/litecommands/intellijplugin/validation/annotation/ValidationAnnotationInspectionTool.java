@@ -1,4 +1,4 @@
-package dev.rollczi.litecommands.intellijplugin.validation.annoation;
+package dev.rollczi.litecommands.intellijplugin.validation.annotation;
 
 import com.intellij.codeInspection.AbstractBaseJavaLocalInspectionTool;
 import com.intellij.codeInspection.ProblemsHolder;

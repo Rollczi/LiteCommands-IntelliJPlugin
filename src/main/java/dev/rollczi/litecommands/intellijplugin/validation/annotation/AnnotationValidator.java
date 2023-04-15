@@ -1,4 +1,4 @@
-package dev.rollczi.litecommands.intellijplugin.validation.annoation;
+package dev.rollczi.litecommands.intellijplugin.validation.annotation;
 
 import dev.rollczi.litecommands.intellijplugin.legacy.annotation.AttributeType;
 

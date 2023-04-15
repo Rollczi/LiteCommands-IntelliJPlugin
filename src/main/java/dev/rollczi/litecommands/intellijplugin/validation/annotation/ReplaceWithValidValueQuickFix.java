@@ -1,4 +1,4 @@
-package dev.rollczi.litecommands.intellijplugin.validation.annoation;
+package dev.rollczi.litecommands.intellijplugin.validation.annotation;
 
 import com.intellij.codeInspection.LocalQuickFix;
 import com.intellij.codeInspection.ProblemDescriptor;
@@ -7,6 +7,7 @@ import com.intellij.openapi.project.Project;
 import com.intellij.psi.JavaPsiFacade;
 import com.intellij.psi.PsiAnnotation;
 import com.intellij.psi.PsiElement;
+import dev.rollczi.litecommands.intellijplugin.validation.annotation.AttributeValidator;
 import org.jetbrains.annotations.NotNull;
 
 class ReplaceWithValidValueQuickFix implements LocalQuickFix {
