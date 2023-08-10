@@ -8,6 +8,7 @@ version = "2.8.7-SNAPSHOT"
 
 repositories {
     mavenCentral()
+    maven("https://repo.eternalcode.pl/releases")
 }
 
 // Configure Gradle IntelliJ Plugin
@@ -17,6 +18,11 @@ intellij {
     type.set("IC") // Target IDE Platform
 
     plugins.set(listOf("com.intellij.java"))
+}
+
+dependencies {
+    implementation("dev.rollczi:litecommands-core:3.0.0-BETA-pre10")
+    implementation("dev.rollczi:litecommands-core-annotations:3.0.0-BETA-pre10")
 }
 
 tasks {
@@ -39,5 +45,14 @@ tasks {
 
     publishPlugin {
         token.set(providers.environmentVariable("PUBLISH_TOKEN"))
+    }
+
+    runIde {
+        autoReloadPlugins.set(true)
+
+    }
+
+    buildSearchableOptions {
+        enabled = false
     }
 }

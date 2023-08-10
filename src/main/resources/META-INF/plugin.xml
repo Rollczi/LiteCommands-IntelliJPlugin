@@ -31,5 +31,9 @@
          Read more: https://plugins.jetbrains.com/docs/intellij/plugin-extension-points.html -->
     <extensions defaultExtensionNs="com.intellij">
         <inspectionToolProvider implementation="dev.rollczi.litecommands.intellijplugin.CodeInspectionProvider"/>
+        <codeInsight.lineMarkerProvider
+                language="JAVA"
+                implementationClass="dev.rollczi.litecommands.intellijplugin.command.CommandMarker"
+        />
     </extensions>
 </idea-plugin>
