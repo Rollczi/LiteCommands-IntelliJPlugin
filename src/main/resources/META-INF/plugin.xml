@@ -35,5 +35,7 @@
                 language="JAVA"
                 implementationClass="dev.rollczi.litecommands.intellijplugin.command.CommandMarker"
         />
+        <annotator implementationClass="dev.rollczi.litecommands.intellijplugin.MyAnnotator" language="JAVA"/>
+
     </extensions>
 </idea-plugin>
