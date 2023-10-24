@@ -1,6 +1,7 @@
 plugins {
     id("java")
-    id("org.jetbrains.intellij") version "1.13.3"
+    id("org.jetbrains.kotlin.jvm") version "1.9.0"
+    id("org.jetbrains.intellij") version "1.16.0"
 }
 
 group = "dev.rollczi"
@@ -14,27 +15,32 @@ repositories {
 // Configure Gradle IntelliJ Plugin
 // Read more: https://plugins.jetbrains.com/docs/intellij/tools-gradle-intellij-plugin.html
 intellij {
-    version.set("2023.1")
+    version.set("2023.2.3")
     type.set("IC") // Target IDE Platform
 
-    plugins.set(listOf("com.intellij.java"))
+    plugins.set(listOf(
+            "com.intellij.java",
+            "org.jetbrains.kotlin"
+    ))
 }
 
 dependencies {
-    implementation("dev.rollczi:litecommands-core:3.0.0-BETA-pre10")
-    implementation("dev.rollczi:litecommands-core-annotations:3.0.0-BETA-pre10")
+    implementation("dev.rollczi:litecommands-framework:3.0.0-BETA-pre23")
 }
 
 tasks {
     // Set the JVM compatibility versions
     withType<JavaCompile> {
-        sourceCompatibility = "11"
-        targetCompatibility = "11"
+        sourceCompatibility = "17"
+        targetCompatibility = "17"
+    }
+    withType<org.jetbrains.kotlin.gradle.tasks.KotlinCompile> {
+        kotlinOptions.jvmTarget = "17"
     }
 
     patchPluginXml {
         sinceBuild.set("223")
-        untilBuild.set("231.*")
+        untilBuild.set("232.*")
     }
 
     signPlugin {
@@ -45,14 +51,5 @@ tasks {
 
     publishPlugin {
         token.set(providers.environmentVariable("PUBLISH_TOKEN"))
-    }
-
-    runIde {
-        autoReloadPlugins.set(true)
-
-    }
-
-    buildSearchableOptions {
-        enabled = false
     }
 }

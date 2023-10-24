@@ -30,12 +30,15 @@
     <!-- Extension points defined by the plugin.
          Read more: https://plugins.jetbrains.com/docs/intellij/plugin-extension-points.html -->
     <extensions defaultExtensionNs="com.intellij">
-        <inspectionToolProvider implementation="dev.rollczi.litecommands.intellijplugin.CodeInspectionProvider"/>
+        <inspectionToolProvider implementation="dev.rollczi.litecommands.intellijplugin.inspection.LiteInspectionProvider"/>
+
         <codeInsight.lineMarkerProvider
                 language="JAVA"
-                implementationClass="dev.rollczi.litecommands.intellijplugin.command.CommandMarker"
+                implementationClass="dev.rollczi.litecommands.intellijplugin.marker.command.CommandMarker"
         />
-        <annotator implementationClass="dev.rollczi.litecommands.intellijplugin.MyAnnotator" language="JAVA"/>
+
+        <annotator implementationClass="dev.rollczi.litecommands.intellijplugin.old.MyAnnotator" language="JAVA"/>
+        <lang.inspectionSuppressor language="JAVA" implementationClass="dev.rollczi.litecommands.intellijplugin.inspection.executor.ExecutorUnusedInspectSuppressor"/>
 
     </extensions>
 </idea-plugin>

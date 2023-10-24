@@ -2,14 +2,13 @@ package dev.rollczi.litecommands.intellijplugin.marker;
 
 import com.intellij.codeInsight.daemon.LineMarkerInfo;
 import com.intellij.openapi.editor.markup.GutterIconRenderer.Alignment;
-import com.intellij.openapi.ui.popup.IconButton;
-import com.intellij.openapi.ui.popup.JBPopupFactory;
+import com.intellij.pom.Navigatable;
 import com.intellij.psi.PsiElement;
-import com.intellij.ui.awt.RelativePoint;
+import dev.rollczi.litecommands.intellijplugin.popup.LitePopupFactory;
+
 import javax.swing.*;
 
 public class LiteLineMarkerInfo<T extends PsiElement> extends LineMarkerInfo<T> {
-
     public LiteLineMarkerInfo(String name, String footer, T element, Icon icon, Icon titleIcon, JComponent component) {
         super(
             element,
@@ -17,15 +16,11 @@ public class LiteLineMarkerInfo<T extends PsiElement> extends LineMarkerInfo<T> 
             icon,
             (psi) -> "Click to open " + name,
             (mouseEvent, elt) -> {
+                if (element instanceof Navigatable navigatable) {
+                    navigatable.navigate(true);
+                }
 
-                JBPopupFactory.getInstance()
-                    .createComponentPopupBuilder(component, null)
-                    .setTitle(name)
-                    .setTitleIcon(new IconButton(name, titleIcon, titleIcon, titleIcon))
-                    .setAdText(footer)
-                    .setMovable(true)
-                    .createPopup()
-                    .show(new RelativePoint(mouseEvent));
+                LitePopupFactory.showPopup(name, footer, titleIcon, component, mouseEvent);
             },
             Alignment.RIGHT,
             () -> name
@@ -65,7 +60,7 @@ public class LiteLineMarkerInfo<T extends PsiElement> extends LineMarkerInfo<T> 
             return this;
         }
 
-        public Builder<E> icon(Icon icon) {
+        public Builder<E> lineIcon(Icon icon) {
             this.icon = icon;
             return this;
         }
