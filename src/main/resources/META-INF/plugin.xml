@@ -37,6 +37,11 @@
                 implementationClass="dev.rollczi.litecommands.intellijplugin.features.marker.command.CommandMarker"
         />
 
+        <codeInsight.lineMarkerProvider
+                language="kotlin"
+                implementationClass="dev.rollczi.litecommands.intellijplugin.features.marker.command.CommandMarker"
+        />
+
 <!--        <annotator implementationClass="dev.rollczi.litecommands.intellijplugin.old.MyAnnotator" language="JAVA"/>-->
         <lang.inspectionSuppressor language="JAVA" implementationClass="dev.rollczi.litecommands.intellijplugin.features.inspection.executor.ExecutorUnusedInspectSuppressor"/>
 

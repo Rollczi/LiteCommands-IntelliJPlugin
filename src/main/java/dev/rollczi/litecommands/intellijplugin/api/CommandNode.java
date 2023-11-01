@@ -1,6 +1,7 @@
 package dev.rollczi.litecommands.intellijplugin.api;
 
 import com.intellij.pom.Navigatable;
+import com.intellij.psi.PsiElement;
 import java.util.List;
 
 public interface CommandNode extends Node {

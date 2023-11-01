@@ -28,7 +28,7 @@ public class LiteLineMarkerInfo<T extends PsiElement> extends LineMarkerInfo<T> 
     }
 
     public static <E extends PsiElement> Builder<E> builder(E psiElement) {
-        return new Builder<E>(psiElement);
+        return new Builder<>(psiElement);
     }
 
     public static class Builder<E extends PsiElement> {

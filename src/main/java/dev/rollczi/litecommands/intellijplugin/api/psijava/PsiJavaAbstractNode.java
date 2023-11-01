@@ -1,5 +1,7 @@
 package dev.rollczi.litecommands.intellijplugin.api.psijava;
 
+import com.intellij.lang.jvm.annotation.JvmAnnotationAttribute;
+import com.intellij.lang.jvm.annotation.JvmAnnotationAttributeValue;
 import com.intellij.pom.Navigatable;
 import com.intellij.psi.PsiAnnotation;
 import com.intellij.psi.PsiAnnotationMemberValue;
@@ -14,6 +16,7 @@ import dev.rollczi.litecommands.intellijplugin.old.annotation.AnnotationHolder;
 import dev.rollczi.litecommands.intellijplugin.util.PsiAnnotationUtil;
 import dev.rollczi.litecommands.intellijplugin.util.PsiValue;
 import java.lang.annotation.Annotation;
+import java.lang.reflect.Method;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.LinkedHashMap;
@@ -42,6 +45,16 @@ public abstract class PsiJavaAbstractNode implements Node {
         List<PsiValue<String>> names = PsiAnnotationUtil.getStringArray(annotation, nodeNameAttribute);
 
         if (names.size() != 1) {
+            try {
+                Method method = nodeAnnotation.getMethod(nodeNameAttribute);
+                Object defaultValue = method.getDefaultValue();
+
+                if (defaultValue instanceof String) {
+                    return (String) defaultValue;
+                }
+            }
+            catch (NoSuchMethodException ignore) {}
+
             throw new IllegalStateException("Invalid node name");
         }
 
