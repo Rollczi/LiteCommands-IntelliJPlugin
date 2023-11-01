@@ -3,6 +3,7 @@ package dev.rollczi.litecommands.intellijplugin.old.ui;
 import com.intellij.ui.Gray;
 import com.intellij.ui.components.JBLabel;
 import com.intellij.util.ui.JBUI.Fonts;
+import dev.rollczi.litecommands.shared.Preconditions;
 import org.intellij.lang.annotations.MagicConstant;
 
 import java.awt.*;
@@ -26,6 +27,9 @@ public class LiteBadge extends JBLabel implements LiteComponent {
     }
 
     protected LiteBadge(String badgeText, Color badgeColor, Icon icon, int margin) {
+        Preconditions.notNull(badgeText, "badgeText");
+        Preconditions.notNull(badgeColor, "badgeColor");
+
         this.badgeText = badgeText;
         this.badgeColor = badgeColor;
         this.icon = icon;
