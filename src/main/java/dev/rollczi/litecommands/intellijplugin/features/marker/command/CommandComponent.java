@@ -4,6 +4,7 @@ import com.intellij.pom.Navigatable;
 import com.intellij.ui.components.JBBox;
 import dev.rollczi.litecommands.intellijplugin.api.CommandNode;
 import dev.rollczi.litecommands.intellijplugin.features.icon.LiteIcon;
+import dev.rollczi.litecommands.intellijplugin.navigatable.NavigatableReference;
 import dev.rollczi.litecommands.intellijplugin.old.ui.*;
 
 import javax.swing.*;
@@ -42,7 +43,7 @@ class CommandComponent extends JPanel {
         return box;
     }
 
-    private JComponent createBadge(String name, boolean isAlias, Navigatable source) {
+    private JComponent createBadge(String name, boolean isAlias, NavigatableReference source) {
         LiteActionBadge badge = new LiteActionBadge(
             "/" + name + " ...",
             LiteColors.GRAY,
@@ -51,7 +52,7 @@ class CommandComponent extends JPanel {
             LiteMargin.SMALL
         );
 
-        badge.addListener(() -> source.navigate(true));
+        badge.addListener((event) -> source.highlight());
 
         return LiteBox.invisible(badge).margined(LiteMargin.TINY);
     }

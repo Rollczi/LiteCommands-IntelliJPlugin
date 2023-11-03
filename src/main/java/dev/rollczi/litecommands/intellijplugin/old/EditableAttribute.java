@@ -26,7 +26,7 @@ public class EditableAttribute extends LiteBox {
 
         this.add(badge);
 
-        badge.addListener(() -> {
+        badge.addListener((event) -> {
             this.removeAll();
 
             Project project = attribute.get().getProject();

@@ -1,12 +1,33 @@
 package dev.rollczi.litecommands.intellijplugin.util;
 
-import com.intellij.psi.*;
-
+import com.intellij.codeInsight.intention.IntentionAction;
+import com.intellij.codeInsight.intention.impl.JavaElementActionsFactory;
+import com.intellij.lang.Language;
+import com.intellij.lang.jvm.actions.AnnotationAttributeRequest;
+import com.intellij.lang.jvm.actions.AnnotationAttributeValueRequest;
+import com.intellij.lang.jvm.actions.JvmElementActionsFactory;
+import com.intellij.openapi.editor.Document;
+import com.intellij.openapi.editor.impl.ImaginaryEditor;
+import com.intellij.openapi.project.Project;
+import com.intellij.psi.PsiAnnotation;
+import com.intellij.psi.PsiAnnotationMemberValue;
+import com.intellij.psi.PsiArrayInitializerMemberValue;
+import com.intellij.psi.PsiDocumentManager;
+import com.intellij.psi.PsiElement;
+import com.intellij.psi.PsiElementFactory;
+import com.intellij.psi.PsiLiteralExpression;
+import com.intellij.psi.PsiModifierListOwner;
 import java.lang.annotation.Annotation;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
+import java.util.Locale;
 import java.util.stream.Collectors;
+import org.jetbrains.kotlin.idea.quickfix.crossLanguage.KotlinElementActionsFactory;
+import org.jetbrains.uast.UElement;
+import org.jetbrains.uast.UFile;
+import org.jetbrains.uast.ULiteralExpression;
+import org.jetbrains.uast.UastContextKt;
 
 public class PsiAnnotationUtil {
 
@@ -29,7 +50,20 @@ public class PsiAnnotationUtil {
         }
 
         if (attributeValue instanceof PsiLiteralExpression literalExpression) {
-            return List.of(new PsiValue<>(literalExpression, (String) literalExpression.getValue()));
+            Object value = literalExpression.getValue();
+
+            if (value instanceof String) {
+                return List.of(new PsiValue<>(literalExpression, (String) value));
+            }
+
+            if (value instanceof List<?> list) {
+                return list.stream()
+                    .filter(o -> o instanceof String)
+                    .map(o -> new PsiValue<>(literalExpression, (String) o))
+                    .collect(Collectors.toList());
+            }
+
+            return List.of();
         }
 
         return List.of();
@@ -37,37 +71,63 @@ public class PsiAnnotationUtil {
 
 
     public static void setString(PsiAnnotation annotation, String attributeName, String newValue) {
-        setStringArray(annotation, attributeName, List.of(newValue));
+        Project project = annotation.getProject();
+        Document document = PsiDocumentManager.getInstance(project).getDocument(annotation.getContainingFile());
+        UElement element =  UastContextKt.toUElement(annotation.findDeclaredAttributeValue(attributeName));
+
+        if (document == null) {
+            throw new RuntimeException("Document not found");
+        }
+
+        JvmElementActionsFactory factory = getFactory(element.getLang());
+        List<IntentionAction> actionList = factory.createChangeAnnotationAttributeActions(
+            annotation,
+            -1,
+            new AnnotationAttributeRequest(
+                attributeName,
+                new AnnotationAttributeValueRequest.StringValue(newValue)
+            )
+            , "Test", "Test");
+
+        for (IntentionAction intentionAction : actionList) {
+            intentionAction.invoke(project, new ImaginaryEditor(project, document), annotation.getContainingFile());
+        }
     }
 
     public static void setStringArray(PsiAnnotation annotation, String attributeName, Collection<String> list) {
-        PsiElementFactory factory = JavaPsiFacade.getElementFactory(annotation.getProject());
-        PsiAnnotationMemberValue value = annotation.findDeclaredAttributeValue(attributeName);
+        Project project = annotation.getProject();
+        Document document = PsiDocumentManager.getInstance(project).getDocument(annotation.getContainingFile());
+        UElement element =  UastContextKt.toUElement(annotation.findDeclaredAttributeValue(attributeName));
 
-        String array = toArray(list);
-
-        if (value == null) {
-            PsiAnnotationMemberValue newValueElement = factory.createExpressionFromText(array, annotation);
-            annotation.setDeclaredAttributeValue(attributeName, newValueElement);
-            return;
+        if (document == null) {
+            throw new RuntimeException("Document not found");
         }
 
-        PsiAnnotationMemberValue newValueElement = factory.createExpressionFromText(array, annotation);
-        value.replace(newValueElement);
+        JvmElementActionsFactory factory = getFactory(element.getLang());
+        List<IntentionAction> actionList = factory.createChangeAnnotationAttributeActions(
+            annotation,
+            -1,
+            new AnnotationAttributeRequest(
+                attributeName,
+                new AnnotationAttributeValueRequest.ArrayValue(
+                    list.stream()
+                        .map(s -> new AnnotationAttributeValueRequest.StringValue(s))
+                        .collect(Collectors.toList())
+                )
+            )
+            , "Test", "Test");
+
+        for (IntentionAction intentionAction : actionList) {
+            intentionAction.invoke(project, new ImaginaryEditor(project, document), annotation.getContainingFile());
+        }
     }
 
-    private static String toArray(Collection<String> list) {
-        if (list.isEmpty()) {
-            return "{}";
+    private static JvmElementActionsFactory getFactory(Language lang) {
+        if (lang.getID().toLowerCase(Locale.ROOT).equals("kotlin")) {
+            return new KotlinElementActionsFactory();
         }
 
-        if (list.size() == 1) {
-            return "\"" + list.iterator().next() + "\"";
-        }
-
-        return list.stream()
-            .map(s -> "\"" + s + "\"")
-            .collect(Collectors.joining(", ", "{", "}"));
+        return new JavaElementActionsFactory();
     }
 
     public static PsiAnnotation addAnnotation(Class<? extends Annotation> annotation, PsiModifierListOwner owner) {
@@ -75,7 +135,7 @@ public class PsiAnnotationUtil {
     }
 
     public static PsiAnnotation addAnnotation(String annotationName, String qName, PsiModifierListOwner owner) {
-        PsiElementFactory factory = JavaPsiFacade.getElementFactory(owner.getProject());
+        PsiElementFactory factory = PsiElementFactory.getInstance(owner.getProject());
         PsiAnnotation annotation = factory.createAnnotationFromText("@" + annotationName, owner);
         PsiElement psiElement = owner.getModifierList().addAfter(annotation, null);
 

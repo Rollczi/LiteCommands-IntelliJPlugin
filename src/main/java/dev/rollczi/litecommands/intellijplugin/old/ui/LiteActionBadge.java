@@ -11,7 +11,7 @@ import java.util.function.Consumer;
 
 public class LiteActionBadge extends LiteBadge {
 
-    private final List<Runnable> listeners = new ArrayList<>();
+    private final List<Consumer<MouseEvent>> listeners = new ArrayList<>();
     private final List<Consumer<MouseEvent>> hoverListeners = new ArrayList<>();
 
     public LiteActionBadge(Color badgeColor, Color hover, Icon icon, int margin) {
@@ -24,7 +24,7 @@ public class LiteActionBadge extends LiteBadge {
         this.asComponent().addMouseListener(new MouseAdapter() {
             @Override
             public void mousePressed(MouseEvent e) {
-                listeners.forEach(Runnable::run);
+                listeners.forEach(consumer -> consumer.accept(e));
             }
 
             @Override
@@ -40,7 +40,7 @@ public class LiteActionBadge extends LiteBadge {
         });
     }
 
-    public void addListener(Runnable runnable) {
+    public void addListener(Consumer<MouseEvent> runnable) {
         listeners.add(runnable);
     }
 

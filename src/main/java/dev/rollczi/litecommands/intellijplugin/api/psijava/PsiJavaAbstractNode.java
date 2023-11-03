@@ -67,7 +67,7 @@ public abstract class PsiJavaAbstractNode implements Node {
     }
 
     @Override
-    public Navigatable navigateToName() {
+    public NavigatableReference navigateToName() {
         return NavigatableReference.ofPsiElement(() -> this.getNodeAnnotation().findDeclaredAttributeValue(nodeNameAttribute));
     }
 
@@ -95,7 +95,7 @@ public abstract class PsiJavaAbstractNode implements Node {
     }
 
     @Override
-    public Navigatable navigateToAlias(String alias) {
+    public NavigatableReference navigateToAlias(String alias) {
         return PsiAnnotationUtil.getStringArray(this.getNodeAnnotation(), nodeAliasesAttribute)
             .stream()
             .filter(stringPsiValue -> stringPsiValue.value().equals(alias))

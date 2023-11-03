@@ -8,7 +8,7 @@ import dev.rollczi.litecommands.intellijplugin.navigatable.NavigatableReference;
 public class PsiJavaPermission implements Permission {
 
     private final String name;
-    private final Navigatable navigatable;
+    private final NavigatableReference navigatable;
 
     public PsiJavaPermission(String name, PsiElement source) {
         this.name = name;
@@ -21,7 +21,7 @@ public class PsiJavaPermission implements Permission {
     }
 
     @Override
-    public Navigatable navigatable() {
+    public NavigatableReference navigatable() {
         return navigatable;
     }
 

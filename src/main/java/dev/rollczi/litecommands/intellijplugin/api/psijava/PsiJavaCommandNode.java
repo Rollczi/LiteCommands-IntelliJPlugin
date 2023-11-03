@@ -2,6 +2,7 @@ package dev.rollczi.litecommands.intellijplugin.api.psijava;
 
 import com.intellij.psi.PsiAnnotation;
 import com.intellij.psi.PsiClass;
+import com.intellij.psi.PsiFile;
 import com.intellij.psi.PsiMethod;
 import dev.rollczi.litecommands.annotations.command.Command;
 import dev.rollczi.litecommands.annotations.execute.Execute;
@@ -41,6 +42,11 @@ public class PsiJavaCommandNode extends PsiJavaAbstractNode implements CommandNo
     public boolean hasExecutors() {
         return Arrays.stream(psiClass.getMethods())
             .anyMatch(method -> method.getAnnotation(Execute.class.getName()) != null);
+    }
+
+    @Override
+    public PsiFile getFile() {
+        return psiClass.getContainingFile();
     }
 
 }

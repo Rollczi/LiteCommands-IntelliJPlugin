@@ -117,6 +117,10 @@ public class LiteBadge extends JBLabel implements LiteComponent {
         return getPreferredSize();
     }
 
+    public LiteMargin wrapMargin() {
+        return LiteBox.invisible(this).margined(LiteMargin.TINY);
+    }
+
     public static LiteComponent of(Icon icon, String badgeText) {
         return of(icon, badgeText, LiteColors.NONE);
     }

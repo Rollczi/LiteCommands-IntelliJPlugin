@@ -8,6 +8,7 @@ import dev.rollczi.litecommands.annotations.execute.Execute;
 import dev.rollczi.litecommands.intellijplugin.api.Argument;
 import dev.rollczi.litecommands.intellijplugin.api.CommandNode;
 import dev.rollczi.litecommands.intellijplugin.api.ExecutorNode;
+import dev.rollczi.litecommands.intellijplugin.navigatable.NavigatableReference;
 import dev.rollczi.litecommands.intellijplugin.old.annotation.AnnotationFactory;
 import dev.rollczi.litecommands.intellijplugin.old.annotation.AnnotationHolder;
 import java.util.ArrayList;
@@ -49,8 +50,8 @@ public class PsiJavaExecutorNode extends PsiJavaAbstractNode implements Executor
     }
 
     @Override
-    public Navigatable navigatable() {
-        return psiMethod;
+    public NavigatableReference navigatable() {
+        return NavigatableReference.ofPsiElement(() -> psiMethod);
     }
 
 }

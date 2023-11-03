@@ -2,6 +2,8 @@ package dev.rollczi.litecommands.intellijplugin.api;
 
 import com.intellij.pom.Navigatable;
 import com.intellij.psi.PsiElement;
+import com.intellij.psi.PsiFile;
+import dev.rollczi.litecommands.intellijplugin.navigatable.NavigatableReference;
 import java.util.List;
 
 public interface CommandNode extends Node {
@@ -13,7 +15,7 @@ public interface CommandNode extends Node {
     void name(String name);
 
     @Override
-    Navigatable navigateToName();
+    NavigatableReference navigateToName();
 
     @Override
     List<String> aliases();
@@ -22,7 +24,7 @@ public interface CommandNode extends Node {
     void aliases(List<String> aliases);
 
     @Override
-    Navigatable navigateToAlias(String alias);
+    NavigatableReference navigateToAlias(String alias);
 
     @Override
     List<Permission> permissions();
@@ -33,5 +35,7 @@ public interface CommandNode extends Node {
     List<ExecutorNode> executors();
 
     boolean hasExecutors();
+
+    PsiFile getFile();
 
 }

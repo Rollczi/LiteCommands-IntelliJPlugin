@@ -58,7 +58,7 @@ class PermissionsComponent extends JPanel {
             LiteMargin.SMALL
         );
 
-        badge.addListener(() -> permission.navigatable().navigate(true));
+        badge.addListener((event) -> permission.navigatable().highlight());
 
         return LiteBox.invisible(badge).margined(LiteMargin.TINY);
     }

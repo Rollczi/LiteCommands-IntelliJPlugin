@@ -1,18 +1,8 @@
 package dev.rollczi.litecommands.intellijplugin.api;
 
-import com.intellij.pom.Navigatable;
-import com.intellij.psi.PsiAnnotation;
-import com.intellij.psi.PsiMethod;
-import com.intellij.psi.PsiParameter;
-import dev.rollczi.litecommands.annotations.argument.Arg;
-import dev.rollczi.litecommands.annotations.command.Command;
-import dev.rollczi.litecommands.annotations.execute.Execute;
-import dev.rollczi.litecommands.intellijplugin.old.annotation.AnnotationFactory;
-import dev.rollczi.litecommands.intellijplugin.old.annotation.AnnotationHolder;
-import java.util.ArrayList;
+import dev.rollczi.litecommands.intellijplugin.navigatable.NavigatableReference;
 import java.util.List;
 import java.util.StringJoiner;
-import panda.std.Pair;
 
 public interface ExecutorNode extends Node {
 
@@ -23,7 +13,7 @@ public interface ExecutorNode extends Node {
     void name(String name);
 
     @Override
-    Navigatable navigateToName();
+    NavigatableReference navigateToName();
 
     default String structure() {
         String executorName = this.name() + " ";
@@ -48,7 +38,7 @@ public interface ExecutorNode extends Node {
     void aliases(List<String> aliases);
 
     @Override
-    Navigatable navigateToAlias(String alias);
+    NavigatableReference navigateToAlias(String alias);
 
     @Override
     List<Permission> permissions();
@@ -60,6 +50,6 @@ public interface ExecutorNode extends Node {
 
     List<Argument> arguments();
 
-    Navigatable navigatable();
+    NavigatableReference navigatable();
 
 }

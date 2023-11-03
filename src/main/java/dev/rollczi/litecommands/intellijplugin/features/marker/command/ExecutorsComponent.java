@@ -70,13 +70,13 @@ class ExecutorsComponent extends JPanel {
             LiteMargin.SMALL
         );
 
-        badge.addListener(() -> executor.navigatable().navigate(true));
+        badge.addListener((event) -> executor.navigatable().highlight());
 
         badge.addHoverListener(mouseEvent -> {
             HelpTooltip tooltip = new HelpTooltip();
 
             tooltip.setTitle("Executor");
-            tooltip.setLink(structure, () -> executor.navigatable().navigate(true));
+            tooltip.setLink(structure, () -> executor.navigatable().highlight());
             tooltip.setDescription(structure);
             tooltip.installOn(this);
         });

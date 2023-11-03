@@ -2,11 +2,11 @@ package dev.rollczi.litecommands.intellijplugin.features.marker.command.dialog;
 
 import com.intellij.openapi.ui.DialogWrapper;
 import com.intellij.openapi.ui.ValidationInfo;
-import com.intellij.ui.components.JBTextField;
+import com.intellij.util.ui.ListTableModel;
 import dev.rollczi.litecommands.intellijplugin.api.CommandNode;
 import dev.rollczi.litecommands.util.LiteCommandsUtil;
+import java.util.List;
 import javax.swing.JComponent;
-import javax.swing.ListModel;
 import org.jetbrains.annotations.Nullable;
 
 public class EditDialog extends DialogWrapper {
@@ -17,7 +17,7 @@ public class EditDialog extends DialogWrapper {
         super(true);
         this.setTitle("Edit Command");
 
-        this.setOKButtonText("Save");
+        this.setOKButtonText("Edit");
         this.setCancelButtonText("Cancel");
         this.setOKActionEnabled(true);
         this.setResizable(true);
@@ -33,29 +33,39 @@ public class EditDialog extends DialogWrapper {
 
     @Override
     protected @Nullable ValidationInfo doValidate() {
-        JBTextField nameField = panel.getNameField();
-        String text = nameField.getText();
+        ListTableModel<NameReference> model = panel.getNamesList().getListTableModel();
 
-        try {
-            LiteCommandsUtil.checkName(text);
-        }
-        catch (IllegalArgumentException exception) {
-            return new ValidationInfo(exception.getMessage(), nameField);
+        if (model.getItems().isEmpty()) {
+            return new ValidationInfo("There must be at least one name", panel.getNamesList());
         }
 
-        ListModel<String> model = panel.getAliasesList().getModel();
-
-        for (int i = 0; i < model.getSize(); i++) {
-            String alias = model.getElementAt(i);
-
+        for (NameReference item : model.getItems()) {
             try {
-                LiteCommandsUtil.checkName(alias);
+                boolean isNotEmpty = LiteCommandsUtil.checkName(item.getName());
+
+                if (isNotEmpty) {
+                    continue;
+                }
+
+                return new ValidationInfo("Command name cannot be empty", panel.getNamesList());
             }
             catch (IllegalArgumentException exception) {
-                return new ValidationInfo(exception.getMessage(), panel.getAliasesList());
+                return new ValidationInfo(exception.getMessage(), panel.getNamesList());
             }
         }
 
         return null;
     }
+
+    public String getName() {
+        return panel.getNamesList().getListTableModel().getItems().get(0).getName();
+    }
+
+    public List<String> getAliases() {
+        return panel.getNamesList().getListTableModel().getItems().stream()
+            .skip(1)
+            .map(NameReference::getName)
+            .toList();
+    }
+
 }
