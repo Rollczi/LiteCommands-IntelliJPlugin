@@ -1,9 +1,8 @@
 package dev.rollczi.litecommands.intellijplugin.api;
 
-import com.intellij.pom.Navigatable;
 import dev.rollczi.litecommands.intellijplugin.navigatable.NavigatableReference;
 
-public interface Permission {
+public interface PermissionEntry {
 
     String name();
 

@@ -1,114 +1,107 @@
 package dev.rollczi.litecommands.intellijplugin.features.marker.command.dialog;
 
-import com.intellij.ide.highlighter.JavaFileType;
-import com.intellij.lang.Language;
-import com.intellij.lang.LanguageAnnotators;
-import com.intellij.lang.annotation.Annotator;
-import com.intellij.openapi.actionSystem.ActionToolbarPosition;
-
-import com.intellij.openapi.command.WriteCommandAction;
-import com.intellij.openapi.editor.Document;
-import com.intellij.openapi.editor.Editor;
-import com.intellij.openapi.editor.EditorFactory;
-import com.intellij.openapi.editor.event.DocumentEvent;
-import com.intellij.openapi.editor.event.DocumentListener;
-import com.intellij.openapi.editor.ex.EditorEx;
-import com.intellij.openapi.editor.highlighter.EditorHighlighter;
-import com.intellij.openapi.editor.impl.ImaginaryEditor;
-import com.intellij.openapi.fileEditor.FileDocumentManager;
-import com.intellij.openapi.project.Project;
-import com.intellij.openapi.util.TextRange;
-import com.intellij.psi.JavaCodeFragmentFactory;
-import com.intellij.psi.PsiDocumentManager;
-import com.intellij.psi.PsiElement;
-import com.intellij.psi.PsiExpressionCodeFragment;
-import com.intellij.psi.PsiFile;
-import com.intellij.ui.EditorCustomization;
-import com.intellij.ui.EditorTextField;
-import com.intellij.ui.ErrorStripeEditorCustomization;
-import com.intellij.ui.JBColor;
-import com.intellij.ui.ToolbarDecorator;
-import com.intellij.ui.components.JBScrollPane;
 import com.intellij.ui.table.TableView;
-import com.intellij.util.ui.ColumnInfo;
 import com.intellij.util.ui.ListTableModel;
 import dev.rollczi.litecommands.intellijplugin.api.CommandNode;
+import dev.rollczi.litecommands.intellijplugin.api.PermissionEntry;
 import dev.rollczi.litecommands.intellijplugin.features.icon.LiteIcon;
-import dev.rollczi.litecommands.intellijplugin.features.table.TextColumnBuilder;
-import dev.rollczi.litecommands.intellijplugin.old.ui.LiteBadge;
-import dev.rollczi.litecommands.intellijplugin.old.ui.LiteColors;
+import dev.rollczi.litecommands.intellijplugin.features.table.LiteTableView;
+import dev.rollczi.litecommands.intellijplugin.features.table.LiteToolbarDecorator;
+import dev.rollczi.litecommands.intellijplugin.features.table.TextColumnInfo;
 import dev.rollczi.litecommands.intellijplugin.old.ui.LiteTitledSeparator;
 import java.awt.BorderLayout;
-import java.awt.Component;
-import java.awt.Cursor;
-import java.awt.Dimension;
-import javax.swing.BorderFactory;
+import java.util.List;
+import javax.swing.Box;
+import javax.swing.BoxLayout;
+import javax.swing.Icon;
 import javax.swing.JComponent;
 import javax.swing.JPanel;
-import javax.swing.table.JTableHeader;
-import javax.swing.table.TableCellRenderer;
-import org.jetbrains.annotations.NotNull;
+import panda.std.stream.PandaStream;
 
-class EditDialogPanel extends JPanel {
+class EditDialogPanel extends Box {
 
-    private static final ColumnInfo<NameReference, String> ALIAS_NAME_COLUMN = new TextColumnBuilder<NameReference>("Name")
-        .firstIcon(nameReference -> LiteIcon.COMMAND_ELEMENT)
-        .icon(nameReference -> LiteIcon.COMMAND_ELEMENT_ALIAS)
-        .valueOf(NameReference::getName)
-        .setValue((nameReference, input) -> nameReference.setName(input))
+    private static final TextColumnInfo<TextReference> NAMES_COLUMN = new TextColumnInfo.Builder<TextReference>("Name")
+        .firstIcon(textReference -> LiteIcon.COMMAND_ELEMENT)
+        .icon(textReference -> LiteIcon.COMMAND_ELEMENT_ALIAS)
+        .valueOf(TextReference::getName)
+        .setValue((textReference, input) -> textReference.setName(input))
         .build();
 
-    private final TableView<NameReference> namesList = new TableView<>(new ListTableModel<>(ALIAS_NAME_COLUMN));
+    private static final TextColumnInfo<TextReference> PERMISSIONS = new TextColumnInfo.Builder<TextReference>("Permission")
+        .icon(textReference -> LiteIcon.PERMISSION_ELEMENT)
+        .valueOf(TextReference::getName)
+        .setValue((textReference, input) -> textReference.setName(input))
+        .build();
+
+    private final LiteTableView<TextReference> namesList = new LiteTableView<>();
+    private final LiteTableView<TextReference> permissionsList = new LiteTableView<>();
 
     public EditDialogPanel(CommandNode command) {
-        super(new BorderLayout());
-        this.add(this.title(), BorderLayout.NORTH);
-        this.add(this.commandEditor(command), BorderLayout.CENTER);
+        super(BoxLayout.Y_AXIS);
+        this.setAlignmentX(JComponent.LEFT_ALIGNMENT);
+        this.add(this.commandStructure(command));
+        this.add(this.permissions(command));
     }
 
-    private JComponent title() {
-        return new LiteTitledSeparator(LiteIcon.COMMAND_STRUCTURE, "Command Structure");
+    private JComponent commandStructure(CommandNode command) {
+        List<TextReference> items = PandaStream.of(command.name())
+            .concat(command.aliases())
+            .map(name -> new TextReference(name))
+            .toList();
+
+        return editor(LiteIcon.COMMAND_STRUCTURE, "Command Structure", NAMES_COLUMN, this.namesList, items);
     }
 
-    private JComponent commandEditor(CommandNode command) {
-        ListTableModel<NameReference> model = this.namesList.getListTableModel();
+    private JComponent permissions(CommandNode command) {
+        List<TextReference> items = command.permissionsDefinition().permissions()
+            .stream()
+            .map(permissionEntry -> permissionEntry.name())
+            .map(name -> new TextReference(name))
+            .toList();
 
-        model.addRow(new NameReference(command.name()));
-        model.addRows(command.aliases().stream().map(NameReference::new).toList());
+        return editor(LiteIcon.PERMISSIONS, "Permissions", PERMISSIONS, this.permissionsList, items);
+    }
 
-        this.namesList.setShowGrid(false);
-        this.namesList.setCursor(new Cursor(Cursor.HAND_CURSOR));
-        this.namesList.setFillsViewportHeight(true);
-        this.namesList.setIntercellSpacing(new Dimension(0, 0));
-        this.namesList.getTableHeader().setBorder(BorderFactory.createLineBorder(JBColor.background()));
-        this.namesList.getTableHeader().setReorderingAllowed(false);
+    private JComponent editor(Icon icon, String name, TextColumnInfo<TextReference> column, LiteTableView<TextReference> tableView, List<TextReference> items) {
+        ListTableModel<TextReference> model = column.toModel();
 
-        JPanel jPanel = ToolbarDecorator.createDecorator(this.namesList)
-            .setPanelBorder(BorderFactory.createLineBorder(JBColor.background()))
-            .setToolbarBorder(BorderFactory.createLineBorder(JBColor.background()))
-            .setScrollPaneBorder(BorderFactory.createLineBorder(JBColor.background()))
-            .setToolbarPosition(ActionToolbarPosition.RIGHT)
+        model.addRows(items);
+        tableView.setModel(model);
 
-            .setMinimumSize(new Dimension(300, 0))
-
+        JPanel jPanel = LiteToolbarDecorator.createDecorator(tableView)
             .setAddAction(anActionButton -> {
-                model.addRow(new NameReference(""));
+                tableView.stopEditing();
 
-                this.namesList.editCellAt(model.getRowCount() - 1, 0);
-                this.namesList.getEditorComponent().requestFocus();
+                model.addRow(new TextReference(""));
+
+                tableView.editCellAt(model.getRowCount() - 1, 0);
+                tableView.getEditorComponent().requestFocus();
             })
+            .setEditAction(anActionButton -> {
+                int selectedRow = tableView.getSelectedRow();
 
+                if (selectedRow == -1) {
+                    return;
+                }
+
+                tableView.editCellAt(selectedRow, 0);
+                tableView.getEditorComponent().requestFocus();
+            })
             .createPanel();
 
-
         JPanel panel = new JPanel(new BorderLayout());
+        panel.add(new LiteTitledSeparator(icon, name), BorderLayout.NORTH);
         panel.add(jPanel, BorderLayout.CENTER);
 
         return panel;
     }
 
-    public TableView<NameReference> getNamesList() {
+    public TableView<TextReference> getNamesList() {
         return namesList;
+    }
+
+    public TableView<TextReference> getPermissionsList() {
+        return permissionsList;
     }
 
 }

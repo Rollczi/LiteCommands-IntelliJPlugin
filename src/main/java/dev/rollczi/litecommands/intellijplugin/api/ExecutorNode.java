@@ -41,10 +41,7 @@ public interface ExecutorNode extends Node {
     NavigatableReference navigateToAlias(String alias);
 
     @Override
-    List<Permission> permissions();
-
-    @Override
-    void permissions(List<String> permissions);
+    PermissionsDefinition permissionsDefinition();
 
     CommandNode parent();
 

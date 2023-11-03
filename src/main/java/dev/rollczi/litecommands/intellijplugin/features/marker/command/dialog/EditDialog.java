@@ -33,13 +33,13 @@ public class EditDialog extends DialogWrapper {
 
     @Override
     protected @Nullable ValidationInfo doValidate() {
-        ListTableModel<NameReference> model = panel.getNamesList().getListTableModel();
+        ListTableModel<TextReference> model = panel.getNamesList().getListTableModel();
 
         if (model.getItems().isEmpty()) {
             return new ValidationInfo("There must be at least one name", panel.getNamesList());
         }
 
-        for (NameReference item : model.getItems()) {
+        for (TextReference item : model.getItems()) {
             try {
                 boolean isNotEmpty = LiteCommandsUtil.checkName(item.getName());
 
@@ -64,7 +64,13 @@ public class EditDialog extends DialogWrapper {
     public List<String> getAliases() {
         return panel.getNamesList().getListTableModel().getItems().stream()
             .skip(1)
-            .map(NameReference::getName)
+            .map(TextReference::getName)
+            .toList();
+    }
+
+    public List<String> getPermissions() {
+        return panel.getPermissionsList().getListTableModel().getItems().stream()
+            .map(TextReference::getName)
             .toList();
     }
 

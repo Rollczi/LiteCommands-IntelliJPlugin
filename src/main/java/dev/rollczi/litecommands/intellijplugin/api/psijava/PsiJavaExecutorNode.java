@@ -15,7 +15,7 @@ import java.util.ArrayList;
 import java.util.List;
 import panda.std.Pair;
 
-public class PsiJavaExecutorNode extends PsiJavaAbstractNode implements ExecutorNode {
+class PsiJavaExecutorNode extends PsiJavaAbstractNode implements ExecutorNode {
 
     private final PsiJavaCommandNode parent;
     private final PsiMethod psiMethod;

@@ -1,7 +1,7 @@
 package dev.rollczi.litecommands.intellijplugin.features.marker.command;
 
 import dev.rollczi.litecommands.intellijplugin.api.CommandNode;
-import dev.rollczi.litecommands.intellijplugin.api.Permission;
+import dev.rollczi.litecommands.intellijplugin.api.PermissionEntry;
 import dev.rollczi.litecommands.intellijplugin.features.icon.LiteIcon;
 import dev.rollczi.litecommands.intellijplugin.old.ui.LiteActionBadge;
 import dev.rollczi.litecommands.intellijplugin.old.ui.LiteBox;
@@ -17,11 +17,6 @@ class PermissionsComponent extends JPanel {
 
     PermissionsComponent(CommandNode command) {
         super(new BorderLayout());
-
-        if (command.permissions().isEmpty()) {
-            this.setVisible(false);
-            return;
-        }
 
         this.add(this.title(), BorderLayout.NORTH);
         this.add(this.content(command), BorderLayout.CENTER);
@@ -42,23 +37,23 @@ class PermissionsComponent extends JPanel {
     private JComponent permissionsList(CommandNode command) {
         LiteBox box = new LiteBox(LiteColors.NONE);
 
-        for (Permission permission : command.permissions()) {
-            box.with(permissionBadge(permission));
+        for (PermissionEntry permissionEntry : command.permissionsDefinition().permissions()) {
+            box.with(permissionBadge(permissionEntry));
         }
 
         return box;
     }
 
-    private LiteComponent permissionBadge(Permission permission) {
+    private LiteComponent permissionBadge(PermissionEntry permissionEntry) {
         LiteActionBadge badge = new LiteActionBadge(
-            permission.name(),
+            permissionEntry.name(),
             LiteColors.GRAY,
             LiteColors.GRAY_LIGHT,
             LiteIcon.PERMISSION_ELEMENT,
             LiteMargin.SMALL
         );
 
-        badge.addListener((event) -> permission.navigatable().highlight());
+        badge.addListener((event) -> permissionEntry.navigatable().highlight());
 
         return LiteBox.invisible(badge).margined(LiteMargin.TINY);
     }

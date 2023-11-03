@@ -1,31 +1,17 @@
 package dev.rollczi.litecommands.intellijplugin.api.psijava;
 
-import com.intellij.lang.jvm.annotation.JvmAnnotationAttribute;
-import com.intellij.lang.jvm.annotation.JvmAnnotationAttributeValue;
-import com.intellij.pom.Navigatable;
 import com.intellij.psi.PsiAnnotation;
-import com.intellij.psi.PsiAnnotationMemberValue;
-import com.intellij.psi.PsiLiteralExpression;
 import com.intellij.psi.PsiModifierListOwner;
-import dev.rollczi.litecommands.annotations.permission.Permissions;
 import dev.rollczi.litecommands.intellijplugin.api.Node;
-import dev.rollczi.litecommands.intellijplugin.api.Permission;
+import dev.rollczi.litecommands.intellijplugin.api.PermissionsDefinition;
 import dev.rollczi.litecommands.intellijplugin.navigatable.NavigatableReference;
-import dev.rollczi.litecommands.intellijplugin.old.annotation.AnnotationFactory;
-import dev.rollczi.litecommands.intellijplugin.old.annotation.AnnotationHolder;
 import dev.rollczi.litecommands.intellijplugin.util.PsiAnnotationUtil;
 import dev.rollczi.litecommands.intellijplugin.util.PsiValue;
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Method;
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.LinkedHashMap;
 import java.util.List;
-import java.util.Map;
-import java.util.stream.Collectors;
-import panda.std.Pair;
 
-public abstract class PsiJavaAbstractNode implements Node {
+abstract class PsiJavaAbstractNode implements Node {
 
     protected final PsiModifierListOwner permissionOwner;
     protected final Class<? extends Annotation> nodeAnnotation;
@@ -105,36 +91,8 @@ public abstract class PsiJavaAbstractNode implements Node {
     }
 
     @Override
-    public List<Permission> permissions() {
-        return getPermissions().entrySet().stream()
-            .<Permission>map(entry -> new PsiJavaPermission(entry.getKey(), entry.getValue()))
-            .toList();
-    }
-
-    @Override
-    public void permissions(List<String> permissions) {
-        Collection<PsiAnnotation> annotations = getPermissions().values();
-
-        for (PsiAnnotation annotation : annotations) {
-            annotation.delete();
-        }
-
-        for (String permission : permissions) {
-            PsiAnnotation annotation = PsiAnnotationUtil.addAnnotation(dev.rollczi.litecommands.annotations.permission.Permission.class, permissionOwner);
-            PsiAnnotationUtil.setString(annotation, "value", permission);
-        }
-    }
-
-    private Map<String, PsiAnnotation> getPermissions() {
-        List<AnnotationHolder<dev.rollczi.litecommands.annotations.permission.Permission>> packed = AnnotationFactory.from(dev.rollczi.litecommands.annotations.permission.Permission.class, permissionOwner);
-
-        for (AnnotationHolder<Permissions> holder : AnnotationFactory.from(Permissions.class, permissionOwner)) {
-            packed.addAll(Arrays.stream(holder.asAnnotation().value()).map(permission -> new AnnotationHolder<>(holder.asPsi(), permission)).toList());
-        }
-
-        return packed.stream()
-            .flatMap(holder -> Arrays.stream(holder.asAnnotation().value()).map(s -> Pair.of(s, holder.asPsi())))
-            .collect(Collectors.toMap(Pair::getFirst, Pair::getSecond, (a, b) -> a, LinkedHashMap::new));
+    public PermissionsDefinition permissionsDefinition() {
+        return new PsiJavaPermissionsDefinition(permissionOwner);
     }
 
 }

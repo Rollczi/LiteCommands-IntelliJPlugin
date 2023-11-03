@@ -1,16 +1,15 @@
 package dev.rollczi.litecommands.intellijplugin.api.psijava;
 
-import com.intellij.pom.Navigatable;
 import com.intellij.psi.PsiElement;
-import dev.rollczi.litecommands.intellijplugin.api.Permission;
+import dev.rollczi.litecommands.intellijplugin.api.PermissionEntry;
 import dev.rollczi.litecommands.intellijplugin.navigatable.NavigatableReference;
 
-public class PsiJavaPermission implements Permission {
+class PsiJavaPermissionEntry implements PermissionEntry {
 
     private final String name;
     private final NavigatableReference navigatable;
 
-    public PsiJavaPermission(String name, PsiElement source) {
+    public PsiJavaPermissionEntry(String name, PsiElement source) {
         this.name = name;
         this.navigatable = NavigatableReference.ofPsiElement(() -> source);
     }

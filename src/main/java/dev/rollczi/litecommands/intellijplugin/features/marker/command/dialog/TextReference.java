@@ -1,9 +1,9 @@
 package dev.rollczi.litecommands.intellijplugin.features.marker.command.dialog;
 
-class NameReference {
+class TextReference {
     private String name;
 
-    public NameReference(String name) {
+    public TextReference(String name) {
         this.name = name;
     }
 

@@ -3,7 +3,7 @@ package dev.rollczi.litecommands.intellijplugin.api.psijava;
 import com.intellij.psi.PsiParameter;
 import dev.rollczi.litecommands.intellijplugin.api.Argument;
 
-public class PsiJavaArgument implements Argument {
+class PsiJavaArgument implements Argument {
 
     private final PsiJavaExecutorNode parent;
     private final PsiParameter psiParameter;

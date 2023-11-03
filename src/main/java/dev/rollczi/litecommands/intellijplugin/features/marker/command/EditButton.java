@@ -54,6 +54,7 @@ class EditButton extends LiteMargin {
                     ScheduleUtil.invokeLater(command.getFile(), () -> {
                         command.name(dialog.getName());
                         command.aliases(dialog.getAliases());
+                        command.permissionsDefinition().permissions(dialog.getPermissions());
                     });
                 }
             });

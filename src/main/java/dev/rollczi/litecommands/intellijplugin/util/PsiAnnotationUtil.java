@@ -3,8 +3,10 @@ package dev.rollczi.litecommands.intellijplugin.util;
 import com.intellij.codeInsight.intention.IntentionAction;
 import com.intellij.codeInsight.intention.impl.JavaElementActionsFactory;
 import com.intellij.lang.Language;
+import com.intellij.lang.jvm.JvmModifiersOwner;
 import com.intellij.lang.jvm.actions.AnnotationAttributeRequest;
 import com.intellij.lang.jvm.actions.AnnotationAttributeValueRequest;
+import com.intellij.lang.jvm.actions.AnnotationRequest;
 import com.intellij.lang.jvm.actions.JvmElementActionsFactory;
 import com.intellij.openapi.editor.Document;
 import com.intellij.openapi.editor.impl.ImaginaryEditor;
@@ -14,7 +16,6 @@ import com.intellij.psi.PsiAnnotationMemberValue;
 import com.intellij.psi.PsiArrayInitializerMemberValue;
 import com.intellij.psi.PsiDocumentManager;
 import com.intellij.psi.PsiElement;
-import com.intellij.psi.PsiElementFactory;
 import com.intellij.psi.PsiLiteralExpression;
 import com.intellij.psi.PsiModifierListOwner;
 import java.lang.annotation.Annotation;
@@ -22,16 +23,28 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.Locale;
+import java.util.Objects;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
+import org.jetbrains.annotations.NotNull;
 import org.jetbrains.kotlin.idea.quickfix.crossLanguage.KotlinElementActionsFactory;
 import org.jetbrains.uast.UElement;
-import org.jetbrains.uast.UFile;
-import org.jetbrains.uast.ULiteralExpression;
 import org.jetbrains.uast.UastContextKt;
 
+@SuppressWarnings("UnstableApiUsage")
 public class PsiAnnotationUtil {
 
     private PsiAnnotationUtil() {
+    }
+
+    public static List<PsiAnnotation> getAnnotations(PsiModifierListOwner owner, Class<? extends Annotation> annotationClass) {
+        return getAnnotations(owner, annotationClass.getName());
+    }
+
+    public static List<PsiAnnotation> getAnnotations(PsiModifierListOwner owner, String annotationName) {
+        return Stream.of(owner.getAnnotations())
+            .filter(annotation -> Objects.equals(annotation.getQualifiedName(), annotationName))
+            .collect(Collectors.toList());
     }
 
     public static List<PsiValue<String>> getStringArray(PsiAnnotation annotation, String attributeName) {
@@ -97,13 +110,12 @@ public class PsiAnnotationUtil {
     public static void setStringArray(PsiAnnotation annotation, String attributeName, Collection<String> list) {
         Project project = annotation.getProject();
         Document document = PsiDocumentManager.getInstance(project).getDocument(annotation.getContainingFile());
-        UElement element =  UastContextKt.toUElement(annotation.findDeclaredAttributeValue(attributeName));
 
         if (document == null) {
             throw new RuntimeException("Document not found");
         }
 
-        JvmElementActionsFactory factory = getFactory(element.getLang());
+        JvmElementActionsFactory factory = getFactory(annotation);
         List<IntentionAction> actionList = factory.createChangeAnnotationAttributeActions(
             annotation,
             -1,
@@ -122,6 +134,12 @@ public class PsiAnnotationUtil {
         }
     }
 
+    public static JvmElementActionsFactory getFactory(PsiElement psiElement) {
+        UElement element =  UastContextKt.toUElement(psiElement);
+
+        return getFactory(element.getLang());
+    }
+
     private static JvmElementActionsFactory getFactory(Language lang) {
         if (lang.getID().toLowerCase(Locale.ROOT).equals("kotlin")) {
             return new KotlinElementActionsFactory();
@@ -130,18 +148,52 @@ public class PsiAnnotationUtil {
         return new JavaElementActionsFactory();
     }
 
-    public static PsiAnnotation addAnnotation(Class<? extends Annotation> annotation, PsiModifierListOwner owner) {
-        return addAnnotation(annotation.getSimpleName(), annotation.getName(), owner);
+    public static void addAnnotation(String qName, PsiModifierListOwner owner, AnnotationAttributeRequest... attributes) {
+        JvmElementActionsFactory factory = getFactory(owner);
+
+        if (!(owner instanceof JvmModifiersOwner jvmModifiersOwner)) {
+            throw new RuntimeException("Owner is not JvmModifiersOwner");
+        }
+
+        Project project = owner.getProject();
+        Document document = PsiDocumentManager.getInstance(project).getDocument(owner.getContainingFile());
+
+        if (document == null) {
+            throw new RuntimeException("Document not found");
+        }
+
+        List<IntentionAction> actions = factory.createAddAnnotationActions(jvmModifiersOwner, new CreateRequest(qName, attributes));
+
+        for (IntentionAction action : actions) {
+            action.invoke(owner.getProject(), new ImaginaryEditor(project, document), owner.getContainingFile());
+        }
     }
 
-    public static PsiAnnotation addAnnotation(String annotationName, String qName, PsiModifierListOwner owner) {
-        PsiElementFactory factory = PsiElementFactory.getInstance(owner.getProject());
-        PsiAnnotation annotation = factory.createAnnotationFromText("@" + annotationName, owner);
-        PsiElement psiElement = owner.getModifierList().addAfter(annotation, null);
+    private static class CreateRequest implements AnnotationRequest {
 
-        PsiImportUtil.importClass(owner, qName);
+        private final String qualifiedName;
+        private final List<AnnotationAttributeRequest> attributes = new ArrayList<>();
 
-        return (PsiAnnotation) psiElement;
+        public CreateRequest(String qualifiedName, AnnotationAttributeRequest... attributes) {
+            this.qualifiedName = qualifiedName;
+            this.attributes.addAll(List.of(attributes));
+        }
+
+        @Override
+        public @NotNull String getQualifiedName() {
+            return qualifiedName;
+        }
+
+        @Override
+        public @NotNull List<AnnotationAttributeRequest> getAttributes() {
+            return attributes;
+        }
+
+        @Override
+        public boolean isValid() {
+            return true;
+        }
     }
+
 
 }
