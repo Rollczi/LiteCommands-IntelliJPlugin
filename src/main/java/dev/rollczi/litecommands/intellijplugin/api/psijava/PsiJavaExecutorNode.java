@@ -1,6 +1,5 @@
 package dev.rollczi.litecommands.intellijplugin.api.psijava;
 
-import com.intellij.pom.Navigatable;
 import com.intellij.psi.PsiMethod;
 import com.intellij.psi.PsiParameter;
 import dev.rollczi.litecommands.annotations.argument.Arg;
@@ -9,13 +8,12 @@ import dev.rollczi.litecommands.intellijplugin.api.Argument;
 import dev.rollczi.litecommands.intellijplugin.api.CommandNode;
 import dev.rollczi.litecommands.intellijplugin.api.ExecutorNode;
 import dev.rollczi.litecommands.intellijplugin.navigatable.NavigatableReference;
-import dev.rollczi.litecommands.intellijplugin.old.annotation.AnnotationFactory;
-import dev.rollczi.litecommands.intellijplugin.old.annotation.AnnotationHolder;
+import dev.rollczi.litecommands.intellijplugin.annotation.AnnotationFactory;
+import dev.rollczi.litecommands.intellijplugin.annotation.AnnotationHolder;
 import java.util.ArrayList;
 import java.util.List;
-import panda.std.Pair;
 
-class PsiJavaExecutorNode extends PsiJavaAbstractNode implements ExecutorNode {
+public class PsiJavaExecutorNode extends PsiJavaAbstractNode implements ExecutorNode {
 
     private final PsiJavaCommandNode parent;
     private final PsiMethod psiMethod;

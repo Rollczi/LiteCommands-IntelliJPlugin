@@ -11,7 +11,7 @@ import com.intellij.openapi.fileEditor.TextEditor;
 import com.intellij.openapi.util.TextRange;
 import com.intellij.psi.PsiElement;
 import com.intellij.util.concurrency.AppExecutorUtil;
-import dev.rollczi.litecommands.intellijplugin.old.ui.LiteColors;
+import dev.rollczi.litecommands.intellijplugin.ui.LiteColors;
 import java.awt.Font;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;

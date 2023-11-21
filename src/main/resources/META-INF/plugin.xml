@@ -1,50 +1,59 @@
-<!-- Plugin Configuration File. Read more: https://plugins.jetbrains.com/docs/intellij/plugin-configuration-file.html -->
 <idea-plugin>
-    <!-- Unique identifier of the plugin. It should be FQN. It cannot be changed between the plugin versions. -->
+
     <id>dev.rollczi.litecommands.intellijplugin</id>
-
-    <!-- Public plugin name should be written in Title Case.
-         Guidelines: https://plugins.jetbrains.com/docs/marketplace/plugin-overview-page.html#plugin-name -->
     <name>LiteCommands</name>
+    <vendor email="rollczi.dev@gmail.com" url="https://rollczi.dev">Rollczi</vendor>
 
-    <!-- A displayed Vendor name or Organization ID displayed on the Plugins Page. -->
-    <vendor email="kontakt@rollczi.dev" url="https://rollczi.dev">Rollczi</vendor>
+    <description>
+        <![CDATA[
+            <p>LiteCommands IntelliJ plugin - simple plugin for support LiteCommands in IntelliJ IDEA.</p>
+            <p>LiteCommands is powerful library for creating commands in
+            <p>see more: <a href="https://github.com/Rollczi/LiteCommands">
+            <p>Support: <a href="https://discord.gg/6cUhkj6uZJ">LiteCommands Discord</a></p>
+            <p>GitHub issues: <a href="https://github.com/Rollczi/LiteCommands/issues">link</a></p>
+            <p>Documentation: <a href="https://docs.rollczi.dev/">link</a></p>
+        ]]>
+    </description>
 
-    <!-- Description of the plugin displayed on the Plugin Page and IDE Plugin Manager.
-         Simple HTML elements (text formatting, paragraphs, and lists) can be added inside of <![CDATA[ ]]> tag.
-         Guidelines: https://plugins.jetbrains.com/docs/marketplace/plugin-overview-page.html#plugin-description -->
-    <description><![CDATA[
-        <p>LiteCommands IntelliJ plugin - simple plugin for support LiteCommands in IntelliJ IDEA.</p>
-        <p>LiteCommands is a simple command system for Minecraft servers.</p>
-        <p>see more: <a href="https://github.com/Rollczi/LiteCommands">
-        <p>Support: <a href="https://discord.gg/6cUhkj6uZJ">LiteCommands Discord</a></p>
-        <p>GitHub issues: <a href="https://github.com/Rollczi/LiteCommands/issues">link</a></p>
-        <p>Documentation: <a href="https://docs.rollczi.dev/">link</a></p>
-    ]]></description>
-
-    <!-- Product and plugin compatibility requirements.
-         Read more: https://plugins.jetbrains.com/docs/intellij/plugin-compatibility.html -->
     <depends>com.intellij.modules.platform</depends>
     <depends>com.intellij.modules.java</depends>
     <depends>org.jetbrains.kotlin</depends>
 
-    <!-- Extension points defined by the plugin.
-         Read more: https://plugins.jetbrains.com/docs/intellij/plugin-extension-points.html -->
+    <!-- Product and plugin compatibility requirements - https://plugins.jetbrains.com/docs/intellij/plugin-compatibility.html -->
+    <!-- Extension points - https://plugins.jetbrains.com/docs/intellij/plugin-extension-points.html -->
     <extensions defaultExtensionNs="com.intellij">
-        <inspectionToolProvider implementation="dev.rollczi.litecommands.intellijplugin.features.inspection.LiteInspectionProvider"/>
+        <!-- INSPECTIONS -->
+        <inspectionToolProvider implementation="dev.rollczi.litecommands.intellijplugin.inspection.LiteInspectionProvider"/>
 
+        <!-- SUPPRESSORS -->
+        <lang.inspectionSuppressor
+                language="JAVA"
+                implementationClass="dev.rollczi.litecommands.intellijplugin.suppressor.ClassUnusedInspectSuppressor"
+        />
+        <lang.inspectionSuppressor
+                language="JAVA"
+                implementationClass="dev.rollczi.litecommands.intellijplugin.suppressor.ConstructorUnusedInspectSuppressor"
+        />
+        <lang.inspectionSuppressor
+                language="JAVA"
+                implementationClass="dev.rollczi.litecommands.intellijplugin.suppressor.ExecutorUnusedInspectSuppressor"
+        />
+
+        <!-- LINE MARKERS -->
         <codeInsight.lineMarkerProvider
                 language="JAVA"
-                implementationClass="dev.rollczi.litecommands.intellijplugin.features.marker.command.CommandMarker"
+                implementationClass="dev.rollczi.litecommands.intellijplugin.marker.command.CommandMarker"
         />
-
         <codeInsight.lineMarkerProvider
                 language="kotlin"
-                implementationClass="dev.rollczi.litecommands.intellijplugin.features.marker.command.CommandMarker"
+                implementationClass="dev.rollczi.litecommands.intellijplugin.marker.command.CommandMarker"
         />
-
-<!--        <annotator implementationClass="dev.rollczi.litecommands.intellijplugin.old.MyAnnotator" language="JAVA"/>-->
-        <lang.inspectionSuppressor language="JAVA" implementationClass="dev.rollczi.litecommands.intellijplugin.features.inspection.executor.ExecutorUnusedInspectSuppressor"/>
-
+        <codeInsight.lineMarkerProvider
+                language="JAVA"
+                implementationClass="dev.rollczi.litecommands.intellijplugin.marker.executor.ExecutorMarker"
+        />
+                language="kotlin"
+                implementationClass="dev.rollczi.litecommands.intellijplugin.marker.executor.ExecutorMarker"
+        />
     </extensions>
 </idea-plugin>

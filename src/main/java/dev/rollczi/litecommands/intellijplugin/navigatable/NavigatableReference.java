@@ -1,25 +1,10 @@
 package dev.rollczi.litecommands.intellijplugin.navigatable;
 
-import com.intellij.codeHighlighting.BackgroundEditorHighlighter;
-import com.intellij.codeHighlighting.HighlightingPass;
-import com.intellij.openapi.editor.Editor;
-import com.intellij.openapi.editor.markup.HighlighterTargetArea;
-import com.intellij.openapi.editor.markup.MarkupModel;
-import com.intellij.openapi.editor.markup.RangeHighlighter;
-import com.intellij.openapi.editor.markup.TextAttributes;
-import com.intellij.openapi.fileEditor.FileEditor;
-import com.intellij.openapi.fileEditor.FileEditorManager;
-import com.intellij.openapi.fileEditor.TextEditor;
 import com.intellij.platform.backend.navigation.NavigationRequest;
 import com.intellij.pom.Navigatable;
 import com.intellij.psi.PsiElement;
-import com.intellij.util.concurrency.AppExecutorUtil;
-import com.intellij.util.ui.JBFont;
-import dev.rollczi.litecommands.intellijplugin.old.ui.LiteColors;
 import dev.rollczi.litecommands.intellijplugin.util.HighlightUtil;
-import java.awt.Font;
 import java.util.Optional;
-import java.util.concurrent.ScheduledExecutorService;
 import java.util.function.Supplier;
 import org.jetbrains.annotations.Nullable;
 

@@ -5,7 +5,7 @@ plugins {
 }
 
 group = "dev.rollczi"
-version = "2.8.7-SNAPSHOT"
+version = "3.0.3-SNAPSHOT"
 
 repositories {
     mavenCentral()
@@ -25,7 +25,7 @@ intellij {
 }
 
 dependencies {
-    implementation("dev.rollczi:litecommands-framework:3.0.0-BETA-pre23")
+    implementation("dev.rollczi:litecommands-framework:3.0.3")
 }
 
 tasks {
