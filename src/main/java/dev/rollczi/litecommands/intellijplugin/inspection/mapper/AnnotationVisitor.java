@@ -1,5 +1,6 @@
 package dev.rollczi.litecommands.intellijplugin.inspection.mapper;
 
+import com.intellij.codeInspection.ProblemHighlightType;
 import com.intellij.codeInspection.ProblemsHolder;
 import com.intellij.psi.JavaElementVisitor;
 import com.intellij.psi.PsiAnnotation;
@@ -29,14 +30,14 @@ class AnnotationVisitor extends JavaElementVisitor {
 
         if (!qualifiedName.contains(".")) {
             if (this.mapper.legacyName().equals(qualifiedName)) {
-                this.holder.registerProblem(annotation, this.displayName, new AnnotationReplaceQuickFix(this.mapper, this.holder));
+                this.holder.registerProblem(annotation, this.displayName, ProblemHighlightType.GENERIC_ERROR, new AnnotationReplaceQuickFix(this.mapper, this.holder));
             }
 
             return;
         }
 
         if (this.mapper.legacyQualified().equals(qualifiedName)) {
-            this.holder.registerProblem(annotation, this.displayName, new AnnotationReplaceQuickFix(this.mapper, this.holder));
+            this.holder.registerProblem(annotation, this.displayName, ProblemHighlightType.GENERIC_ERROR, new AnnotationReplaceQuickFix(this.mapper, this.holder));
         }
     }
 
