@@ -25,7 +25,7 @@ intellij {
 }
 
 dependencies {
-    implementation("dev.rollczi:litecommands-framework:3.0.3")
+    implementation("dev.rollczi:litecommands-framework:3.1.2")
 }
 
 tasks {

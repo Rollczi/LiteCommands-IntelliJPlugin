@@ -25,7 +25,7 @@ public interface ExecutorNode extends Node {
         StringJoiner arguments = new StringJoiner(" ");
 
         for (Argument argument : this.arguments()) {
-            arguments.add("<" + argument.name() + ">");
+            arguments.add(argument.formattedName());
         }
 
         return "/" + this.parent().name() + " " + executorName + arguments;

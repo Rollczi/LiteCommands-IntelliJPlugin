@@ -4,6 +4,8 @@ public interface Argument {
 
     String name();
 
+    String formattedName();
+
     String type();
 
 }

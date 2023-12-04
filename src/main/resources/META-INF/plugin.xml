@@ -52,6 +52,7 @@
                 language="JAVA"
                 implementationClass="dev.rollczi.litecommands.intellijplugin.marker.executor.ExecutorMarker"
         />
+        <codeInsight.lineMarkerProvider
                 language="kotlin"
                 implementationClass="dev.rollczi.litecommands.intellijplugin.marker.executor.ExecutorMarker"
         />
