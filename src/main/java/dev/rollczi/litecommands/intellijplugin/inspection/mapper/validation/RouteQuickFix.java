@@ -4,12 +4,6 @@ import java.util.function.UnaryOperator;
 
 class RouteQuickFix implements UnaryOperator<String> {
 
-    private final boolean multiple;
-
-    private RouteQuickFix(boolean multiple) {
-        this.multiple = multiple;
-    }
-
     @Override
     public String apply(String rawValue) {
         if (rawValue.startsWith("\"") && rawValue.endsWith("\"")) {
@@ -17,7 +11,7 @@ class RouteQuickFix implements UnaryOperator<String> {
         }
 
         String value = rawValue
-                .replaceAll(" +", multiple ? " " : "")
+                .replaceAll(" +", " ")
                 .trim();
 
         if (value.isEmpty()) {
@@ -25,14 +19,6 @@ class RouteQuickFix implements UnaryOperator<String> {
         }
 
         return "\"" + value + "\"";
-    }
-
-    static RouteQuickFix multiple() {
-        return new RouteQuickFix(true);
-    }
-
-    static RouteQuickFix single() {
-        return new RouteQuickFix(false);
     }
 
 }

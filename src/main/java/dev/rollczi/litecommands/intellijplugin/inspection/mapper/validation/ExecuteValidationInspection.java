@@ -10,8 +10,8 @@ public class ExecuteValidationInspection extends ValidationAnnotationInspectionT
 
     private static final AnnotationMapperSchema ROUTE_VALIDATOR = AnnotationMapperSchema.builder()
             .name(Execute.class.getName())
-            .attribute("name", AttributeType.STRING, CommandNameValidUtils::validateMultiRoute, RouteQuickFix.multiple())
-            .attribute("aliases", AttributeType.ARRAY, CommandNameValidUtils::validateMultiRoute, RouteQuickFix.multiple())
+            .attribute("name", AttributeType.STRING, CommandNameValidUtils::validateRoute, new RouteQuickFix())
+            .attribute("aliases", AttributeType.ARRAY, CommandNameValidUtils::validateRoute, new RouteQuickFix())
             .build();
 
     public ExecuteValidationInspection() {

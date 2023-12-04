@@ -10,7 +10,7 @@ public class ShortcutValidationInspection extends ValidationAnnotationInspection
 
     private static final AnnotationMapperSchema ROUTE_VALIDATOR = AnnotationMapperSchema.builder()
             .name(Shortcut.class.getName())
-            .attribute("value", AttributeType.ARRAY, CommandNameValidUtils::validateSingleRoute, RouteQuickFix.single())
+            .attribute("value", AttributeType.ARRAY, CommandNameValidUtils::validateRoute, new RouteQuickFix())
             .build();
 
     public ShortcutValidationInspection() {

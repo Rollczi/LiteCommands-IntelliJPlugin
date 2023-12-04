@@ -10,8 +10,8 @@ public class CommandValidationInspection extends ValidationAnnotationInspectionT
 
     private static final AnnotationMapperSchema COMMAND_VALIDATOR = AnnotationMapperSchema.builder()
             .name(Command.class.getName())
-            .attribute("name", AttributeType.STRING, CommandNameValidUtils::validateMultiRoute, RouteQuickFix.multiple())
-            .attribute("aliases", AttributeType.ARRAY, CommandNameValidUtils::validateMultiRoute, RouteQuickFix.multiple())
+            .attribute("name", AttributeType.STRING, CommandNameValidUtils::validateRoute, new RouteQuickFix())
+            .attribute("aliases", AttributeType.ARRAY, CommandNameValidUtils::validateRoute, new RouteQuickFix())
             .build();
 
     public CommandValidationInspection() {

@@ -7,25 +7,13 @@ final class CommandNameValidUtils {
     private CommandNameValidUtils() {
     }
     
-    static boolean validateMultiRoute(String value) {
+    static boolean validateRoute(String value) {
         try {
             return LiteCommandsUtil.checkName(value);
         }
         catch (IllegalArgumentException exception) {
             return false;
         }
-    }
-
-    static boolean validateSingleRoute(String value) {
-        if (value.isEmpty()) {
-            return false;
-        }
-
-        if (value.contains(" ")) {
-            return false;
-        }
-
-        return true;
     }
 
 }
