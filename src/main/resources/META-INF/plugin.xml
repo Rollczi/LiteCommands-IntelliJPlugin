@@ -25,6 +25,9 @@
         <!-- INSPECTIONS -->
         <inspectionToolProvider implementation="dev.rollczi.litecommands.intellijplugin.inspection.LiteInspectionProvider"/>
 
+        <!-- NULLABLE ANNOTATIONS -->
+        <lang.jvm.annotationPackageSupport implementation="dev.rollczi.litecommands.intellijplugin.inspection.annotation.LiteNullabilityAnnotationPackage"/>
+
         <!-- SUPPRESSORS -->
         <lang.inspectionSuppressor
                 language="JAVA"
