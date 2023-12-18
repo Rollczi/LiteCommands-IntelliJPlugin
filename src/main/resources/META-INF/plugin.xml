@@ -38,6 +38,10 @@
                 language="JAVA"
                 implementationClass="dev.rollczi.litecommands.intellijplugin.suppressor.ExecutorUnusedInspectSuppressor"
         />
+        <lang.inspectionSuppressor
+                language="JAVA"
+                implementationClass="dev.rollczi.litecommands.intellijplugin.suppressor.OptionalArgumentSuppressor"
+        />
 
         <!-- LINE MARKERS -->
         <codeInsight.lineMarkerProvider

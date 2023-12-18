@@ -10,6 +10,7 @@ import java.util.Set;
 public class SuppressUtils {
 
     public final static String UNUSED_DECLARATION = "UnusedDeclaration";
+    public final static String OPTIONAL_FIELD_OR_PARAMETER_TYPE = "OptionalUsedAsFieldOrParameterType";
 
     private final static Set<String> INJECT_ANNOTATIONS = Set.of(
         "Inject",

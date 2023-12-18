@@ -2,14 +2,9 @@ package dev.rollczi.litecommands.intellijplugin.suppressor;
 
 import com.intellij.codeInspection.InspectionSuppressor;
 import com.intellij.codeInspection.SuppressQuickFix;
-import com.intellij.psi.PsiAnnotation;
 import com.intellij.psi.PsiClass;
 import com.intellij.psi.PsiElement;
 import com.intellij.psi.PsiIdentifier;
-import com.intellij.psi.PsiMethod;
-import dev.rollczi.litecommands.annotations.command.Command;
-import dev.rollczi.litecommands.annotations.command.RootCommand;
-import java.util.Set;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 

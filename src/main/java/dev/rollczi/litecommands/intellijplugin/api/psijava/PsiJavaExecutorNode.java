@@ -6,38 +6,25 @@ import dev.rollczi.litecommands.annotations.argument.Arg;
 import dev.rollczi.litecommands.annotations.execute.Execute;
 import dev.rollczi.litecommands.annotations.flag.Flag;
 import dev.rollczi.litecommands.annotations.join.Join;
+import dev.rollczi.litecommands.annotations.optional.OptionalArg;
 import dev.rollczi.litecommands.annotations.quoted.Quoted;
 import dev.rollczi.litecommands.intellijplugin.api.Argument;
 import dev.rollczi.litecommands.intellijplugin.api.CommandNode;
 import dev.rollczi.litecommands.intellijplugin.api.ExecutorNode;
 import dev.rollczi.litecommands.intellijplugin.navigatable.NavigatableReference;
 import dev.rollczi.litecommands.intellijplugin.annotation.AnnotationFactory;
+import dev.rollczi.litecommands.intellijplugin.util.OptionalTypes;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
-import java.util.OptionalDouble;
-import java.util.OptionalInt;
-import java.util.OptionalLong;
-import java.util.Set;
-import panda.std.Option;
 
 public class PsiJavaExecutorNode extends PsiJavaAbstractNode implements ExecutorNode {
 
-    private static final Set<String> OPTIONAL_WRAPPERS = Set.of(
-        Optional.class.getName(),
-        OptionalInt.class.getName(),
-        OptionalDouble.class.getName(),
-        OptionalLong.class.getName(),
-        Option.class.getName()
-    );
+
 
     private final static List<ArgumentMapper> ARGUMENTS_MAPPERS = List.of(
         (node, parameter) -> {
-            for (String optionalWrapper : OPTIONAL_WRAPPERS) {
-                if (!parameter.getType().getCanonicalText().startsWith(optionalWrapper)) {
-                    continue;
-                }
-
+            if (OptionalTypes.isOptionalWrapper(parameter.getType())) {
                 return AnnotationFactory.from(Arg.class, parameter).stream()
                     .findFirst()
                     .map(holder -> new PsiJavaArgument(node, parameter, holder.asAnnotation().value(), PsiJavaArgument.OPTIONAL));
@@ -59,6 +46,10 @@ public class PsiJavaExecutorNode extends PsiJavaAbstractNode implements Executor
         (node, parameter) -> AnnotationFactory.from(Arg.class, parameter).stream()
             .findFirst()
             .map(holder -> new PsiJavaArgument(node, parameter, holder.asAnnotation().value(), PsiJavaArgument.ARG)),
+
+        (node, parameter) -> AnnotationFactory.from(OptionalArg.class, parameter).stream()
+            .findFirst()
+            .map(holder -> new PsiJavaArgument(node, parameter, holder.asAnnotation().value(), PsiJavaArgument.OPTIONAL)),
 
         (node, parameter) -> AnnotationFactory.from(Flag.class, parameter).stream()
             .findFirst()

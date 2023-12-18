@@ -17,16 +17,14 @@ import dev.rollczi.litecommands.annotations.execute.Execute;
 import dev.rollczi.litecommands.annotations.optional.OptionalArg;
 import dev.rollczi.litecommands.intellijplugin.inspection.LiteInspection;
 import dev.rollczi.litecommands.intellijplugin.quickfix.ReplaceQuickFix;
-import java.util.List;
-import kotlin.Pair;
 import org.jetbrains.annotations.NotNull;
 
-public class ParameterOptionalIsPrimitiveInspection extends LiteInspection {
+public class ParameterNullableOptionalPrimitiveInspection extends LiteInspection {
 
     private static final String DISPLAY_NAME = "Optional parameter is primitive";
     private static final String PROBLEM_DESCRIPTION = "Optional parameter cannot be primitive";
 
-    public ParameterOptionalIsPrimitiveInspection() {
+    public ParameterNullableOptionalPrimitiveInspection() {
         super(DISPLAY_NAME);
     }
 

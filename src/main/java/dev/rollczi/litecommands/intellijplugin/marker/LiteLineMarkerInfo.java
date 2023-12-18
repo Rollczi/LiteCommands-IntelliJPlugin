@@ -4,6 +4,7 @@ import com.intellij.codeInsight.daemon.LineMarkerInfo;
 import com.intellij.openapi.editor.markup.GutterIconRenderer.Alignment;
 import com.intellij.pom.Navigatable;
 import com.intellij.psi.PsiElement;
+import dev.rollczi.litecommands.LiteCommandsVariables;
 import dev.rollczi.litecommands.intellijplugin.popup.LitePopupFactory;
 
 import javax.swing.*;
@@ -32,7 +33,7 @@ public class LiteLineMarkerInfo<T extends PsiElement> extends LineMarkerInfo<T> 
         private final E psiElement;
 
         private String name;
-        private String footer = "LiteCommands v3.0.0";
+        private String footer = "LiteCommands " + LiteCommandsVariables.VERSION + " (" + LiteCommandsVariables.COMMIT.substring(0, 7) + ")";
         private JComponent component;
         private Icon icon;
         private Icon viewIcon;

@@ -8,6 +8,7 @@ import com.intellij.openapi.project.Project;
 import com.intellij.psi.PsiDocumentManager;
 import com.intellij.psi.PsiFile;
 import java.util.concurrent.atomic.AtomicBoolean;
+import java.util.function.Consumer;
 import org.jetbrains.annotations.NotNull;
 
 public class ReplaceQuickFix implements LocalQuickFix {
@@ -17,11 +18,17 @@ public class ReplaceQuickFix implements LocalQuickFix {
     private final String info;
     private final RangeMarker rangeMarker;
     private final CharSequence charSequence;
+    private final Runnable documentConsumer;
 
-    public ReplaceQuickFix(String info, RangeMarker rangeMarker, CharSequence charSequence) {
+    public ReplaceQuickFix(String info, RangeMarker rangeMarker, CharSequence charSequence, Runnable documentConsumer) {
         this.info = info;
         this.rangeMarker = rangeMarker;
         this.charSequence = charSequence;
+        this.documentConsumer = documentConsumer;
+    }
+
+    public ReplaceQuickFix(String info, RangeMarker rangeMarker, CharSequence charSequence) {
+        this(info, rangeMarker, charSequence, () -> {});
     }
 
     @Override
@@ -53,6 +60,7 @@ public class ReplaceQuickFix implements LocalQuickFix {
         }
 
         PsiDocumentManager.getInstance(project).commitDocument(doc);
+        documentConsumer.run();
     }
 
 }
