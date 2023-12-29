@@ -11,6 +11,7 @@ public class SuppressUtils {
 
     public final static String UNUSED_DECLARATION = "UnusedDeclaration";
     public final static String OPTIONAL_FIELD_OR_PARAMETER_TYPE = "OptionalUsedAsFieldOrParameterType";
+    public final static String NULLABLE_PROBLEMS = "NullableProblems";
 
     private final static Set<String> INJECT_ANNOTATIONS = Set.of(
         "Inject",

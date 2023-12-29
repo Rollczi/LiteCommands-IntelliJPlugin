@@ -45,6 +45,31 @@
                 language="JAVA"
                 implementationClass="dev.rollczi.litecommands.intellijplugin.suppressor.OptionalArgumentSuppressor"
         />
+        <lang.inspectionSuppressor
+                language="JAVA"
+                implementationClass="dev.rollczi.litecommands.intellijplugin.suppressor.NullableProblemsPrimitiveSuppressor"
+        />
+
+        <lang.inspectionSuppressor
+                language="kotlin"
+                implementationClass="dev.rollczi.litecommands.intellijplugin.suppressor.ClassUnusedInspectSuppressor"
+        />
+        <lang.inspectionSuppressor
+                language="kotlin"
+                implementationClass="dev.rollczi.litecommands.intellijplugin.suppressor.ConstructorUnusedInspectSuppressor"
+        />
+        <lang.inspectionSuppressor
+                language="kotlin"
+                implementationClass="dev.rollczi.litecommands.intellijplugin.suppressor.ExecutorUnusedInspectSuppressor"
+        />
+        <lang.inspectionSuppressor
+                language="kotlin"
+                implementationClass="dev.rollczi.litecommands.intellijplugin.suppressor.OptionalArgumentSuppressor"
+        />
+        <lang.inspectionSuppressor
+                language="kotlin"
+                implementationClass="dev.rollczi.litecommands.intellijplugin.suppressor.NullableProblemsPrimitiveSuppressor"
+        />
 
         <!-- LINE MARKERS -->
         <codeInsight.lineMarkerProvider
@@ -52,12 +77,12 @@
                 implementationClass="dev.rollczi.litecommands.intellijplugin.marker.command.CommandMarker"
         />
         <codeInsight.lineMarkerProvider
-                language="kotlin"
-                implementationClass="dev.rollczi.litecommands.intellijplugin.marker.command.CommandMarker"
-        />
-        <codeInsight.lineMarkerProvider
                 language="JAVA"
                 implementationClass="dev.rollczi.litecommands.intellijplugin.marker.executor.ExecutorMarker"
+        />
+        <codeInsight.lineMarkerProvider
+                language="kotlin"
+                implementationClass="dev.rollczi.litecommands.intellijplugin.marker.command.CommandMarker"
         />
         <codeInsight.lineMarkerProvider
                 language="kotlin"

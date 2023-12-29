@@ -10,6 +10,7 @@ class PsiJavaArgument implements Argument {
     static final Function<String, String> FLAG = rawValue -> rawValue;
     static final Function<String, String> OPTIONAL = rawValue -> "[" + rawValue + "]";
     static final Function<String, String> JOIN = rawValue -> "<" + rawValue + "...>";
+    static final Function<String, String> ARRAY = rawValue -> "[" + rawValue + "...]";
 
 
     private final PsiJavaExecutorNode parent;

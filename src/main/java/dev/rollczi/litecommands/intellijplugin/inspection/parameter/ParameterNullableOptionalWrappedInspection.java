@@ -18,7 +18,7 @@ import dev.rollczi.litecommands.annotations.execute.Execute;
 import dev.rollczi.litecommands.annotations.optional.OptionalArg;
 import dev.rollczi.litecommands.intellijplugin.inspection.LiteInspection;
 import dev.rollczi.litecommands.intellijplugin.quickfix.ReplaceQuickFix;
-import dev.rollczi.litecommands.intellijplugin.util.OptionalTypes;
+import dev.rollczi.litecommands.intellijplugin.util.LiteCommandsTypes;
 import dev.rollczi.litecommands.intellijplugin.util.PsiImportUtil;
 import org.jetbrains.annotations.NotNull;
 
@@ -61,7 +61,7 @@ public class ParameterNullableOptionalWrappedInspection extends LiteInspection {
                 }
 
                 PsiType type = parameter.getType();
-                if (!OptionalTypes.isOptionalWrapper(type)) {
+                if (!LiteCommandsTypes.isOptionalWrapper(type)) {
                     continue;
                 }
 
