@@ -10,6 +10,7 @@ version = "3.3.0-SNAPSHOT"
 repositories {
     mavenCentral()
     maven("https://repo.eternalcode.pl/releases")
+    maven("https://repo.eternalcode.pl/snapshots")
 }
 
 // Configure Gradle IntelliJ Plugin
