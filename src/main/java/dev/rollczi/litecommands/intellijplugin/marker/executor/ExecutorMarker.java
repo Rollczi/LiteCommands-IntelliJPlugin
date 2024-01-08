@@ -8,11 +8,10 @@ import com.intellij.psi.PsiMethod;
 import com.intellij.ui.components.JBBox;
 import dev.rollczi.litecommands.annotations.command.Command;
 import dev.rollczi.litecommands.annotations.execute.Execute;
-import dev.rollczi.litecommands.intellijplugin.api.CommandNode;
 import dev.rollczi.litecommands.intellijplugin.api.ExecutorNode;
 import dev.rollczi.litecommands.intellijplugin.api.psijava.PsiJavaCommandNode;
 import dev.rollczi.litecommands.intellijplugin.api.psijava.PsiJavaExecutorNode;
-import dev.rollczi.litecommands.intellijplugin.icon.LiteIcon;
+import dev.rollczi.litecommands.intellijplugin.icon.LiteIcons;
 import dev.rollczi.litecommands.intellijplugin.marker.LiteLineMarkerDescriptor;
 import dev.rollczi.litecommands.intellijplugin.marker.LiteLineMarkerInfo;
 import javax.swing.BorderFactory;
@@ -45,8 +44,8 @@ public class ExecutorMarker extends LiteLineMarkerDescriptor {
 
         return LiteLineMarkerInfo.builder(pair.getSecond())
             .name("Command executor viewer")
-            .viewIcon(LiteIcon.BETA)
-            .lineIcon(LiteIcon.EXECUTORS)
+            .viewIcon(LiteIcons.BETA)
+            .lineIcon(LiteIcons.EXECUTORS)
             .component(box)
             .build();
     }

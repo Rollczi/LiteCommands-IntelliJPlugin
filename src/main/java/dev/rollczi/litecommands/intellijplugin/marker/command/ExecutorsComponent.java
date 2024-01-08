@@ -1,9 +1,8 @@
 package dev.rollczi.litecommands.intellijplugin.marker.command;
 
-import com.intellij.ide.HelpTooltip;
 import dev.rollczi.litecommands.intellijplugin.api.CommandNode;
 import dev.rollczi.litecommands.intellijplugin.api.ExecutorNode;
-import dev.rollczi.litecommands.intellijplugin.icon.LiteIcon;
+import dev.rollczi.litecommands.intellijplugin.icon.LiteIcons;
 import dev.rollczi.litecommands.intellijplugin.marker.ui.ExecutorBadgeFactory;
 import dev.rollczi.litecommands.intellijplugin.ui.*;
 
@@ -25,7 +24,7 @@ class ExecutorsComponent extends JPanel {
     }
 
     private JComponent title() {
-        return new LiteTitledSeparator(LiteIcon.EXECUTORS, "Executors");
+        return new LiteTitledSeparator(LiteIcons.EXECUTORS, "Executors");
     }
 
     private JComponent content(CommandNode command) {

@@ -2,7 +2,7 @@ package dev.rollczi.litecommands.intellijplugin.marker.command;
 
 import dev.rollczi.litecommands.intellijplugin.api.CommandNode;
 import dev.rollczi.litecommands.intellijplugin.api.PermissionEntry;
-import dev.rollczi.litecommands.intellijplugin.icon.LiteIcon;
+import dev.rollczi.litecommands.intellijplugin.icon.LiteIcons;
 import dev.rollczi.litecommands.intellijplugin.ui.LiteActionBadge;
 import dev.rollczi.litecommands.intellijplugin.ui.LiteBox;
 import dev.rollczi.litecommands.intellijplugin.ui.LiteColors;
@@ -23,7 +23,7 @@ class PermissionsComponent extends JPanel {
     }
 
     private JComponent title() {
-        return new LiteTitledSeparator(LiteIcon.PERMISSIONS, "Permissions");
+        return new LiteTitledSeparator(LiteIcons.PERMISSIONS, "Permissions");
     }
 
     private JComponent content(CommandNode command) {
@@ -49,7 +49,7 @@ class PermissionsComponent extends JPanel {
             permissionEntry.name(),
             LiteColors.GRAY,
             LiteColors.GRAY_LIGHT,
-            LiteIcon.PERMISSION_ELEMENT,
+            LiteIcons.PERMISSION_ELEMENT,
             LiteMargin.SMALL
         );
 

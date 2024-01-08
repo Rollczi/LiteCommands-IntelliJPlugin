@@ -3,7 +3,7 @@ package dev.rollczi.litecommands.intellijplugin.marker.command.dialog;
 import com.intellij.ui.table.TableView;
 import com.intellij.util.ui.ListTableModel;
 import dev.rollczi.litecommands.intellijplugin.api.CommandNode;
-import dev.rollczi.litecommands.intellijplugin.icon.LiteIcon;
+import dev.rollczi.litecommands.intellijplugin.icon.LiteIcons;
 import dev.rollczi.litecommands.intellijplugin.table.LiteTableView;
 import dev.rollczi.litecommands.intellijplugin.table.LiteToolbarDecorator;
 import dev.rollczi.litecommands.intellijplugin.table.TextColumnInfo;
@@ -20,14 +20,14 @@ import panda.std.stream.PandaStream;
 class EditDialogPanel extends Box {
 
     private static final TextColumnInfo<TextReference> NAMES_COLUMN = new TextColumnInfo.Builder<TextReference>("Name")
-        .firstIcon(textReference -> LiteIcon.COMMAND_ELEMENT)
-        .icon(textReference -> LiteIcon.COMMAND_ELEMENT_ALIAS)
+        .firstIcon(textReference -> LiteIcons.COMMAND_ELEMENT)
+        .icon(textReference -> LiteIcons.COMMAND_ELEMENT_ALIAS)
         .valueOf(TextReference::getName)
         .setValue((textReference, input) -> textReference.setName(input))
         .build();
 
     private static final TextColumnInfo<TextReference> PERMISSIONS = new TextColumnInfo.Builder<TextReference>("Permission")
-        .icon(textReference -> LiteIcon.PERMISSION_ELEMENT)
+        .icon(textReference -> LiteIcons.PERMISSION_ELEMENT)
         .valueOf(TextReference::getName)
         .setValue((textReference, input) -> textReference.setName(input))
         .build();
@@ -48,7 +48,7 @@ class EditDialogPanel extends Box {
             .map(name -> new TextReference(name))
             .toList();
 
-        return editor(LiteIcon.COMMAND_STRUCTURE, "Command Structure", NAMES_COLUMN, this.namesList, items);
+        return editor(LiteIcons.COMMAND_STRUCTURE, "Command Structure", NAMES_COLUMN, this.namesList, items);
     }
 
     private JComponent permissions(CommandNode command) {
@@ -58,7 +58,7 @@ class EditDialogPanel extends Box {
             .map(name -> new TextReference(name))
             .toList();
 
-        return editor(LiteIcon.PERMISSIONS, "Permissions", PERMISSIONS, this.permissionsList, items);
+        return editor(LiteIcons.PERMISSIONS, "Permissions", PERMISSIONS, this.permissionsList, items);
     }
 
     private JComponent editor(Icon icon, String name, TextColumnInfo<TextReference> column, LiteTableView<TextReference> tableView, List<TextReference> items) {

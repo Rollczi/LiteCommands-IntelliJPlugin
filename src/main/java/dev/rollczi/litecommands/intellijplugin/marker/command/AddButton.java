@@ -1,6 +1,6 @@
 package dev.rollczi.litecommands.intellijplugin.marker.command;
 
-import dev.rollczi.litecommands.intellijplugin.icon.LiteIcon;
+import dev.rollczi.litecommands.intellijplugin.icon.LiteIcons;
 import dev.rollczi.litecommands.intellijplugin.ui.LiteActionBadge;
 import dev.rollczi.litecommands.intellijplugin.ui.LiteColors;
 import dev.rollczi.litecommands.intellijplugin.ui.LiteMargin;
@@ -14,7 +14,7 @@ class AddButton extends LiteMargin {
             "",
             LiteColors.GRAY,
             LiteColors.GRAY_LIGHT,
-            LiteIcon.ADD,
+            LiteIcons.ADD,
             LiteMargin.SMALL
         );
 

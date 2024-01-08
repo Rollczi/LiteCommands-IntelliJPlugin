@@ -8,7 +8,7 @@ import com.intellij.ui.components.JBBox;
 import dev.rollczi.litecommands.annotations.command.Command;
 import dev.rollczi.litecommands.intellijplugin.api.CommandNode;
 import dev.rollczi.litecommands.intellijplugin.api.psijava.PsiJavaCommandNode;
-import dev.rollczi.litecommands.intellijplugin.icon.LiteIcon;
+import dev.rollczi.litecommands.intellijplugin.icon.LiteIcons;
 import dev.rollczi.litecommands.intellijplugin.marker.LiteLineMarkerDescriptor;
 import dev.rollczi.litecommands.intellijplugin.marker.LiteLineMarkerInfo;
 import javax.swing.BorderFactory;
@@ -44,8 +44,8 @@ public class CommandMarker extends LiteLineMarkerDescriptor {
 
         return LiteLineMarkerInfo.builder(pair.getSecond())
             .name("Command base viewer")
-            .viewIcon(LiteIcon.BETA)
-            .lineIcon(LiteIcon.COMMAND_MARK_LINE)
+            .viewIcon(LiteIcons.BETA)
+            .lineIcon(LiteIcons.COMMAND_MARK_LINE)
             .component(box)
             .build();
     }

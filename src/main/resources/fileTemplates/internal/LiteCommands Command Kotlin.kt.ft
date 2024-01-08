@@ -1,0 +1,25 @@
+#if (${PACKAGE_NAME} && ${PACKAGE_NAME} != "")package ${PACKAGE_NAME}#end
+
+#parse("File Header.java")
+import dev.rollczi.litecommands.annotations.command.Command
+import dev.rollczi.litecommands.annotations.execute.Execute
+
+#if ($NAME.toLowerCase().endsWith("command") && $NAME.length() > 7)
+    #set($realName = $NAME.substring(0, $NAME.length() - 7))
+#else
+    #set($realName = $NAME)
+#end
+#if (!$NAME.isEmpty())
+    #set($first_letter = $realName.substring(0, 1).toUpperCase())
+    #set($the_rest = $realName.substring(1))
+    #set($realName = $first_letter + $the_rest)
+#end
+@Command(name = "${realName.toLowerCase()}")
+class ${realName}Command {
+
+    @Execute
+    fun execute${realName}() {
+        // Execute the /${realName.toLowerCase()}
+    }
+
+}

@@ -2,7 +2,7 @@ package dev.rollczi.litecommands.intellijplugin.marker.command;
 
 import com.intellij.ui.components.JBBox;
 import dev.rollczi.litecommands.intellijplugin.api.CommandNode;
-import dev.rollczi.litecommands.intellijplugin.icon.LiteIcon;
+import dev.rollczi.litecommands.intellijplugin.icon.LiteIcons;
 import dev.rollczi.litecommands.intellijplugin.navigatable.NavigatableReference;
 import dev.rollczi.litecommands.intellijplugin.ui.*;
 
@@ -18,7 +18,7 @@ class CommandComponent extends JPanel {
     }
 
     private JComponent title() {
-        return new LiteTitledSeparator(LiteIcon.COMMAND_STRUCTURE, "Command Structure");
+        return new LiteTitledSeparator(LiteIcons.COMMAND_STRUCTURE, "Command Structure");
     }
 
     private JComponent content(CommandNode command) {
@@ -47,7 +47,7 @@ class CommandComponent extends JPanel {
             "/" + name + " ...",
             LiteColors.GRAY,
             LiteColors.GRAY_LIGHT,
-            isAlias ? LiteIcon.COMMAND_ELEMENT_ALIAS : LiteIcon.COMMAND_ELEMENT,
+            isAlias ? LiteIcons.COMMAND_ELEMENT_ALIAS : LiteIcons.COMMAND_ELEMENT,
             LiteMargin.SMALL
         );
 

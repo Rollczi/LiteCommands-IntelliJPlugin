@@ -2,7 +2,7 @@ package dev.rollczi.litecommands.intellijplugin.marker.ui;
 
 import com.intellij.ide.HelpTooltip;
 import dev.rollczi.litecommands.intellijplugin.api.ExecutorNode;
-import dev.rollczi.litecommands.intellijplugin.icon.LiteIcon;
+import dev.rollczi.litecommands.intellijplugin.icon.LiteIcons;
 import dev.rollczi.litecommands.intellijplugin.ui.LiteActionBadge;
 import dev.rollczi.litecommands.intellijplugin.ui.LiteBox;
 import dev.rollczi.litecommands.intellijplugin.ui.LiteColors;
@@ -22,7 +22,7 @@ public final class ExecutorBadgeFactory {
             structure,
             LiteColors.GRAY,
             LiteColors.GRAY_LIGHT,
-            LiteIcon.EXECUTOR_ELEMENT,
+            LiteIcons.EXECUTOR_ELEMENT,
             LiteMargin.SMALL
         );
 

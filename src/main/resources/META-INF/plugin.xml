@@ -19,6 +19,18 @@
     <depends>com.intellij.modules.java</depends>
     <depends>org.jetbrains.kotlin</depends>
 
+    <actions>
+        <action
+                id="LiteCommands.CreateCommandClass"
+                class="dev.rollczi.litecommands.intellijplugin.template.LiteCommandsTemplatesAction"
+                icon="dev.rollczi.litecommands.intellijplugin.icon.LiteIcons.LOGO"
+        >
+            <add-to-group group-id="NewGroup" anchor="after" relative-to-action="Kotlin.NewFile"/>
+        </action>
+    </actions>
+
+    <resource-bundle>messages.Bundle</resource-bundle>
+
     <!-- Product and plugin compatibility requirements - https://plugins.jetbrains.com/docs/intellij/plugin-compatibility.html -->
     <!-- Extension points - https://plugins.jetbrains.com/docs/intellij/plugin-extension-points.html -->
     <extensions defaultExtensionNs="com.intellij">

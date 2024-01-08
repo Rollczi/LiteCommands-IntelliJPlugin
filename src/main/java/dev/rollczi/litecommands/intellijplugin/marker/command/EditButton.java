@@ -2,7 +2,7 @@ package dev.rollczi.litecommands.intellijplugin.marker.command;
 
 import com.intellij.openapi.project.DumbService;
 import dev.rollczi.litecommands.intellijplugin.api.CommandNode;
-import dev.rollczi.litecommands.intellijplugin.icon.LiteIcon;
+import dev.rollczi.litecommands.intellijplugin.icon.LiteIcons;
 import dev.rollczi.litecommands.intellijplugin.marker.command.dialog.EditDialog;
 import dev.rollczi.litecommands.intellijplugin.ui.LiteActionBadge;
 import dev.rollczi.litecommands.intellijplugin.ui.LiteColors;
@@ -19,7 +19,7 @@ class EditButton extends LiteMargin {
         LiteActionBadge badge = new LiteActionBadge(
             LiteColors.GRAY,
             LiteColors.GRAY_LIGHT,
-            LiteIcon.EDIT,
+            LiteIcons.EDIT,
             LiteMargin.SMALL
         );
 
@@ -30,7 +30,7 @@ class EditButton extends LiteMargin {
             LitePopupFactory.showPopup(
                 "Loading...",
                 "Waiting for indexing...",
-                LiteIcon.COMMAND_ELEMENT,
+                LiteIcons.COMMAND_ELEMENT,
                 new JPanel(),
                 event
             );
