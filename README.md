@@ -18,8 +18,8 @@ With 🔌 LiteCommands plugin, you can easily develop your commands within the I
 - [x] Annotation inspections to easily identify and fix errors in your command code
 - [x] Quick fixes for common issues with LiteCommands code
 - [ ] Code completion for LiteCommands annotations and methods
-- [ ] Syntax highlighting to make your code easier to read and understand
-- [ ] Tools for creating new command classes and generating command method templates
+- [x] Syntax highlighting to make your code easier to read and understand
+- [x] Tools for creating new command classes and generating command method templates
 
 ## Installation
 
