@@ -8,7 +8,6 @@ import com.intellij.psi.PsiType;
 import com.intellij.psi.search.GlobalSearchScope;
 import com.intellij.psi.search.searches.ClassInheritorsSearch;
 import dev.rollczi.litecommands.argument.parser.Parser;
-import dev.rollczi.litecommands.argument.parser.RawInputParser;
 import dev.rollczi.litecommands.argument.parser.TypedParser;
 import dev.rollczi.litecommands.argument.resolver.ArgumentResolver;
 import dev.rollczi.litecommands.argument.resolver.ArgumentResolverBase;
@@ -26,18 +25,17 @@ import org.jetbrains.annotations.NotNull;
 
 public class LiteTypeSearcher {
 
-    private static final int PARSER_GENERIC_TYPE_INDEX = 2;
+    private static final int PARSER_GENERIC_TYPE_INDEX = 1;
     private static final int SUGGESTER_GENERIC_TYPE_INDEX = 1;
 
     /**
-     * Pre-defined filters  (abstract classes, interfaces, etc.)
+     * Pre-defined filters (abstract classes, interfaces, etc.)
      */
     private static final Set<String> PRE_DEFINED_FILTERS = Set.of(
         Suggester.class.getName(),
         TypedSuggester.class.getName(),
         Parser.class.getName(),
         TypedParser.class.getName(),
-        RawInputParser.class.getName(),
         JoinArgumentResolver.class.getName(),
         TypedArgumentResolver.class.getName(),
         ArgumentResolver.class.getName(),
