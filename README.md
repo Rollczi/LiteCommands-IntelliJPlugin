@@ -6,7 +6,7 @@
 
 A plugin for IntelliJ IDEA that provides support for the [LiteCommands](https://github.com/Rollczi/LiteCommands) framework. LiteCommands is an annotation-based command framework that can be used with Velocity, Bukkit, Paper, BungeeCord, and other implementations.
 
-With 🔌 LiteCommands plugin, you can easily develop your commands within the IntelliJ IDEA environment. The plugin provides annotations inspections, ~~tools for creating new command classes~~, ~~syntax highlighting~~, ~~code completion~~, and other useful features to make your development experience smoother and more efficient.
+With 🔌 LiteCommands plugin, you can easily develop your commands within the IntelliJ IDEA environment. The plugin provides annotations inspections, tools for creating new command classes, syntax highlighting, ~~code completion~~, and other useful features to make your development experience smoother and more efficient.
 
 ## Links
 - [Discord](https://discord.gg/6cUhkj6uZJ)
@@ -18,8 +18,8 @@ With 🔌 LiteCommands plugin, you can easily develop your commands within the I
 - [x] Annotation inspections to easily identify and fix errors in your command code
 - [x] Quick fixes for common issues with LiteCommands code
 - [ ] Code completion for LiteCommands annotations and methods
-- [ ] Syntax highlighting to make your code easier to read and understand
-- [ ] Tools for creating new command classes and generating command method templates
+- [x] Syntax highlighting to make your code easier to read and understand
+- [x] Tools for creating new command classes and generating command method templates
 
 ## Installation
 
