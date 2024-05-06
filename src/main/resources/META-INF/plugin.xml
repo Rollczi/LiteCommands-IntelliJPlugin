@@ -29,11 +29,25 @@
         </action>
     </actions>
 
-    <resource-bundle>messages.Bundle</resource-bundle>
+    <resource-bundle>messages.LiteCommandsBundle</resource-bundle>
 
     <!-- Product and plugin compatibility requirements - https://plugins.jetbrains.com/docs/intellij/plugin-compatibility.html -->
     <!-- Extension points - https://plugins.jetbrains.com/docs/intellij/plugin-extension-points.html -->
     <extensions defaultExtensionNs="com.intellij">
+        <codeInsight.inlayProvider implementationClass="dev.rollczi.litecommands.intellijplugin.inlay.LiteInlayHints" language="JAVA"/>
+
+        <psi.referenceContributor
+                language="JAVA"
+                implementation="dev.rollczi.litecommands.intellijplugin.inlay.ref.LitePsiReferenceContributor"
+        />
+
+        <applicationConfigurable
+                parentId="tools"
+                instance="dev.rollczi.litecommands.intellijplugin.settings.LiteCommandsConfigurable"
+                id="dev.rollczi.litecommands.intellijplugin.settings.LiteCommandsConfigurable"
+                displayName="LiteCommands Settings"
+        />
+
         <!-- INSPECTIONS -->
         <inspectionToolProvider implementation="dev.rollczi.litecommands.intellijplugin.inspection.LiteInspectionProvider"/>
 

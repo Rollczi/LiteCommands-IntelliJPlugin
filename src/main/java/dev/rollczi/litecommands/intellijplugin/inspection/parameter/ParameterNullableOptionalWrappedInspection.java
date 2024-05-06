@@ -18,14 +18,14 @@ import dev.rollczi.litecommands.annotations.execute.Execute;
 import dev.rollczi.litecommands.annotations.optional.OptionalArg;
 import dev.rollczi.litecommands.intellijplugin.inspection.LiteInspection;
 import dev.rollczi.litecommands.intellijplugin.quickfix.ReplaceQuickFix;
-import dev.rollczi.litecommands.intellijplugin.util.LiteCommandsTypes;
+import dev.rollczi.litecommands.intellijplugin.util.LiteTypeChecks;
 import dev.rollczi.litecommands.intellijplugin.util.PsiImportUtil;
 import org.jetbrains.annotations.NotNull;
 
 public class ParameterNullableOptionalWrappedInspection extends LiteInspection {
 
-    private static final String DISPLAY_NAME = "Optional parameter is primitive";
-    private static final String PROBLEM_DESCRIPTION = "Optional parameter cannot be primitive";
+    private static final String DISPLAY_NAME = "Optional<T> should be annotated with @Arg";
+    private static final String PROBLEM_DESCRIPTION = "Optional<T> should be annotated with @Arg";
 
     public ParameterNullableOptionalWrappedInspection() {
         super(DISPLAY_NAME);
@@ -61,7 +61,7 @@ public class ParameterNullableOptionalWrappedInspection extends LiteInspection {
                 }
 
                 PsiType type = parameter.getType();
-                if (!LiteCommandsTypes.isOptionalWrapper(type)) {
+                if (!LiteTypeChecks.isOptionalWrapper(type)) {
                     continue;
                 }
 

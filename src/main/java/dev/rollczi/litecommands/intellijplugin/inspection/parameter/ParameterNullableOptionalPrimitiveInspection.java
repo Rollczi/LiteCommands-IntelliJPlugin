@@ -21,8 +21,8 @@ import org.jetbrains.annotations.NotNull;
 
 public class ParameterNullableOptionalPrimitiveInspection extends LiteInspection {
 
-    private static final String DISPLAY_NAME = "Optional parameter is primitive";
-    private static final String PROBLEM_DESCRIPTION = "Optional parameter cannot be primitive";
+    private static final String DISPLAY_NAME = "Optional nullable parameter cannot be primitive";
+    private static final String PROBLEM_DESCRIPTION = "Optional nullable parameter cannot be primitive";
 
     public ParameterNullableOptionalPrimitiveInspection() {
         super(DISPLAY_NAME);

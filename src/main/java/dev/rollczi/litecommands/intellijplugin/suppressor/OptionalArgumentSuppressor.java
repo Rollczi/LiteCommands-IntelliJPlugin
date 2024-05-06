@@ -6,7 +6,7 @@ import com.intellij.psi.PsiElement;
 import com.intellij.psi.PsiMethod;
 import com.intellij.psi.PsiParameter;
 import com.intellij.psi.PsiParameterList;
-import dev.rollczi.litecommands.annotations.execute.Execute;
+import dev.rollczi.litecommands.intellijplugin.util.LiteAnnotationChecks;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -30,13 +30,8 @@ public class OptionalArgumentSuppressor implements InspectionSuppressor {
             return false;
         }
 
-        return isCommandExecutor(psiMethod);
+        return LiteAnnotationChecks.isCommandExecutor(psiMethod);
     }
-
-    private static boolean isCommandExecutor(PsiMethod psiMethod) {
-        return psiMethod.getAnnotation(Execute.class.getName()) != null;
-    }
-
 
     @Override
     public SuppressQuickFix @NotNull [] getSuppressActions(@Nullable PsiElement element, @NotNull String toolId) {

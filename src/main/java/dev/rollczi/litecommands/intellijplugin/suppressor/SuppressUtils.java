@@ -3,8 +3,7 @@ package dev.rollczi.litecommands.intellijplugin.suppressor;
 import com.intellij.psi.PsiAnnotation;
 import com.intellij.psi.PsiClass;
 import com.intellij.psi.PsiMethod;
-import dev.rollczi.litecommands.annotations.command.Command;
-import dev.rollczi.litecommands.annotations.command.RootCommand;
+import dev.rollczi.litecommands.intellijplugin.util.LiteAnnotationChecks;
 import java.util.Set;
 
 public class SuppressUtils {
@@ -19,7 +18,7 @@ public class SuppressUtils {
     );
 
     public static boolean isInjectClass(PsiClass psiClass) {
-        if (!isCommandClass(psiClass)) {
+        if (!LiteAnnotationChecks.isCommand(psiClass)) {
             return false;
         }
 
@@ -34,10 +33,6 @@ public class SuppressUtils {
         return false;
     }
 
-    private static boolean isCommandClass(PsiClass psiClass) {
-        return psiClass.getAnnotation(Command.class.getName()) != null || psiClass.getAnnotation(RootCommand.class.getName()) != null;
-    }
-
     public static boolean isInjectConstructor(PsiMethod psiMethod) {
         if (!psiMethod.isConstructor()) {
             return false;
@@ -49,7 +44,7 @@ public class SuppressUtils {
             return false;
         }
 
-        if (!isCommandClass(containingClass)) {
+        if (!LiteAnnotationChecks.isCommand(containingClass)) {
             return false;
         }
 

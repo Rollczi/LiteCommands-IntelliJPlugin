@@ -7,8 +7,8 @@ import com.intellij.psi.PsiMethod;
 import com.intellij.psi.PsiModifierList;
 import com.intellij.psi.PsiParameter;
 import com.intellij.psi.PsiParameterList;
-import dev.rollczi.litecommands.annotations.execute.Execute;
-import dev.rollczi.litecommands.intellijplugin.util.LiteCommandsTypes;
+import dev.rollczi.litecommands.intellijplugin.util.LiteTypeChecks;
+import dev.rollczi.litecommands.intellijplugin.util.LiteAnnotationChecks;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -28,7 +28,7 @@ public class NullableProblemsPrimitiveSuppressor implements InspectionSuppressor
             return false;
         }
 
-        if (!LiteCommandsTypes.isPrimitiveType(psiParameter.getType())) {
+        if (!LiteTypeChecks.isPrimitiveType(psiParameter.getType())) {
             return false;
         }
 
@@ -40,11 +40,7 @@ public class NullableProblemsPrimitiveSuppressor implements InspectionSuppressor
             return false;
         }
 
-        return isCommandExecutor(psiMethod);
-    }
-
-    private static boolean isCommandExecutor(PsiMethod psiMethod) {
-        return psiMethod.getAnnotation(Execute.class.getName()) != null;
+        return LiteAnnotationChecks.isCommandExecutor(psiMethod);
     }
 
     @Override

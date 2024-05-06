@@ -71,6 +71,12 @@ class EditDialogPanel extends Box {
             .setAddAction(anActionButton -> {
                 tableView.stopEditing();
 
+                if (model.getRowCount() == 0 || model.getItem(model.getRowCount() - 1).getName().isEmpty()) {
+                    tableView.editCellAt(model.getRowCount() - 1, 0);
+                    tableView.getEditorComponent().requestFocus();
+                    return;
+                }
+
                 model.addRow(new TextReference(""));
 
                 tableView.editCellAt(model.getRowCount() - 1, 0);
