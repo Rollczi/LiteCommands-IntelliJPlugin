@@ -39,3 +39,21 @@ public final class UsageService {
     }
 
 }
+
+/*
+class UsageViewPopup extends UsageViewImpl {
+    public UsageViewPopup(Project project) {
+        super(project, getUsageViewPresentation(), UsageTarget.EMPTY_ARRAY, null);
+    }
+
+    private static UsageViewPresentation getUsageViewPresentation() {
+        UsageViewPresentation var2 = new UsageViewPresentation();
+        var2.setDetachedMode(true);
+        return var2;
+    }
+
+    @Override
+    public @NotNull UsageViewSettings getUsageViewSettings() {
+        return ShowUsagesSettings.Companion.getInstance().getState();
+    }
+}*/

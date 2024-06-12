@@ -115,35 +115,12 @@ class UsageActionHandler implements ShowUsagesActionHandler {
 
     @Override
     public @NotNull List<EventPair<?>> getEventData() {
-        List<EventPair<?>> eventData = new ArrayList<>();
-        ObjectEventData targetElementData = UsageViewStatisticsCollector.calculateElementData(element);
-
-        if (targetElementData != null) {
-            eventData.add(UsageViewStatisticsCollector.TARGET_ELEMENT_DATA.with(targetElementData));
-        }
-
-        eventData.add(UsageViewStatisticsCollector.NUMBER_OF_TARGETS.with(69));
-        return eventData;
+        return new ArrayList<>();
     }
 
     @Override
     public @NotNull List<EventPair<?>> buildFinishEventData(@Nullable UsageInfo selectedUsage) {
-        List<EventPair<?>> eventData = getEventData();
-        PsiElement selectedUsagesElement = selectedUsage != null ? selectedUsage.getElement() : null;
-        if (selectedUsagesElement != null) {
-            PsiFile containingFile = selectedUsagesElement.getContainingFile();
-            PsiManager manager = selectedUsagesElement.getManager();
-            eventData.add(UsageViewStatisticsCollector.IS_THE_SAME_FILE.with(
-                manager != null && manager.areElementsEquivalent(element.getContainingFile(), containingFile)));
-            ObjectEventData usageElementData = UsageViewStatisticsCollector.calculateElementData(selectedUsagesElement);
-            if (usageElementData != null) {
-                eventData.add(UsageViewStatisticsCollector.SELECTED_ELEMENT_DATA.with(usageElementData));
-            }
-            eventData.add(UsageViewStatisticsCollector.IS_SELECTED_ELEMENT_AMONG_RECENT_FILES.with(
-                ContainerUtil.exists(ContainerUtil.reverse(EditorHistoryManager.getInstance(element.getProject()).getFileList()),
-                    e -> e.equals(containingFile.getVirtualFile()))));
-        }
-        return eventData;
+        return new ArrayList<>();
     }
 
     @Override

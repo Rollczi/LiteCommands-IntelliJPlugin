@@ -6,13 +6,20 @@
 
     <description>
         <![CDATA[
-            <p>LiteCommands IntelliJ plugin - simple plugin for support LiteCommands in IntelliJ IDEA.</p>
-            <p>LiteCommands is powerful library for creating commands in
-            <p>see more: <a href="https://github.com/Rollczi/LiteCommands">
+            <img src="https://github.com/Rollczi/LiteCommands/assets/49173834/4c297b16-eacd-4c89-ba34-2767b114e391" alt="banner" width="65%"/>
+            <p>With LiteCommands plugin, you can easily develop your commands within<br>
+             the <b>IntelliJ IDEA</b> environment. The plugin provides <b>annotation inspections</b>,<br>
+              <b>tools</b> for creating new command classes, <b>syntax highlighting</b>, <b>code completion</b>,<br>
+               and other useful features to make your development experience smoother and more efficient.</p>
+            <p>LiteCommands - Annotation-command framework for Velocity, Bukkit,Paper, BungeeCord, Minestom,<br> Sponge, JDA and other implementations.
+            <p>GitHub: <a href="https://github.com/Rollczi/LiteCommands">link</a></p>
             <p>Support: <a href="https://discord.gg/6cUhkj6uZJ">LiteCommands Discord</a></p>
-            <p>GitHub issues: <a href="https://github.com/Rollczi/LiteCommands/issues">link</a></p>
-            <p>Documentation: <a href="https://docs.rollczi.dev/">link</a></p>
+            <p>Issues: <a href="https://github.com/Rollczi/LiteCommands/issues">link</a></p>
+            <p>Documentation 3.x: <a href="https://litedevelopers.rollczi.dev/introdution.html">link</a></p>
+            <p>Documentation 2.x: <a href="https://docs.rollczi.dev/">link</a></p>
+            <img src="https://github.com/Rollczi/LiteCommands/assets/49173834/fea96613-af58-42bb-b32d-ffd6946ba4cc" alt="litecommandsbanner-intellij"/>
         ]]>
+
     </description>
 
     <depends>com.intellij.modules.platform</depends>

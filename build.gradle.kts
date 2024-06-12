@@ -5,7 +5,7 @@ plugins {
 }
 
 group = "dev.rollczi"
-version = "3.4.1"
+version = "3.4.2-SNAPSHOT"
 
 repositories {
     mavenCentral()
@@ -16,7 +16,7 @@ repositories {
 // Configure Gradle IntelliJ Plugin
 // Read more: https://plugins.jetbrains.com/docs/intellij/tools-gradle-intellij-plugin.html
 intellij {
-    version.set("2024.1.1")
+    version.set("2024.1.3")
     type.set("IC") // Target IDE Platform
 
     plugins.set(listOf(
@@ -39,8 +39,8 @@ tasks {
     }
 
     patchPluginXml {
-        sinceBuild.set("232")
-        untilBuild.set("241.*")
+        sinceBuild.set("233")
+        untilBuild.set("242.*")
     }
 
     signPlugin {

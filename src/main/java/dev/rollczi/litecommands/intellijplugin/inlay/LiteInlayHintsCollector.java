@@ -5,8 +5,8 @@ import com.intellij.codeInsight.hints.InlayHintsSink;
 import static com.intellij.codeInsight.hints.InlayPresentationFactory.*;
 import com.intellij.codeInsight.hints.presentation.InlayPresentation;
 import com.intellij.codeInsight.hints.presentation.InsetPresentation;
-import com.intellij.codeInsight.hints.presentation.LineCenteredInset;
-import com.intellij.codeInsight.hints.presentation.ScaledContainerPresentation;
+import com.intellij.codeInsight.hints.presentation.PresentationFactory;
+import com.intellij.codeInsight.hints.presentation.ScaleAwarePresentationFactory;
 import com.intellij.icons.AllIcons;
 import com.intellij.openapi.editor.DefaultLanguageHighlighterColors;
 import com.intellij.openapi.editor.Editor;
@@ -18,7 +18,6 @@ import com.intellij.psi.PsiElement;
 import com.intellij.psi.PsiMethod;
 import com.intellij.psi.PsiParameter;
 import com.intellij.psi.PsiType;
-import dev.rollczi.litecommands.annotations.argument.Arg;
 import dev.rollczi.litecommands.intellijplugin.util.LiteAnnotationChecks;
 import dev.rollczi.litecommands.intellijplugin.util.LiteTypeChecks;
 import org.jetbrains.annotations.NotNull;
@@ -95,10 +94,10 @@ class LiteInlayHintsCollector implements InlayHintsCollector {
     private InlayPresentation createInsetPresentation(@NotNull Editor editor, PsiType psiType, PsiParameter parameter) {
         TextAttributes attributes = editor.getColorsScheme().getAttributes(DefaultLanguageHighlighterColors.INLINE_PARAMETER_HINT);
         InlayHintsIconPresentation presentation = new InlayHintsIconPresentation(AllIcons.General.ArrowDown, psiType, parameter, editor);
+        ScaleAwarePresentationFactory factory = new ScaleAwarePresentationFactory(editor, new PresentationFactory(editor));
 
-        ScaledContainerPresentation iconPresentation = new ScaledContainerPresentation(
+        InlayPresentation container = factory.container(
             presentation,
-            editor,
             PADDING,
             ROUNDED_CORNERS,
             attributes.getBackgroundColor(),
@@ -106,7 +105,7 @@ class LiteInlayHintsCollector implements InlayHintsCollector {
         );
 
         return new InsetPresentation(
-            new LineCenteredInset(iconPresentation, editor),
+            factory.lineCentered(container),
             LEFT_MARGIN, RIGHT_MARGIN, 0, 0
         );
     }
