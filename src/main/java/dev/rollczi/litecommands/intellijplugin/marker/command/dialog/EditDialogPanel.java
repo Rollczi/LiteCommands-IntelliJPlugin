@@ -8,14 +8,16 @@ import dev.rollczi.litecommands.intellijplugin.table.LiteTableView;
 import dev.rollczi.litecommands.intellijplugin.table.LiteToolbarDecorator;
 import dev.rollczi.litecommands.intellijplugin.table.TextColumnInfo;
 import dev.rollczi.litecommands.intellijplugin.ui.LiteTitledSeparator;
+import dev.rollczi.litecommands.intellijplugin.util.IdeaTask;
 import java.awt.BorderLayout;
+import java.awt.Component;
 import java.util.List;
+import java.util.stream.Stream;
 import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.Icon;
 import javax.swing.JComponent;
 import javax.swing.JPanel;
-import panda.std.stream.PandaStream;
 
 class EditDialogPanel extends Box {
 
@@ -35,16 +37,27 @@ class EditDialogPanel extends Box {
     private final LiteTableView<TextReference> namesList = new LiteTableView<>();
     private final LiteTableView<TextReference> permissionsList = new LiteTableView<>();
 
-    public EditDialogPanel(CommandNode command) {
+    public EditDialogPanel() {
         super(BoxLayout.Y_AXIS);
         this.setAlignmentX(JComponent.LEFT_ALIGNMENT);
-        this.add(this.commandStructure(command));
-        this.add(this.permissions(command));
+    }
+
+    static IdeaTask<EditDialogPanel> create(CommandNode command) {
+        EditDialogPanel editDialogPanel = new EditDialogPanel();
+
+        return IdeaTask.start()
+            .write(() -> editDialogPanel.commandStructure(command))
+            .ui(jComponent -> editDialogPanel.add(jComponent))
+            .write(() -> editDialogPanel.permissions(command))
+            .ui(jComponent -> editDialogPanel.add(jComponent))
+            .map(unused -> editDialogPanel);
     }
 
     private JComponent commandStructure(CommandNode command) {
-        List<TextReference> items = PandaStream.of(command.name())
-            .concat(command.aliases())
+        List<TextReference> items = Stream.concat(
+                Stream.of(command.name()),
+                command.aliases().stream()
+            )
             .map(name -> new TextReference(name))
             .toList();
 
@@ -71,16 +84,21 @@ class EditDialogPanel extends Box {
             .setAddAction(anActionButton -> {
                 tableView.stopEditing();
 
+                Component editorComponent = tableView.getEditorComponent();
                 if (model.getRowCount() == 0 || model.getItem(model.getRowCount() - 1).getName().isEmpty()) {
                     tableView.editCellAt(model.getRowCount() - 1, 0);
-                    tableView.getEditorComponent().requestFocus();
+                    if (editorComponent != null) {
+                        editorComponent.requestFocus();
+                    }
                     return;
                 }
 
                 model.addRow(new TextReference(""));
 
                 tableView.editCellAt(model.getRowCount() - 1, 0);
-                tableView.getEditorComponent().requestFocus();
+                if (editorComponent != null) {
+                    editorComponent.requestFocus();
+                }
             })
             .setEditAction(anActionButton -> {
                 int selectedRow = tableView.getSelectedRow();

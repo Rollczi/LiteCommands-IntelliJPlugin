@@ -1,15 +1,27 @@
 package dev.rollczi.litecommands.intellijplugin.template;
 
+import com.intellij.ide.IdeView;
 import com.intellij.ide.actions.CreateFileFromTemplateAction;
 import com.intellij.ide.actions.CreateFileFromTemplateDialog;
+import com.intellij.ide.actions.CreateTemplateInPackageAction;
+import com.intellij.openapi.actionSystem.CommonDataKeys;
+import com.intellij.openapi.actionSystem.DataContext;
+import com.intellij.openapi.actionSystem.LangDataKeys;
+import com.intellij.openapi.editor.Editor;
 import com.intellij.openapi.project.Project;
+import com.intellij.openapi.roots.ProjectFileIndex;
+import com.intellij.openapi.roots.ProjectRootManager;
 import com.intellij.openapi.ui.InputValidatorEx;
 import com.intellij.openapi.util.NlsContexts;
+import com.intellij.openapi.vfs.VirtualFile;
 import com.intellij.psi.PsiDirectory;
 import dev.rollczi.litecommands.intellijplugin.icon.LiteIcons;
+import java.util.Arrays;
 import org.jetbrains.annotations.NonNls;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
+import org.jetbrains.kotlin.idea.base.projectStructure.RootKindFilter;
+import org.jetbrains.kotlin.idea.base.projectStructure.RootKindMatcher;
 
 public class LiteCommandsTemplatesAction extends CreateFileFromTemplateAction {
 
@@ -33,7 +45,39 @@ public class LiteCommandsTemplatesAction extends CreateFileFromTemplateAction {
         return false;
     }
 
+    @Override
+    protected boolean isAvailable(DataContext dataContext) {
+        if (!super.isAvailable(dataContext)) {
+            return false;
+        }
 
+        Editor editor = CommonDataKeys.EDITOR.getData(dataContext);
+        if (editor != null && editor.getSelectionModel().hasSelection()) {
+            return false;
+        }
+
+        Project project = CommonDataKeys.PROJECT.getData(dataContext);
+        IdeView view = LangDataKeys.IDE_VIEW.getData(dataContext);
+
+        if (project == null || view == null || view.getDirectories().length == 0) {
+            return false;
+        }
+
+        if (!project.isInitialized()) {
+            return false;
+        }
+
+        ProjectFileIndex projectFileIndex = ProjectRootManager.getInstance(project).getFileIndex();
+
+        return Arrays.stream(view.getDirectories()).anyMatch(directory -> {
+            VirtualFile virtualFile = directory.getVirtualFile();
+            RootKindFilter projectSources = RootKindFilter.projectSources;
+            boolean isMatches = RootKindMatcher.matches(project, virtualFile, projectSources);
+            boolean inContentRoot = CreateTemplateInPackageAction.isInContentRoot(virtualFile, projectFileIndex);
+
+            return isMatches || inContentRoot;
+        });
+    }
 
     @Override
     protected @NlsContexts.Command String getActionName(PsiDirectory directory, @NonNls @NotNull String newName, @NonNls String templateName) {

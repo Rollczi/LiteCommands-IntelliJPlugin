@@ -14,7 +14,6 @@ import java.util.OptionalDouble;
 import java.util.OptionalInt;
 import java.util.OptionalLong;
 import java.util.Set;
-import panda.std.Option;
 
 public class LiteTypeChecks {
 
@@ -23,7 +22,7 @@ public class LiteTypeChecks {
         OptionalInt.class.getName(),
         OptionalDouble.class.getName(),
         OptionalLong.class.getName(),
-        Option.class.getName()
+        "panda.std.Option" // legacy support
     );
 
     private static final Set<String> ARGUMENT_ANNOTATIONS = Set.of(

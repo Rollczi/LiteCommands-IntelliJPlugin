@@ -8,6 +8,7 @@ import com.intellij.lang.jvm.actions.AnnotationAttributeRequest;
 import com.intellij.lang.jvm.actions.AnnotationAttributeValueRequest;
 import com.intellij.lang.jvm.actions.AnnotationRequest;
 import com.intellij.lang.jvm.actions.JvmElementActionsFactory;
+import com.intellij.openapi.application.ReadAction;
 import com.intellij.openapi.editor.Document;
 import com.intellij.openapi.editor.impl.ImaginaryEditor;
 import com.intellij.openapi.project.Project;
@@ -55,7 +56,8 @@ public class PsiAnnotationUtil {
 
             for (PsiAnnotationMemberValue initializer : arrayInitializerMemberValue.getInitializers()) {
                 if (initializer instanceof PsiLiteralExpression literalExpression) {
-                    values.add(new PsiValue<>(literalExpression, (String) literalExpression.getValue()));
+                    String value = ReadAction.compute(() -> (String) literalExpression.getValue());
+                    values.add(new PsiValue<>(literalExpression, value));
                 }
             }
 

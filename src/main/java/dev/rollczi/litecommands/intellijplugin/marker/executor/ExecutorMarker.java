@@ -17,12 +17,12 @@ import dev.rollczi.litecommands.intellijplugin.marker.LiteLineMarkerInfo;
 import javax.swing.BorderFactory;
 import javax.swing.BoxLayout;
 import javax.swing.JComponent;
+import kotlin.Pair;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.uast.UElement;
 import org.jetbrains.uast.UElementKt;
 import org.jetbrains.uast.UMethod;
 import org.jetbrains.uast.UastUtils;
-import panda.std.Pair;
 
 public class ExecutorMarker extends LiteLineMarkerDescriptor {
 
@@ -85,7 +85,7 @@ public class ExecutorMarker extends LiteLineMarkerDescriptor {
         PsiJavaCommandNode commandNode = new PsiJavaCommandNode(aClass);
         PsiJavaExecutorNode executorNode = new PsiJavaExecutorNode(commandNode, psiMethod);
 
-        return Pair.of(executorNode, identifier);
+        return new Pair<>(executorNode, identifier);
 
     }
 

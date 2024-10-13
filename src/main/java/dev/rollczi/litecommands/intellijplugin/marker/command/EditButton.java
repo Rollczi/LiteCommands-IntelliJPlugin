@@ -1,6 +1,6 @@
 package dev.rollczi.litecommands.intellijplugin.marker.command;
 
-import com.intellij.openapi.project.DumbService;
+import com.intellij.openapi.project.Project;
 import dev.rollczi.litecommands.intellijplugin.api.CommandNode;
 import dev.rollczi.litecommands.intellijplugin.icon.LiteIcons;
 import dev.rollczi.litecommands.intellijplugin.marker.command.dialog.EditDialog;
@@ -8,7 +8,8 @@ import dev.rollczi.litecommands.intellijplugin.ui.LiteActionBadge;
 import dev.rollczi.litecommands.intellijplugin.ui.LiteColors;
 import dev.rollczi.litecommands.intellijplugin.ui.LiteMargin;
 import dev.rollczi.litecommands.intellijplugin.popup.LitePopupFactory;
-import dev.rollczi.litecommands.intellijplugin.util.ScheduleUtil;
+import dev.rollczi.litecommands.intellijplugin.util.IdeaTask;
+import dev.rollczi.litecommands.intellijplugin.util.IdeaTaskType;
 import javax.swing.JPanel;
 
 class EditButton extends LiteMargin {
@@ -23,10 +24,7 @@ class EditButton extends LiteMargin {
             LiteMargin.SMALL
         );
 
-        badge.addListener((event) -> {
-            DumbService dumbService = DumbService.getInstance(command.getFile().getProject());
-
-            dumbService.isAlternativeResolveEnabled();
+        badge.addListener(event -> {
             LitePopupFactory.showPopup(
                 "Loading...",
                 "Waiting for indexing...",
@@ -35,20 +33,17 @@ class EditButton extends LiteMargin {
                 event
             );
 
-            dumbService.runWhenSmart(() -> {
-                LitePopupFactory.closePopups();
+            Project project = command.getFile().getProject();
 
-                EditDialog dialog = new EditDialog(command);
-                boolean isOk = dialog.showAndGet();
-
-                if (isOk) {
-                    ScheduleUtil.invokeLater(command.getFile(), () -> {
-                        command.name(dialog.getName());
-                        command.aliases(dialog.getAliases());
-                        command.permissionsDefinition().permissions(dialog.getPermissions());
-                    });
-                }
-            });
+            IdeaTask.startInSmart(project)
+                .then(() -> LitePopupFactory.closePopups())
+                .flatMap(() -> EditDialog.create(command))
+                .filter(IdeaTaskType.UI, editDialog -> editDialog.showAndGet())
+                .then(IdeaTaskType.writeCommand(project), dialog -> {
+                    command.name(dialog.getName());
+                    command.aliases(dialog.getAliases());
+                    command.permissionsDefinition().permissions(dialog.getPermissions());
+                });
         });
 
         this.add(badge);

@@ -4,6 +4,7 @@ import com.intellij.openapi.ui.DialogWrapper;
 import com.intellij.openapi.ui.ValidationInfo;
 import com.intellij.util.ui.ListTableModel;
 import dev.rollczi.litecommands.intellijplugin.api.CommandNode;
+import dev.rollczi.litecommands.intellijplugin.util.IdeaTask;
 import dev.rollczi.litecommands.util.LiteCommandsUtil;
 import java.util.List;
 import javax.swing.JComponent;
@@ -11,9 +12,9 @@ import org.jetbrains.annotations.Nullable;
 
 public class EditDialog extends DialogWrapper {
 
-    private final EditDialogPanel panel;
+    private EditDialogPanel panel;
 
-    public EditDialog(CommandNode command) {
+    public EditDialog() {
         super(true);
         this.setTitle("Edit Command");
 
@@ -21,9 +22,16 @@ public class EditDialog extends DialogWrapper {
         this.setCancelButtonText("Cancel");
         this.setOKActionEnabled(true);
         this.setResizable(true);
+    }
 
-        this.panel = new EditDialogPanel(command);
-        this.init();
+    public static IdeaTask<EditDialog> create(CommandNode command) {
+        EditDialog dialog = new EditDialog();
+
+        return EditDialogPanel.create(command).ui(dialogPanel -> {
+            dialog.panel = dialogPanel;
+            dialog.init();
+            return dialog;
+        });
     }
 
     @Override

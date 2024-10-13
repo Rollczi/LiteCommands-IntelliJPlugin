@@ -19,9 +19,26 @@
 
 ## Introduction
 
-A plugin for IntelliJ IDEA that provides support for the [LiteCommands](https://github.com/Rollczi/LiteCommands) framework. LiteCommands is an annotation-based command framework that can be used with Velocity, Bukkit, Paper, BungeeCord, and other implementations.
+<!-- Plugin description -->
 
-With 🔌 LiteCommands plugin, you can easily develop your commands within the IntelliJ IDEA environment. The plugin provides annotations inspections, tools for creating new command classes, syntax highlighting, ~~code completion~~, and other useful features to make your development experience smoother and more efficient.
+<img src="https://github.com/Rollczi/LiteCommands/assets/49173834/4c297b16-eacd-4c89-ba34-2767b114e391" alt="banner" width="65%"/>
+
+With LiteCommands plugin, you can easily develop your commands within the **IntelliJ IDEA** environment. 
+The plugin provides **annotation inspections**, **tools** for creating new command classes, 
+**syntax highlighting**, **code completion**,
+and other useful features to make your development experience smoother and more efficient.
+
+[LiteCommands](https://github.com/Rollczi/LiteCommands) is an annotation-based command framework 
+that can be used with Velocity, Bukkit, Paper, BungeeCord, Minestom, Sponge, Fabric, JDA and future implementations.
+
+GitHub: [link](https://github.com/Rollczi/LiteCommands)  
+Support: [LiteCommands Discord](https://discord.gg/6cUhkj6uZJ)  
+Issues: [link](https://github.com/Rollczi/LiteCommands/issues)  
+Documentation 3.x: [link](https://litedevelopers.rollczi.dev/introdution.html)  
+Documentation 2.x: [link](https://docs.rollczi.dev/)
+
+
+<!-- Plugin description end -->
 
 ## Links
 - [Discord](https://discord.gg/6cUhkj6uZJ)

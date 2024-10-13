@@ -14,13 +14,13 @@ import dev.rollczi.litecommands.intellijplugin.marker.LiteLineMarkerInfo;
 import javax.swing.BorderFactory;
 import javax.swing.BoxLayout;
 import javax.swing.JComponent;
+import kotlin.Pair;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.jetbrains.uast.UClass;
 import org.jetbrains.uast.UElement;
 import org.jetbrains.uast.UElementKt;
 import org.jetbrains.uast.UastUtils;
-import panda.std.Pair;
 
 public class CommandMarker extends LiteLineMarkerDescriptor {
 
@@ -71,7 +71,7 @@ public class CommandMarker extends LiteLineMarkerDescriptor {
             return null;
         }
 
-        return Pair.of(new PsiJavaCommandNode(javaPsi), identifier);
+        return new Pair<>(new PsiJavaCommandNode(javaPsi), identifier);
     }
 
 }

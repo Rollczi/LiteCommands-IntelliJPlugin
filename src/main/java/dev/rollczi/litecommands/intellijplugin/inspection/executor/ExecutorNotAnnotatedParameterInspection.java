@@ -14,7 +14,7 @@ import org.jetbrains.annotations.NotNull;
 
 public class ExecutorNotAnnotatedParameterInspection extends LiteInspection {
 
-    private static final String DISPLAY_NAME = "Executor parameter is not annotated with @Arg or @Context";
+    private static final String DISPLAY_NAME = "Executor parameter is not annotated with e.g. @Arg, @Context, @Bind";
     private static final String PROBLEM_DESCRIPTION = "Missing @Arg or @Context annotation";
 
     public ExecutorNotAnnotatedParameterInspection() {

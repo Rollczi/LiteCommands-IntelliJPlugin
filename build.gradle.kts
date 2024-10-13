@@ -1,55 +1,86 @@
+import org.jetbrains.changelog.markdownToHTML
+import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
+
 plugins {
     id("java")
-    id("org.jetbrains.kotlin.jvm") version "1.9.0"
-    id("org.jetbrains.intellij") version "1.16.1"
+    id("org.jetbrains.kotlin.jvm") version "2.0.20"
+    id("org.jetbrains.intellij.platform") version "2.1.0"
+    id("org.jetbrains.changelog") version "2.2.1"
 }
 
 group = "dev.rollczi"
-version = "3.4.2-SNAPSHOT"
+version = "3.6.0"
 
 repositories {
     mavenCentral()
     maven("https://repo.eternalcode.pl/releases")
     maven("https://repo.eternalcode.pl/snapshots")
-}
 
-// Configure Gradle IntelliJ Plugin
-// Read more: https://plugins.jetbrains.com/docs/intellij/tools-gradle-intellij-plugin.html
-intellij {
-    version.set("2024.1.3")
-    type.set("IC") // Target IDE Platform
+    intellijPlatform {
+        defaultRepositories()
 
-    plugins.set(listOf(
-            "com.intellij.java",
-            "org.jetbrains.kotlin"
-    ))
+    }
 }
 
 dependencies {
     implementation("dev.rollczi:litecommands-framework:${version}")
+    intellijPlatform {
+        intellijIdeaCommunity("2024.2.3")
+        bundledPlugins("com.intellij.java", "org.jetbrains.kotlin")
+        instrumentationTools()
+        pluginVerifier()
+        zipSigner()
+    }
 }
 
-tasks {
-    withType<JavaCompile> {
-        sourceCompatibility = "17"
-        targetCompatibility = "17"
-    }
-    withType<org.jetbrains.kotlin.gradle.tasks.KotlinCompile> {
-        kotlinOptions.jvmTarget = "17"
+intellijPlatform {
+    projectName = project.name
+
+    pluginConfiguration {
+        name = "LiteCommands"
+        id = "dev.rollczi.litecommands.intellijplugin"
+        version.set(project.version.toString())
+        description = readDescriptionFrom("README.md")
+
+        ideaVersion {
+            sinceBuild = "233"
+            untilBuild = "243.*"
+        }
     }
 
-    patchPluginXml {
-        sinceBuild.set("233")
-        untilBuild.set("242.*")
-    }
-
-    signPlugin {
+    signing {
         certificateChain.set(providers.environmentVariable("CERTIFICATE_CHAIN"))
         privateKey.set(providers.environmentVariable("PRIVATE_KEY"))
         password.set(providers.environmentVariable("PRIVATE_KEY_PASSWORD"))
     }
 
-    publishPlugin {
+    publishing {
         token.set(providers.environmentVariable("PUBLISH_TOKEN"))
+    }
+
+    pluginVerification {
+        ides {
+            recommended()
+        }
+    }
+}
+
+java {
+    toolchain.languageVersion.set(JavaLanguageVersion.of(21))
+}
+
+kotlin {
+    jvmToolchain(21)
+}
+
+fun readDescriptionFrom(file: String) = providers.fileContents(layout.projectDirectory.file(file)).asText.map {
+    val start = "<!-- Plugin description -->"
+    val end = "<!-- Plugin description end -->"
+
+    with(it.lines()) {
+        if (!containsAll(listOf(start, end))) {
+            throw GradleException("Plugin description section not found in README.md:\n$start ... $end")
+        }
+        subList(indexOf(start) + 1, indexOf(end)).joinToString("\n").let(::markdownToHTML)
     }
 }
