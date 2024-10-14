@@ -1,5 +1,4 @@
 import org.jetbrains.changelog.markdownToHTML
-import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 plugins {
     id("java")
@@ -9,7 +8,7 @@ plugins {
 }
 
 group = "dev.rollczi"
-version = "3.6.0"
+version = "3.6.1"
 
 repositories {
     mavenCentral()
@@ -18,7 +17,6 @@ repositories {
 
     intellijPlatform {
         defaultRepositories()
-
     }
 }
 
@@ -43,7 +41,7 @@ intellijPlatform {
         description = readDescriptionFrom("README.md")
 
         ideaVersion {
-            sinceBuild = "233"
+            sinceBuild = "242"
             untilBuild = "243.*"
         }
     }
@@ -66,11 +64,11 @@ intellijPlatform {
 }
 
 java {
-    toolchain.languageVersion.set(JavaLanguageVersion.of(21))
+    toolchain.languageVersion.set(JavaLanguageVersion.of(17))
 }
 
 kotlin {
-    jvmToolchain(21)
+    jvmToolchain(17)
 }
 
 fun readDescriptionFrom(file: String) = providers.fileContents(layout.projectDirectory.file(file)).asText.map {
