@@ -8,14 +8,13 @@ import com.intellij.psi.PsiType;
 import com.intellij.psi.search.GlobalSearchScope;
 import com.intellij.psi.search.searches.ClassInheritorsSearch;
 import dev.rollczi.litecommands.argument.parser.Parser;
-import dev.rollczi.litecommands.argument.parser.TypedParser;
+import dev.rollczi.litecommands.argument.profile.ProfiledMultipleArgumentResolver;
+import dev.rollczi.litecommands.argument.profile.ProfiledParser;
 import dev.rollczi.litecommands.argument.resolver.ArgumentResolver;
 import dev.rollczi.litecommands.argument.resolver.ArgumentResolverBase;
 import dev.rollczi.litecommands.argument.resolver.MultipleArgumentResolver;
-import dev.rollczi.litecommands.argument.resolver.TypedArgumentResolver;
 import dev.rollczi.litecommands.argument.resolver.collector.AbstractCollectorArgumentResolver;
 import dev.rollczi.litecommands.argument.suggester.Suggester;
-import dev.rollczi.litecommands.argument.suggester.TypedSuggester;
 import dev.rollczi.litecommands.join.JoinArgumentResolver;
 import java.util.Collection;
 import java.util.Collections;
@@ -33,14 +32,13 @@ public class LiteTypeSearcher {
      */
     private static final Set<String> PRE_DEFINED_FILTERS = Set.of(
         Suggester.class.getName(),
-        TypedSuggester.class.getName(),
         Parser.class.getName(),
-        TypedParser.class.getName(),
         JoinArgumentResolver.class.getName(),
-        TypedArgumentResolver.class.getName(),
         ArgumentResolver.class.getName(),
         ArgumentResolverBase.class.getName(),
         MultipleArgumentResolver.class.getName(),
+        ProfiledMultipleArgumentResolver.class.getName(),
+        ProfiledParser.class.getName(),
         AbstractCollectorArgumentResolver.class.getName()
     );
 
