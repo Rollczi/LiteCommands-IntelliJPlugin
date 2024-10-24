@@ -19,7 +19,9 @@ import dev.rollczi.litecommands.annotations.context.Context;
 import dev.rollczi.litecommands.annotations.execute.Execute;
 import dev.rollczi.litecommands.annotations.flag.Flag;
 import dev.rollczi.litecommands.annotations.join.Join;
+import dev.rollczi.litecommands.annotations.literal.Literal;
 import dev.rollczi.litecommands.annotations.optional.OptionalArg;
+import dev.rollczi.litecommands.annotations.varargs.Varargs;
 import dev.rollczi.litecommands.intellijplugin.inspection.LiteInspection;
 import dev.rollczi.litecommands.intellijplugin.quickfix.ReplaceQuickFix;
 import java.util.ArrayList;
@@ -37,7 +39,9 @@ public class ParameterMixedAnnotationsInspection extends LiteInspection {
         Arg.class.getName(),
         OptionalArg.class.getName(),
         Flag.class.getName(),
-        Join.class.getName()
+        Join.class.getName(),
+        Literal.class.getName(),
+        Varargs.class.getName()
     );
 
     private static final String DISPLAY_NAME = "Mixed annotations";

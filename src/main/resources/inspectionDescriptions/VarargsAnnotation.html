@@ -1,0 +1,26 @@
+<html>
+<body>
+@Varargs support only collection types.
+<p>
+    Reports when varargs parameter is not a collection type.
+</p>
+<p>
+    Examples of valid values:
+</p>
+<ul>
+    <li><code>public void method(@Varargs String... args) { }</code></li>
+    <li><code>public void method(@Varargs String[] args) { }</code></li>
+    <li><code>public void method(@Varargs List&lt;String&gt; args) { }</code></li>
+    <li><code>public void method(@Varargs Set&lt;String&gt; args) { }</code></li>
+    <li><code>public void method(@Varargs Collection&lt;String&gt; args) { }</code></li>
+</ul>
+<p>
+    Examples of invalid values:
+</p>
+<ul>
+    <li><code>public void method(@Varargs String args) { }</code></li>
+    <li><code>public void method(@Varargs Integer args) { }</code></li>
+    <li><code>public void method(@Varargs int args) { }</code></li>
+</ul>
+</body>
+</html>

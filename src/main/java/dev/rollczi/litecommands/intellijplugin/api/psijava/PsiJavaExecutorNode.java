@@ -6,6 +6,7 @@ import dev.rollczi.litecommands.annotations.argument.Arg;
 import dev.rollczi.litecommands.annotations.execute.Execute;
 import dev.rollczi.litecommands.annotations.flag.Flag;
 import dev.rollczi.litecommands.annotations.join.Join;
+import dev.rollczi.litecommands.annotations.literal.Literal;
 import dev.rollczi.litecommands.annotations.optional.OptionalArg;
 import dev.rollczi.litecommands.annotations.quoted.Quoted;
 import dev.rollczi.litecommands.intellijplugin.api.Argument;
@@ -81,7 +82,14 @@ public class PsiJavaExecutorNode extends PsiJavaAbstractNode implements Executor
         // Flag
         (node, parameter) -> AnnotationFactory.from(Flag.class, parameter).stream()
             .findFirst()
-            .map(holder -> new PsiJavaArgument(node, parameter, holder.asAnnotation().value(), PsiJavaArgument.FLAG))
+            .map(holder -> new PsiJavaArgument(node, parameter, holder.asAnnotation().value(), PsiJavaArgument.STATIC_VALUE)),
+
+        (node, parameter) -> AnnotationFactory.from(Literal.class, parameter).stream()
+            .findFirst()
+            .map(holder -> {
+                String[] values = holder.asAnnotation().value();
+                return new PsiJavaArgument(node, parameter, values.length == 0 ? "" : values[0], PsiJavaArgument.STATIC_VALUE);
+            })
     );
 
     private final PsiJavaCommandNode parent;

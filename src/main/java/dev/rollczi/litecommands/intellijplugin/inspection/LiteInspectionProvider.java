@@ -11,9 +11,11 @@ import dev.rollczi.litecommands.intellijplugin.inspection.mapper.legacy.LegacySe
 import dev.rollczi.litecommands.intellijplugin.inspection.mapper.validation.ExecuteValidationInspection;
 import dev.rollczi.litecommands.intellijplugin.inspection.mapper.validation.CommandValidationInspection;
 import dev.rollczi.litecommands.intellijplugin.inspection.mapper.validation.ShortcutValidationInspection;
+import dev.rollczi.litecommands.intellijplugin.inspection.parameter.LiteralAnnotationInspection;
 import dev.rollczi.litecommands.intellijplugin.inspection.parameter.ParameterMixedAnnotationsInspection;
 import dev.rollczi.litecommands.intellijplugin.inspection.parameter.ParameterNullableOptionalPrimitiveInspection;
 import dev.rollczi.litecommands.intellijplugin.inspection.parameter.ParameterNullableOptionalWrappedInspection;
+import dev.rollczi.litecommands.intellijplugin.inspection.parameter.VarargsAnnotationInspection;
 import org.jetbrains.annotations.NotNull;
 
 public class LiteInspectionProvider implements InspectionToolProvider {
@@ -23,6 +25,8 @@ public class LiteInspectionProvider implements InspectionToolProvider {
         return new Class[]{
             ExecutorNotAnnotatedParameterInspection.class,
             ParameterNullableOptionalPrimitiveInspection.class,
+            VarargsAnnotationInspection.class,
+            LiteralAnnotationInspection.class,
             ParameterNullableOptionalWrappedInspection.class,
             ParameterMixedAnnotationsInspection.class,
             LegacyRouteInspection.class,
