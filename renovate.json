@@ -2,7 +2,7 @@
   "$schema": "https://docs.renovatebot.com/renovate-schema.json",
   "dependencyDashboard": true,
   "extends": [
-    "config:base"
+    "config:recommended"
   ],
   "groupName": "all dependencies",
   "groupSlug": "all",
@@ -15,30 +15,39 @@
   "packageRules": [
     {
       "groupName": "patch",
-      "matchPackagePatterns": [
-        "*"
+      "matchUpdateTypes": [
+        "patch"
       ],
-      "excludePackagePatterns": ["org.spigotmc*", "net.fabricmc*"],
-      "updateTypes": ["patch"],
-      "automerge": true
+      "automerge": true,
+      "matchPackageNames": [
+        "*",
+        "!/org.spigotmc*/",
+        "!/net.fabricmc*/"
+      ]
     },
     {
       "groupName": "minor",
-      "matchPackagePatterns": [
-        "*"
+      "matchUpdateTypes": [
+        "minor"
       ],
-      "excludePackagePatterns": ["org.spigotmc*", "net.fabricmc*"],
-      "updateTypes": ["minor"],
-      "automerge": true
+      "automerge": true,
+      "matchPackageNames": [
+        "*",
+        "!/org.spigotmc*/",
+        "!/net.fabricmc*/"
+      ]
     },
     {
       "groupName": "all-major",
-      "matchPackagePatterns": [
-        "*"
+      "matchUpdateTypes": [
+        "major"
       ],
-      "updateTypes": ["major"],
-      "excludePackagePatterns": ["org.spigotmc*", "net.fabricmc*"],
-      "automerge": false
+      "automerge": false,
+      "matchPackageNames": [
+        "*",
+        "!/org.spigotmc*/",
+        "!/net.fabricmc*/"
+      ]
     }
   ]
 }
