@@ -1,27 +1,23 @@
+<!-- Plugin description -->
 
-<div align="center"><img src="https://github.com/user-attachments/assets/3917fae8-3ee9-4761-b09f-0017c2416f89" alt="hacktoberfest" width="85%"/></div>
-<div align="center"><h3>LiteDevelopers & Hacktoberfest 2024</h3></div>
-<div align="center">Register on <a href="https://hacktoberfest.com/">hacktoberfest.com</a> and start supporting open source!</div>
-<div align="center">Add/Improve/Fix features and open <a href="https://github.com/LiteDevelopers/LiteCommands-IntelliJPlugin/pulls">Pull request</a>! If you don't have an idea, see  <a href="https://github.com/LiteDevelopers/LiteCommands-IntelliJPlugin/issues">issues</a>!</div>
-<div align="center">See also <a href="https://github.com/Rollczi/">other repositories</a>!</div>
-<br>
+<div align="right">
+
+[![dependency](https://repo.panda-lang.org/api/badge/latest/releases/dev/rollczi/litecommands-core?color=9372f9&name=Version)](https://repo.panda-lang.org/#/releases/dev/rollczi/litecommands)
+</div>
 
 <div align="center">
+
+<img src="https://github.com/Rollczi/LiteCommands/assets/49173834/4c297b16-eacd-4c89-ba34-2767b114e391" alt="banner" width="65%"/>
+<br><br>
 
 [![Discord](https://raw.githubusercontent.com/intergrav/devins-badges/v3/assets/cozy/social/discord-plural_vector.svg)](https://discord.gg/6cUhkj6uZJ)
 [![Sponsor](https://raw.githubusercontent.com/intergrav/devins-badges/v3/assets/cozy/donate/ghsponsors-singular_vector.svg)](https://github.com/sponsors/Rollczi)
 [![Gradle](https://raw.githubusercontent.com/intergrav/devins-badges/v3/assets/cozy/built-with/gradle_vector.svg)](https://gradle.org/)
 [![Java](https://raw.githubusercontent.com/intergrav/devins-badges/v3/assets/cozy/built-with/java17_vector.svg)](https://www.java.com/)
 
-### LiteCommands IntelliJ IDEA Plugin
+### LiteCommands - IntelliJ IDEA Plugin
 
 </div>
-
-## Introduction
-
-<!-- Plugin description -->
-
-<img src="https://github.com/Rollczi/LiteCommands/assets/49173834/4c297b16-eacd-4c89-ba34-2767b114e391" alt="banner" width="65%"/>
 
 With LiteCommands plugin, you can easily develop your commands within the **IntelliJ IDEA** environment. 
 The plugin provides **annotation inspections**, **tools** for creating new command classes, 
@@ -31,19 +27,13 @@ and other useful features to make your development experience smoother and more 
 [LiteCommands](https://github.com/Rollczi/LiteCommands) is an annotation-based command framework 
 that can be used with Velocity, Bukkit, Paper, BungeeCord, Minestom, Sponge, Fabric, JDA and future implementations.
 
-GitHub: [link](https://github.com/Rollczi/LiteCommands)  
-Support: [LiteCommands Discord](https://discord.gg/6cUhkj6uZJ)  
-Issues: [link](https://github.com/Rollczi/LiteCommands/issues)  
-Documentation 3.x: [link](https://litedevelopers.rollczi.dev/introdution.html)  
-Documentation 2.x: [link](https://docs.rollczi.dev/)
-
-
-<!-- Plugin description end -->
-
 ## Links
 - [Discord](https://discord.gg/6cUhkj6uZJ)
 - [Plugin](https://plugins.jetbrains.com/plugin/20799-litecommands)
 - [Documentation](https://docs.rollczi.dev)
+- [GitHub](https://github.com/Rollczi/LiteCommands)
+
+<!-- Plugin description end -->
 
 ## Features
 
