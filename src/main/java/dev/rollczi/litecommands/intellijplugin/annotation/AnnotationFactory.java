@@ -19,18 +19,20 @@ import java.lang.reflect.Method;
 import java.lang.reflect.Parameter;
 import java.lang.reflect.Proxy;
 import java.lang.reflect.UndeclaredThrowableException;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
+@SuppressWarnings("UnstableApiUsage")
 public class AnnotationFactory {
 
     public static <A extends Annotation> List<A> fromAnnotatedPsi(Class<A> annotationClass, PsiModifierListOwner element) {
         return Arrays.stream(element.getAnnotations())
             .filter(psiAnnotation -> psiAnnotation.hasQualifiedName(annotationClass.getName()))
             .flatMap(psiAnnotation -> fromPsiAnnotation(annotationClass, psiAnnotation).stream())
-            .map(AnnotationHolder::asAnnotation)
+            .map(holder -> holder.asAnnotation())
             .collect(Collectors.toList());
     }
 
@@ -90,11 +92,14 @@ public class AnnotationFactory {
     private static boolean isNotCorrectlyFilled(InvocationTargetException exception) {
         Throwable targetException = exception.getTargetException();
 
-        if (targetException instanceof UndeclaredThrowableException) {
-            UndeclaredThrowableException undeclaredThrowable = (UndeclaredThrowableException) targetException;
+        if (targetException instanceof UndeclaredThrowableException undeclaredThrowable) {
             Throwable throwable = undeclaredThrowable.getUndeclaredThrowable();
 
             if (throwable instanceof IllegalArgumentException) {
+                return true;
+            }
+
+            if (throwable instanceof ClassNotFoundException) {
                 return true;
             }
 
@@ -142,76 +147,57 @@ public class AnnotationFactory {
             return getRealValue(attribute.getAttributeValue(), method.getReturnType());
         }
 
-        private Object getRealValue(JvmAnnotationAttributeValue attributeValue, Class<?> basedType) {
-            if (attributeValue instanceof JvmAnnotationConstantValue) {
-                Object constantValue = ((JvmAnnotationConstantValue) attributeValue).getConstantValue();
-
-                return toArrayIfRequired(constantValue, basedType);
+        @SuppressWarnings("unchecked")
+        private Object getRealValue(JvmAnnotationAttributeValue attributeValue, Class<?> basedType) throws ClassNotFoundException {
+            if (attributeValue instanceof JvmAnnotationConstantValue constantValue) {
+                return toArrayIfRequired(constantValue.getConstantValue(), basedType);
             }
 
-            if (attributeValue instanceof JvmAnnotationArrayValue) {
+            if (attributeValue instanceof JvmAnnotationArrayValue arrayValue) {
                 if (!basedType.isArray()) {
                     throw new IllegalArgumentException("Can not compile " + basedType + " from " + attributeValue);
                 }
 
-                Object[] objects = ((JvmAnnotationArrayValue) attributeValue).getValues().stream()
-                    .map(value -> getRealValue(value, basedType.componentType()))
-                    .toArray();
-
-                Object typedArray = Array.newInstance(basedType.componentType(), objects.length);
-
-                for (int i = 0; i < objects.length; i++) {
-                    Array.set(typedArray, i, objects[i]);
+                List<Object> realValues = new ArrayList<>();
+                for (JvmAnnotationAttributeValue value : arrayValue.getValues()) {
+                    realValues.add(getRealValue(value, basedType.componentType()));
                 }
 
-                return typedArray;
+                Object realArray = Array.newInstance(basedType.componentType(), realValues.size());
+
+                for (int i = 0; i < realValues.size(); i++) {
+                    Array.set(realArray, i, realValues.get(i));
+                }
+
+                return realArray;
             }
 
-            if (attributeValue instanceof JvmAnnotationEnumFieldValue) {
-                JvmAnnotationEnumFieldValue enumFieldValue = (JvmAnnotationEnumFieldValue) attributeValue;
+            if (attributeValue instanceof JvmAnnotationEnumFieldValue enumFieldValue) {
+                Class enumClass = Class.forName(enumFieldValue.getContainingClass().getQualifiedName());
+                Enum value = Enum.valueOf(enumClass, enumFieldValue.getFieldName());
 
-                try {
-                    Class enumClass = Class.forName(enumFieldValue.getContainingClass().getQualifiedName());
-                    Enum value = Enum.valueOf(enumClass, enumFieldValue.getFieldName());
-
-                    return toArrayIfRequired(value, basedType);
-                }
-                catch (ClassNotFoundException exception) {
-                    throw new RuntimeException(exception);
-                }
+                return toArrayIfRequired(value, basedType);
             }
 
-            if (attributeValue instanceof JvmAnnotationClassValue) {
-                JvmAnnotationClassValue classValue = (JvmAnnotationClassValue) attributeValue;
+            if (attributeValue instanceof JvmAnnotationClassValue classValue) {
+                Class<?> value = Class.forName(classValue.getQualifiedName());
 
-                try {
-                    Class<?> value = Class.forName(classValue.getQualifiedName());
-
-                    return toArrayIfRequired(value, basedType);
-                }
-                catch (ClassNotFoundException exception) {
-                    throw new RuntimeException(exception);
-                }
+                return toArrayIfRequired(value, basedType);
             }
 
-            if (attributeValue instanceof JvmNestedAnnotationValue) {
-                JvmNestedAnnotationValue nestedAnnotationValue = (JvmNestedAnnotationValue) attributeValue;
+            if (attributeValue instanceof JvmNestedAnnotationValue nestedAnnotationValue) {
                 JvmAnnotation nestedAnnotation = nestedAnnotationValue.getValue();
 
                 if (!(nestedAnnotation instanceof PsiAnnotation)) {
                     throw new RuntimeException("Unsupported nested annotation type: " + nestedAnnotation.getClass().getName());
                 }
 
-                try {
-                    Class annotationClass = Class.forName(nestedAnnotation.getQualifiedName());
-                    Object value = fromPsiAnnotation(annotationClass, (PsiAnnotation) nestedAnnotation)
-                            .orElseThrow(() -> new PsiAnnotationCreateException("Cannot create annotation for " + nestedAnnotation.getClass().getName()));
+                Class<? extends Annotation> annotationClass = (Class<? extends Annotation>) Class.forName(nestedAnnotation.getQualifiedName());
+                Object value = fromPsiAnnotation(annotationClass, (PsiAnnotation) nestedAnnotation)
+                    .orElseThrow(() -> new RuntimeException("Cannot create annotation for " + nestedAnnotation.getClass().getName()));
 
-                    return toArrayIfRequired(value, basedType);
-                }
-                catch (Throwable exception) {
-                    throw new RuntimeException(exception);
-                }
+
+                return toArrayIfRequired(value, basedType);
             }
 
             throw new RuntimeException("Unsupported attribute data type: " + attributeValue.getClass().getName());
