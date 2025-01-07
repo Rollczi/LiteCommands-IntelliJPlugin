@@ -8,7 +8,7 @@ plugins {
 }
 
 group = "dev.rollczi"
-version = "3.9.0"
+version = "3.9.7"
 
 repositories {
     mavenCentral()
