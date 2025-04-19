@@ -20,31 +20,24 @@ import java.lang.reflect.Parameter;
 import java.lang.reflect.Proxy;
 import java.lang.reflect.UndeclaredThrowableException;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 @SuppressWarnings("UnstableApiUsage")
 public class AnnotationFactory {
 
-    public static <A extends Annotation> List<A> fromAnnotatedPsi(Class<A> annotationClass, PsiModifierListOwner element) {
-        return Arrays.stream(element.getAnnotations())
-            .filter(psiAnnotation -> psiAnnotation.hasQualifiedName(annotationClass.getName()))
-            .flatMap(psiAnnotation -> fromPsiAnnotation(annotationClass, psiAnnotation).stream())
-            .map(holder -> holder.asAnnotation())
-            .collect(Collectors.toList());
-    }
-
-    public static <A extends Annotation> List<AnnotationHolder<A>> from(Class<A> annotationClass, PsiModifierListOwner element) {
-        return Arrays.stream(element.getAnnotations())
-            .filter(psiAnnotation -> psiAnnotation.hasQualifiedName(annotationClass.getName()))
-            .flatMap(psiAnnotation -> fromPsiAnnotation(annotationClass, psiAnnotation).stream())
-            .collect(Collectors.toList());
+    public static <A extends Annotation> Optional<A> fromAsAnnotation(Class<A> annotationClass, PsiModifierListOwner element) {
+        return Optional.ofNullable(element.getAnnotation(annotationClass.getName()))
+            .flatMap(annotation -> from(annotationClass, annotation))
+            .map(holder -> holder.asAnnotation());
     }
 
     @SuppressWarnings("unchecked")
-    public static <A extends Annotation> Optional<AnnotationHolder<A>> fromPsiAnnotation(Class<A> annotationClass, PsiAnnotation psiAnnotation) {
+    public static <A extends Annotation> Optional<AnnotationHolder<A>> from(Class<A> annotationClass, PsiAnnotation psiAnnotation) {
+        if (!annotationClass.getName().equals(psiAnnotation.getQualifiedName())) {
+            return Optional.empty();
+        }
+
         try {
             A annotation = (A) Proxy.newProxyInstance(
                 AnnotationFactory.class.getClassLoader(),
@@ -193,7 +186,7 @@ public class AnnotationFactory {
                 }
 
                 Class<? extends Annotation> annotationClass = (Class<? extends Annotation>) Class.forName(nestedAnnotation.getQualifiedName());
-                Object value = fromPsiAnnotation(annotationClass, (PsiAnnotation) nestedAnnotation)
+                Object value = from(annotationClass, (PsiAnnotation) nestedAnnotation)
                     .orElseThrow(() -> new RuntimeException("Cannot create annotation for " + nestedAnnotation.getClass().getName()));
 
 

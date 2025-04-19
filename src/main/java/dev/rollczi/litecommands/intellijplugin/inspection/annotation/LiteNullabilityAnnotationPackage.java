@@ -3,6 +3,9 @@ package dev.rollczi.litecommands.intellijplugin.inspection.annotation;
 import com.intellij.codeInsight.Nullability;
 import com.intellij.codeInsight.NullabilityAnnotationInfo;
 import com.intellij.codeInsight.annoPackages.AnnotationPackageSupport;
+import com.intellij.lang.jvm.annotation.JvmAnnotationAttribute;
+import com.intellij.lang.jvm.annotation.JvmAnnotationAttributeValue;
+import com.intellij.lang.jvm.annotation.JvmAnnotationConstantValue;
 import com.intellij.psi.PsiAnnotation;
 import com.intellij.psi.PsiElement;
 import dev.rollczi.litecommands.annotations.argument.Arg;
@@ -38,19 +41,25 @@ public class LiteNullabilityAnnotationPackage implements AnnotationPackageSuppor
 
     @Override
     public @Nullable NullabilityAnnotationInfo getNullabilityByContainerAnnotation(@NotNull PsiAnnotation anno, @NotNull PsiElement context, PsiAnnotation.TargetType @NotNull [] types, boolean superPackage) {
-        Optional<AnnotationHolder<Arg>> optionalArg = AnnotationFactory.fromPsiAnnotation(Arg.class, anno);
-
-        if (optionalArg.isPresent()) {
-            Arg arg = optionalArg.get().asAnnotation();
-
-            return new NullabilityAnnotationInfo(
-                anno,
-                arg.nullable() ? Nullability.NULLABLE : Nullability.NOT_NULL,
-                false
-            );
+        if (!Arg.class.getName().equals(anno.getQualifiedName())) {
+            return null;
         }
 
-        return null;
+        @Nullable JvmAnnotationAttribute attribute = anno.findAttribute("nullable");
+        if (attribute == null) {
+            return null;
+        }
+
+        @Nullable JvmAnnotationAttributeValue value = attribute.getAttributeValue();
+        if (!(value instanceof JvmAnnotationConstantValue constantValue)) {
+            return null;
+        }
+
+        if (!(constantValue.getConstantValue() instanceof Boolean nullable)) {
+            return null;
+        }
+
+        return new NullabilityAnnotationInfo(anno, nullable ? Nullability.NULLABLE : Nullability.NOT_NULL, false);
     }
 
 }

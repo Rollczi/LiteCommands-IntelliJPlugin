@@ -40,7 +40,6 @@ public class ParameterMixedAnnotationsInspection extends LiteInspection {
         OptionalArg.class.getName(),
         Flag.class.getName(),
         Join.class.getName(),
-        Literal.class.getName(),
         Varargs.class.getName()
     );
 
