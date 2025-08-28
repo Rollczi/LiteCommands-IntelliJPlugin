@@ -9,7 +9,6 @@ import com.intellij.psi.PsiParameter;
 import com.intellij.psi.PsiReference;
 import com.intellij.psi.PsiReferenceProvider;
 import com.intellij.util.ProcessingContext;
-import dev.rollczi.litecommands.annotations.argument.Arg;
 import dev.rollczi.litecommands.intellijplugin.util.LiteTypeChecks;
 import org.jetbrains.annotations.NotNull;
 
@@ -19,7 +18,7 @@ class ArgumentPsiReferenceProvider extends PsiReferenceProvider {
     }
 
     @Override
-    public PsiReference @NotNull [] getReferencesByElement(@NotNull PsiElement element, @NotNull ProcessingContext context) {
+    public PsiReference[] getReferencesByElement(@NotNull PsiElement element, @NotNull ProcessingContext context) {
         PsiLiteralExpression literal = (PsiLiteralExpression) element;
 
         if (!(literal.getValue() instanceof String)) {

@@ -8,6 +8,7 @@ import com.intellij.lang.jvm.annotation.JvmAnnotationClassValue;
 import com.intellij.lang.jvm.annotation.JvmAnnotationConstantValue;
 import com.intellij.lang.jvm.annotation.JvmAnnotationEnumFieldValue;
 import com.intellij.lang.jvm.annotation.JvmNestedAnnotationValue;
+import com.intellij.openapi.progress.CeProcessCanceledException;
 import com.intellij.psi.PsiAnnotation;
 import com.intellij.psi.PsiModifierListOwner;
 
@@ -93,6 +94,10 @@ public class AnnotationFactory {
             }
 
             if (throwable instanceof ClassNotFoundException) {
+                return true;
+            }
+
+            if (throwable instanceof CeProcessCanceledException) {
                 return true;
             }
 

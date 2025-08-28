@@ -44,7 +44,7 @@ public class NullableProblemsPrimitiveSuppressor implements InspectionSuppressor
     }
 
     @Override
-    public SuppressQuickFix @NotNull [] getSuppressActions(@Nullable PsiElement element, @NotNull String toolId) {
+    public SuppressQuickFix[] getSuppressActions(@Nullable PsiElement element, @NotNull String toolId) {
         return SuppressQuickFix.EMPTY_ARRAY;
     }
 

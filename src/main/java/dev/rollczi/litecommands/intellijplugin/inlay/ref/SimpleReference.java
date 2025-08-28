@@ -29,7 +29,7 @@ final class SimpleReference extends PsiReferenceBase<PsiElement> implements PsiP
     }
 
     @Override
-    public ResolveResult @NotNull [] multiResolve(boolean incompleteCode) {
+    public ResolveResult[] multiResolve(boolean incompleteCode) {
         List<ResolveResult> results = new ArrayList<>();
         for (PsiClass parser : LiteTypeSearcher.findParsersByType(element.getProject(), type)) {
             results.add(new PsiElementResolveResult(parser));
@@ -46,7 +46,7 @@ final class SimpleReference extends PsiReferenceBase<PsiElement> implements PsiP
     }
 
     @Override
-    public Object @NotNull [] getVariants() {
+    public Object[] getVariants() {
         List<LookupElement> variants = new ArrayList<>();
 
         for (PsiClass parser : LiteTypeSearcher.findParsersByType(element.getProject(), type)) {

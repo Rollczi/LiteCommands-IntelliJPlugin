@@ -20,6 +20,7 @@ import dev.rollczi.litecommands.intellijplugin.navigatable.NavigatableReference;
 import dev.rollczi.litecommands.intellijplugin.annotation.AnnotationFactory;
 import dev.rollczi.litecommands.intellijplugin.util.LiteTypeChecks;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
@@ -78,7 +79,7 @@ public class PsiJavaExecutorNode extends PsiJavaAbstractNode implements Executor
 
         // Flag
         (node, parameter, annotation) -> AnnotationFactory.from(Flag.class, annotation)
-            .map(holder -> new PsiJavaArgument(node, parameter, holder.asAnnotation().value(), PsiJavaArgument.STATIC_VALUE)),
+            .map(holder -> new PsiJavaArgument(node, parameter, Arrays.stream(holder.asAnnotation().value()).findFirst().orElse("?"), PsiJavaArgument.STATIC_VALUE)),
 
         // Literal
         (node, parameter, annotation) -> AnnotationFactory.from(Literal.class, annotation)

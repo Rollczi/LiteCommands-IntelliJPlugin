@@ -31,7 +31,7 @@ public class LiteCommandsTemplatesAction extends CreateFileFromTemplateAction {
     public static final String TEMPLATE_KOTLIN_ROOT = "LiteCommands Root Command Kotlin";
 
     @Override
-    protected void buildDialog(@NotNull Project project, @NotNull PsiDirectory directory, CreateFileFromTemplateDialog.@NotNull Builder builder) {
+    protected void buildDialog(@NotNull Project project, @NotNull PsiDirectory directory, CreateFileFromTemplateDialog.Builder builder) {
         builder
             .setTitle("Create LiteCommands Class")
             .addKind("Command", LiteIcons.Template.Java, TEMPLATE_JAVA, new Validator())

@@ -21,7 +21,7 @@ import org.jetbrains.annotations.NotNull;
 public class LiteInspectionProvider implements InspectionToolProvider {
 
     @Override
-    public Class<? extends LiteInspection> @NotNull [] getInspectionClasses() {
+    public Class<? extends LiteInspection> [] getInspectionClasses() {
         return new Class[]{
             ExecutorNotAnnotatedParameterInspection.class,
             ParameterNullableOptionalPrimitiveInspection.class,

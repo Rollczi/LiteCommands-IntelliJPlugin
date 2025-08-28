@@ -2,13 +2,13 @@ import org.jetbrains.changelog.markdownToHTML
 
 plugins {
     id("java")
-    id("org.jetbrains.kotlin.jvm") version "2.0.21"
-    id("org.jetbrains.intellij.platform") version "2.5.0"
-    id("org.jetbrains.changelog") version "2.2.1"
+    id("org.jetbrains.kotlin.jvm") version "2.2.10"
+    id("org.jetbrains.intellij.platform") version "2.7.2"
+    id("org.jetbrains.changelog") version "2.4.0"
 }
 
 group = "dev.rollczi"
-version = "3.9.7"
+version = "3.10.4"
 
 repositories {
     mavenCentral()
@@ -23,9 +23,8 @@ repositories {
 dependencies {
     implementation("dev.rollczi:litecommands-framework:${version}")
     intellijPlatform {
-        intellijIdeaCommunity("2025.1")
+        intellijIdeaCommunity("2025.2")
         bundledPlugins("com.intellij.java", "org.jetbrains.kotlin")
-        instrumentationTools()
         pluginVerifier()
         zipSigner()
     }
@@ -41,8 +40,8 @@ intellijPlatform {
         description = readDescriptionFrom("README.md")
 
         ideaVersion {
-            sinceBuild = "242"
-            untilBuild = "251.*"
+            sinceBuild = "252"
+            untilBuild = "252.*"
         }
     }
 
