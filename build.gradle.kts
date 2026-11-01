@@ -1,14 +1,17 @@
 import org.jetbrains.changelog.markdownToHTML
+import org.jetbrains.intellij.platform.gradle.IntelliJPlatformType
+import org.jetbrains.intellij.platform.gradle.tasks.VerifyPluginTask
+import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 
 plugins {
     id("java")
     id("org.jetbrains.kotlin.jvm") version "2.3.0"
-    id("org.jetbrains.intellij.platform") version "2.11.0"
+    id("org.jetbrains.intellij.platform") version "2.19.0"
     id("org.jetbrains.changelog") version "2.5.0"
 }
 
 group = "dev.rollczi"
-version = "3.10.9"
+version = "3.11.0"
 
 repositories {
     mavenCentral()
@@ -23,7 +26,7 @@ repositories {
 dependencies {
     implementation("dev.rollczi:litecommands-framework:${version}")
     intellijPlatform {
-        intellijIdeaCommunity("2025.2")
+        intellijIdea("2026.1")
         bundledPlugins("com.intellij.java", "org.jetbrains.kotlin")
         pluginVerifier()
         zipSigner()
@@ -41,7 +44,7 @@ intellijPlatform {
 
         ideaVersion {
             sinceBuild = "252"
-            untilBuild = "252.*"
+            untilBuild = "262.*"
         }
     }
 
@@ -56,18 +59,35 @@ intellijPlatform {
     }
 
     pluginVerification {
+        // Deprecated, experimental and internal API usages are reported, but they do not fail the
+        // verification - only actual compatibility problems with the supported IDEs do.
+        failureLevel.set(listOf(
+            VerifyPluginTask.FailureLevel.COMPATIBILITY_PROBLEMS,
+            VerifyPluginTask.FailureLevel.MISSING_DEPENDENCIES,
+            VerifyPluginTask.FailureLevel.INVALID_PLUGIN,
+        ))
+
         ides {
-            recommended()
+            create(IntelliJPlatformType.IntellijIdeaCommunity, "2025.2")
+            create(IntelliJPlatformType.IntellijIdea, "2026.1")
+            create(IntelliJPlatformType.IntellijIdea, "2026.2")
         }
     }
 }
 
 java {
-    toolchain.languageVersion.set(JavaLanguageVersion.of(17))
+    toolchain.languageVersion.set(JavaLanguageVersion.of(21))
 }
 
 kotlin {
-    jvmToolchain(17)
+    jvmToolchain(21)
+    compilerOptions {
+        jvmTarget.set(JvmTarget.JVM_21)
+    }
+}
+
+tasks.withType<JavaCompile>().configureEach {
+    options.release.set(21)
 }
 
 fun readDescriptionFrom(file: String) = providers.fileContents(layout.projectDirectory.file(file)).asText.map {

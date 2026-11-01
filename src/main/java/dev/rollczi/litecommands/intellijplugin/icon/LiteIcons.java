@@ -41,7 +41,7 @@ public interface LiteIcons {
     List<Icon> list = Arrays.asList(
 
             // commands
-            AllIcons.Actions.Run_anything,
+            AllIcons.Actions.RunAnything,
             AllIcons.Nodes.Console,
 
             // argument
