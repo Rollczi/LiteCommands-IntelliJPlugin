@@ -28,7 +28,7 @@ import java.util.Objects;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 import org.jetbrains.annotations.NotNull;
-import org.jetbrains.kotlin.idea.quickfix.crossLanguage.KotlinElementActionsFactory;
+import org.jetbrains.kotlin.idea.k2.codeinsight.quickFixes.createFromUsage.K2ElementActionsFactory;
 import org.jetbrains.uast.UElement;
 import org.jetbrains.uast.UastContextKt;
 
@@ -144,7 +144,7 @@ public class PsiAnnotationUtil {
 
     private static JvmElementActionsFactory getFactory(Language lang) {
         if (lang.getID().toLowerCase(Locale.ROOT).equals("kotlin")) {
-            return new KotlinElementActionsFactory();
+            return new K2ElementActionsFactory();
         }
 
         return new JavaElementActionsFactory();

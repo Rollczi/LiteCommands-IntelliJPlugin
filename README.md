@@ -13,7 +13,7 @@
 [![Discord](https://raw.githubusercontent.com/intergrav/devins-badges/v3/assets/cozy/social/discord-plural_vector.svg)](https://discord.gg/6cUhkj6uZJ)
 [![Sponsor](https://raw.githubusercontent.com/intergrav/devins-badges/v3/assets/cozy/donate/ghsponsors-singular_vector.svg)](https://github.com/sponsors/Rollczi)
 [![Gradle](https://raw.githubusercontent.com/intergrav/devins-badges/v3/assets/cozy/built-with/gradle_vector.svg)](https://gradle.org/)
-[![Java](https://raw.githubusercontent.com/intergrav/devins-badges/v3/assets/cozy/built-with/java17_vector.svg)](https://www.java.com/)
+[![Java](https://raw.githubusercontent.com/intergrav/devins-badges/v3/assets/cozy/built-with/java21_vector.svg)](https://www.java.com/)
 
 ### LiteCommands - IntelliJ IDEA Plugin
 
